@@ -44,36 +44,53 @@ def extend(env,x,y):
     return env
 
 def lookup(env,x):
-    if env.has_key[x]:
+    if env.has_key(x):
         return env[x]
     else:
         return False
 
-def eval(env,nodo):
-    if re.match(nodo.tipo,''):
-        nodo = nodo.hijo
-        return eval(env,nodo)
-    if re.match(nodo.tipo,'LISTAVACIA'):
-        return '[]'
-    elif re.match(nodo.tipo,'BOOLEANO'):
-        return nodo.hijo
-    elif re.match(nodo.tipo,'ENTERO'):
-        return int(nodo.hijo)
-    elif re.match(nodo.tipo,'VARIABLE'):
-        return lookup(env,x)
-    elif re.match(nodo.tipo,'MAS'):
-        return eval(env,nodo.hijo1) + eval(env,nodo.hijo2) 
-    elif re.match(nodo.tipo,'PRODUCTO'):
-        return eval(env,nodo.hijo1) * eval(env,nodo.hijo2) 
-    elif re.match(nodo.tipo,'COCIENTE'):
-        x = eval(env,nodo.hijo1) 
-        y = eval(env,nodo.hijo2) 
-        if y == 0:
-            raise ZeroDivisionError
-        else:
-            return x / y
-    elif re.match(nodo.tipo,'LET'):
-        
+def eval(env,nodo,h=None):
+    if h == None:
+        if re.match(nodo.tipo,''):
+            nodo = nodo.hijo
+            return eval(env,nodo)
+        if re.match(nodo.tipo,'LISTAVACIA'):
+            return '[]'
+        elif re.match(nodo.tipo,'BOOLEANO'):
+            return nodo.hijo
+        elif re.match(nodo.tipo,'ENTERO'):
+            return int(nodo.hijo)
+        elif re.match(nodo.tipo,'VARIABLE'):
+            return lookup(env,nodo.hijo)
+        elif re.match(nodo.tipo,'MAS'):
+            return eval(env,nodo.hijo1) + eval(env,nodo.hijo2) 
+        elif re.match(nodo.tipo,'MENOS'):
+            return eval(env,nodo.hijo1) - eval(env,nodo.hijo2) 
+        elif re.match(nodo.tipo,'PRODUCTO'):
+            return eval(env,nodo.hijo1) * eval(env,nodo.hijo2) 
+        elif re.match(nodo.tipo,'COCIENTE'):
+            x = eval(env,nodo.hijo1) 
+            y = eval(env,nodo.hijo2) 
+            if y == 0:
+                raise ZeroDivisionError
+            else:
+                return x / y
+        elif re.match(nodo.tipo,'PATRON'):
+            return eval(env,nodo.hijo)
+        elif re.match(nodo.tipo,'LET'):
+            extend(env,nodo.hijo1.hijo.hijo,eval(env,nodo.hijo2))
+            p = eval(env,nodo.hijo1.hijo)
+            e1 = eval(env,nodo.hijo2)
+            e2 = eval(env,nodo.hijo3)
+            env = extend(env,p,e1)
+            env1 = extend(env,p,'fake')
+            v1 = eval(env1,e1,False)
+            return eval(replace(env1,p,v1),e2,False)
+    else:
+        return nodo
+            
+
+    
     
 
     

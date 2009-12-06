@@ -253,7 +253,7 @@ def beginParse(program):
     try:
         result = yacc.parse(program.read(),lexer = lexmelon.lex())
         print result
-        print eval([],result)
+        print eval({},result)
     except SyntaxError, e:
         token = e.token
         if token:
