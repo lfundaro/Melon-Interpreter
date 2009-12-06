@@ -34,7 +34,54 @@ def match(n1, n2):
     else:
         return False
 
-def lookup():
+
+def replace(env,x,y):
+    env[x] = y
+    return env
+
+def extend(env,x,y):
+    env[x] = y
+    return env
+
+def lookup(env,x):
+    if env.has_key[x]:
+        return env[x]
+    else:
+        return False
+
+def eval(env,nodo):
+    if re.match(nodo.tipo,''):
+        nodo = nodo.hijo
+        return eval(env,nodo)
+    if re.match(nodo.tipo,'LISTAVACIA'):
+        return '[]'
+    elif re.match(nodo.tipo,'BOOLEANO'):
+        return nodo.hijo
+    elif re.match(nodo.tipo,'ENTERO'):
+        return int(nodo.hijo)
+    elif re.match(nodo.tipo,'VARIABLE'):
+        return lookup(env,x)
+    elif re.match(nodo.tipo,'MAS'):
+        return eval(env,nodo.hijo1) + eval(env,nodo.hijo2) 
+    elif re.match(nodo.tipo,'PRODUCTO'):
+        return eval(env,nodo.hijo1) * eval(env,nodo.hijo2) 
+    elif re.match(nodo.tipo,'COCIENTE'):
+        x = eval(env,nodo.hijo1) 
+        y = eval(env,nodo.hijo2) 
+        if y == 0:
+            raise ZeroDivisionError
+        else:
+            return x / y
+    elif re.match(nodo.tipo,'LET'):
+        
+    
+
+    
+
+
+        
+        
+        
     
        
 

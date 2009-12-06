@@ -19,6 +19,7 @@ import yacc as lexyacc
 from syntree import *
 from lexparam import *
 import lex as lexmelon
+from interpreter import *
 
 # Precendencias de los Simbolos 
 precedence = (
@@ -251,7 +252,8 @@ def beginParse(program):
     yacc = lexyacc.yacc()
     try:
         result = yacc.parse(program.read(),lexer = lexmelon.lex())
-        return result
+        print result
+        print eval([],result)
     except SyntaxError, e:
         token = e.token
         if token:
