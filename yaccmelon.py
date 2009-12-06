@@ -107,7 +107,6 @@ def p_expression_if(p):
     'expression : IF expression THEN expression ELSE expression FI'
     p[0] =  NodoLetIf('IF',p[2],p[4],p[6])     
 
-
 # Definicion de let
 def p_expression_let(p):
     'expression : LET p EQUAL expression IN expression TEL'
@@ -252,7 +251,7 @@ def beginParse(program):
     yacc = lexyacc.yacc()
     try:
         result = yacc.parse(program.read(),lexer = lexmelon.lex())
-        print result
+        return result
     except SyntaxError, e:
         token = e.token
         if token:
