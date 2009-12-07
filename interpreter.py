@@ -35,6 +35,8 @@ def match(n1, n2 = None):
         return match(n1,NodoGen("ENTERO",str(n2)))
     elif isinstance(n2,str):
         return match(n1,NodoGen("LISTAVACIA",n2))
+    elif re.match(n1.tipo,'PATRON') and re.match(n2.tipo,'LISTA'):
+        return match(n1.hijo, n2)
     elif re.match(n1.tipo,'BOOLEANO') and re.match(n2.tipo,'BOOLEANO'):
         if re.match(n1.hijo,'TRUE') and re.match(n2.hijo,'TRUE'):
             return True
@@ -43,6 +45,8 @@ def match(n1, n2 = None):
         else: 
             return False
     elif re.match(n1.tipo,'LISTA') and re.match(n2.tipo,'LISTA'):
+        if re.match(n1.hijo1.tipo,'PATRON') and re.match(n1.hijo2.tipo,'PATRON'):
+            return match(n1.hijo1.hijo, n2.hijo1) and match(n1.hijo2.hijo, n2.hijo2) 
         if match(n1.hijo1,n2.hijo1):
             if isinstance(n1.hijo2,NodoBin) and isinstance(n2.hijo2,NodoBin):
                 return match(n1.hijo2,n2.hijo2)
@@ -249,7 +253,6 @@ def apply(env,p1,p2):
         if match(head[0],p2):
             return eval(extend(env,head[0].hijo,p2),head[1])
         else:
-            
             ltuplas = ltuplas[1:len(ltuplas)] # Cola de la lista
             p1.remplazar(ltuplas)
             if len(p1.lista) == 0:
