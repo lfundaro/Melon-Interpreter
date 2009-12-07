@@ -113,7 +113,7 @@ def eval(env,nodo,h=None):
                 return eval(env,nodo.hijo1) > eval(env,nodo.hijo2)
             else:
                 raise TypeError	
-		elif re.match(nodo.tipo, 'MENOROIGUAL'):
+        elif re.match(nodo.tipo, 'MENOROIGUAL'):
             x = eval(env,nodo.hijo1)
             y = eval(env,nodo.hijo2)
             if verf_int(x,y) and verf_bool(x,y):
@@ -127,7 +127,7 @@ def eval(env,nodo,h=None):
                 return eval(env,nodo.hijo1) >= eval(env,nodo.hijo2)
             else:
                 raise TypeError
-		elif re.match(nodo.tipo, 'DISTINTO'):
+        elif re.match(nodo.tipo, 'DISTINTO'):
             x = eval(env,nodo.hijo1)
             y = eval(env,nodo.hijo2)
             if verf_int(x,y) and verf_bool(x,y):
