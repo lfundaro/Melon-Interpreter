@@ -24,17 +24,25 @@ def checkParen(nodo):
     else:
         return False
 
+def checkListaVac(nodo):
+    if re.match(nodo.tipo,'LISTAVACIA'):
+        return True
+    else:
+        return False
+
 def match(n1, n2 = None):
     if isinstance(n2,int):
         return match(n1,NodoGen("ENTERO",str(n2)))
-    if re.match(n1.tipo,'BOOLEANO') and re.match(n2.tipo,'BOOLEANO'):
+    elif isinstance(n2,str):
+        return match(n1,NodoGen("LISTAVACIA",n2))
+    elif re.match(n1.tipo,'BOOLEANO') and re.match(n2.tipo,'BOOLEANO'):
         if re.match(n1.hijo,'TRUE') and re.match(n2.hijo,'TRUE'):
             return True
         elif re.match(n1.hijo, 'FALSE') and re.match(n2.hijo,'FALSE'):
             return True
         else: 
             return False
-    elif re.match(n1.tipo,'^LISTAVACIA$') and re.match(n2.tipo, '^LISTAVACIA$'):
+    elif re.match(n1.tipo,'^LISTAVACIA$') and re.match(n2.tipo,'^LISTAVACIA$'):
         return True
     elif re.match(n1.tipo,'VARIABLE') or re.match(n2.tipo,'VARIABLE'):
         return True
@@ -96,7 +104,7 @@ def eval(env,nodo,h=None):
             nodo = nodo.hijo
             return eval(env,nodo)
         elif re.match(nodo.tipo,'LISTAVACIA'):
-            return '[]'
+            return nodo
         elif re.match(nodo.tipo,'BOOLEANO'):
             return nodo.hijo
         elif re.match(nodo.tipo, 'MENOR'):
@@ -198,6 +206,8 @@ def eval(env,nodo,h=None):
         elif re.match(nodo.tipo,'APLICAR'):
             if checkParen(nodo.hijo1):
                 return apply(env,eval(env,nodo.hijo1.hijo),eval(env,nodo.hijo2))
+            elif checkListaVac(nodo.hijo):
+                return apply(env,eval(env,nodo.hijo1),eval(env,nodo.hijo2)) 
             else:
                 return apply(env,eval(env,nodo.hijo1),eval(env,nodo.hijo2))
     else:
@@ -205,13 +215,16 @@ def eval(env,nodo,h=None):
 
 def hijos_fun(arb_fun):
     return arb_fun.hijo
+
 def apply(env,p1,p2):
     if isinstance(p1,CLS):
         ltuplas = p1.getLista()
         head = ltuplas[0]
         if match(head[0],p2):
+            print 'CLAUSURA1'
             return eval(extend(env,head[0].hijo,p2),head[1])
         else:
+            print 'CLAUSURA2'
             ltuplas = ltuplas[1:len(ltuplas)] # Cola de la lista
             p1.remplazar(ltuplas)
             return apply(env,p1,p2)
