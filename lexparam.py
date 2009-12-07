@@ -64,7 +64,7 @@ def t_ID(t):
     t.type = reserved.get(t.value,'ID') 
     return t
 
-t_NUMBER = r'[+-]?\d+\b'
+t_NUMBER = r'[0-9]+'
 t_OBRAKET = r'\['
 t_CBRAKET = r'\]'
 t_DCOLON = r'::'

@@ -18,11 +18,11 @@ class CLS:
     def remplazar(self,cola):
         self.lista = cola
 
-def checkParen(nodo):
-    if re.match(nodo.tipo,'PAREN'):
-        return True
-    else:
-        return False
+# def checkParen(nodo):
+#     if re.match(nodo.tipo,'PAREN'):
+#         return True
+#     else:
+#         return False
 
 def checkListaVac(nodo):
     if re.match(nodo.tipo,'LISTAVACIA'):
@@ -112,8 +112,8 @@ def eval(env,nodo,h=None):
             nodo = nodo.hijo
             return eval(env,nodo)
         elif re.match(nodo.tipo, 'PAREN'):
-			nodo = nodo.hijo
-			return eval(env,nodo)
+            nodo = nodo.hijo
+            return eval(env,nodo)
         elif re.match(nodo.tipo,'LISTAVACIA'):
             return nodo
         elif re.match(nodo.tipo,'BOOLEANO'):
@@ -231,12 +231,11 @@ def eval(env,nodo,h=None):
             clausura = CLS(env,tuplas)
             return clausura
         elif re.match(nodo.tipo,'APLICAR'):
-            if checkParen(nodo.hijo1):
-                return apply(env,eval(env,nodo.hijo1.hijo),eval(env,nodo.hijo2))
-			elif checkListaVac(nodo.hijo):
-                return apply(env,eval(env,nodo.hijo1),eval(env,nodo.hijo2)) 
-            else:
-                return apply(env,eval(env,nodo.hijo1),eval(env,nodo.hijo2))
+            # if checkParen(nodo.hijo1):
+            #     return apply(env,eval(env,nodo.hijo1.hijo),eval(env,nodo.hijo2))
+            # if checkListaVac(nodo.hijo):
+            #     return apply(env,eval(env,nodo.hijo1),eval(env,nodo.hijo2)) 
+            return apply(env,eval(env,nodo.hijo1),eval(env,nodo.hijo2))
     else:
         return nodo
 
@@ -248,10 +247,8 @@ def apply(env,p1,p2):
         ltuplas = p1.getLista()
         head = ltuplas[0]
         if match(head[0],p2):
-            print 'CLAUSURA1'
             return eval(extend(env,head[0].hijo,p2),head[1])
         else:
-            print 'CLAUSURA2'
             ltuplas = ltuplas[1:len(ltuplas)] # Cola de la lista
             p1.remplazar(ltuplas)
             return apply(env,p1,p2)
