@@ -101,14 +101,6 @@ def is_string(x,y):
         return True
     else:
         return False
-			
-# Transformacion de True y False de Python a true y false de MeLon.		
-def true_false(x):
-    if x == True:
-        return 'true'
-    else:
-        return 'false'
-
 		
 def eval(env,nodo,h=None):
     if h == None:
@@ -253,12 +245,12 @@ def apply(env,p1,p2):
         if match(head[0],p2):
             return eval(extend(env,head[0].hijo,p2),head[1])
         else:
-            ltuplas = ltuplas[1:len(ltuplas)] # Cola de la lista
-            p1.remplazar(ltuplas)
-            if len(p1.lista) == 0:
-                raise ZeroDivisionError("MATCHING")
-            else:
-                return apply(env,p1,p2)
+           ltuplas = ltuplas[1:len(ltuplas)] # Cola de la lista
+           p1.remplazar(ltuplas)
+           if len(p1.lista) == 0:
+               raise MatchingError('no hubo match con '+ str(p2) )
+           else:
+               return apply(env,p1,p2)
     else:
         apply(env,eval(env,p1),eval(env,p2))
         

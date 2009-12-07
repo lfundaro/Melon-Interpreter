@@ -24,5 +24,9 @@ class LookUpError(Exception):
 class ZeroDivisionError(Exception):
     def __init__(self,messg):
         self.messg = messg
+		
+class MatchingError(Exception):
+    def __init__(self,messg):
+        self.messg = messg		
 
 
