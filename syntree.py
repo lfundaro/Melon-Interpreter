@@ -104,6 +104,7 @@ class NodoListaPatron:
                 for i in self.hijo:
                         a = a + str(i)
                 return '(' + str(self.tipo).strip() + ' ' + a.strip() + ')'
+
         def getLista(self):
                 return self.hijo
  

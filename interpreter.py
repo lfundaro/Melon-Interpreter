@@ -1,6 +1,23 @@
 import re
 from syntree import *
 
+
+#Definicion de estructura CLS
+
+class CLS:
+    def __init__(self,env,lista):
+        self.env = env
+        self.lista = lista
+        
+    def getLista(self):
+        return self.lista
+
+    def getEnv(self):
+        return self.env
+
+    def remplazar(self,cola):
+        self.lista = cola
+
 def match(n1, n2):
     if re.match(n1.tipo,'BOOLEANO') and re.match(n2.tipo,'BOOLEANO'):
         if re.match(n1.hijo,'TRUE') and re.match(n2.hijo,'TRUE'):
@@ -78,16 +95,45 @@ def eval(env,nodo,h=None):
         elif re.match(nodo.tipo,'PATRON'):
             return eval(env,nodo.hijo)
         elif re.match(nodo.tipo,'LET'):
-            extend(env,nodo.hijo1.hijo.hijo,eval(env,nodo.hijo2))
-            p = eval(env,nodo.hijo1.hijo)
-            e1 = eval(env,nodo.hijo2)
-            e2 = eval(env,nodo.hijo3)
-            env = extend(env,p,e1)
-            env1 = extend(env,p,'fake')
-            v1 = eval(env1,e1,False)
-            return eval(replace(env1,p,v1),e2,False)
+            env1 = extend(env,nodo.hijo1.hijo.hijo,'fake')
+            v1 = eval(env1,nodo.hijo2)
+            return eval(replace(env1,nodo.hijo1.hijo.hijo,v1),nodo.hijo3)
+        elif re.match(nodo.tipo,'FUN'):
+            hijos = hijos_fun(nodo)
+            tuplas = []
+            for i in hijos: # i : NodoFunH
+                for j in i.hijo1.hijo: # j : patrones en ListaPatron
+                    tuplas.append((j.hijo,i.hijo2)) # tupla (patron,expr)
+            clausura = CLS(env,tuplas)
+            return clausura
+        elif re.match(nodo.tipo,'APLICAR'):
+            return apply(env,eval(env,nodo.hijo1),eval(env,nodo.hijo2))
     else:
         return nodo
+
+def hijos_fun(arb_fun):
+    return arb_fun.hijo
+
+def apply(env,p1,p2):
+    if isinstance(p1,CLS):
+        ltuplas = p1.getLista()
+        head = ltuplas[0]
+        if match(head[0],p2):
+            return eval(extend(env,head[0].hijo,p2),head[1])
+        else:
+            ltuplas = ltuplas[1:len(ltuplas)] # Cola de la lista
+            p1.remplazar(ltuplas)
+            return apply(env,p1,p2)
+    else:
+        print p1.__class__
+        apply(env,eval(env,p1),eval(env,p2))
+        
+        
+        
+        
+
+
+
             
 
     
