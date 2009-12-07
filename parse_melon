@@ -1,0 +1,12 @@
+#! /usr/bin/python
+# -*- coding: utf-8 -*- 
+
+import sys
+from lexmelon import startlex
+from yaccmelon import *
+
+# Lexicographic analysis
+
+# Syntactic analysis 
+beginParse(sys.stdin)
+
