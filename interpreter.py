@@ -42,12 +42,6 @@ def match(n1, n2 = None):
             return True
         else: 
             return False
-    elif re.match(n1.tipo,'^LISTAVACIA$') and re.match(n2.tipo,'^LISTAVACIA$'):
-        return True
-    elif re.match(n1.tipo,'VARIABLE') or re.match(n2.tipo,'VARIABLE'):
-        return True
-    # elif re.match(n1.tipo,'ENTERO'):
-    #     return True
     elif re.match(n1.tipo,'LISTA') and re.match(n2.tipo,'LISTA'):
         if match(n1.hijo1,n2.hijo1):
             if isinstance(n1.hijo2,NodoBin) and isinstance(n2.hijo2,NodoBin):
@@ -61,6 +55,12 @@ def match(n1, n2 = None):
                 return False
         else:
             return False
+    elif re.match(n1.tipo,'LISTAVACIA') and re.match(n2.tipo,'LISTAVACIA'):
+        return True
+    elif re.match(n1.tipo,'VARIABLE') or re.match(n2.tipo,'VARIABLE'):
+        return True
+    # elif re.match(n1.tipo,'ENTERO'):
+    #     return True
     elif re.match(n1.tipo,'ENTERO') and re.match(n2.tipo,'ENTERO'):
         if re.match(n1.hijo,n2.hijo):
             return True
