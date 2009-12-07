@@ -66,32 +66,106 @@ def lookup(env,x):
     else:
         return False
 
+# Verificacion de que ambos parametros son numeros enteros.		
+def verf_int(x,y):
+	if isinstance(x, int) and isinstance(y,int):
+            return True
+	else:
+            return False
+			
+# Verificacion de que ninguno de los parametros son booleanos.		
+def verf_bool(x,y):
+	if not isinstance(x,bool) and not isinstance(y,bool):
+            return True
+	else:
+            return False
+		
 def eval(env,nodo,h=None):
     if h == None:
         if re.match(nodo.tipo,''):
             nodo = nodo.hijo
             return eval(env,nodo)
-        if re.match(nodo.tipo,'LISTAVACIA'):
+        elif re.match(nodo.tipo,'LISTAVACIA'):
             return '[]'
         elif re.match(nodo.tipo,'BOOLEANO'):
             return nodo.hijo
+        elif re.match(nodo.tipo, 'MENOR'):
+            x = eval(env,nodo.hijo1)
+            y = eval(env,nodo.hijo2)
+            if verf_int(x,y) and verf_bool(x,y):
+                return eval(env,nodo.hijo1) < eval(env,nodo.hijo2)
+            else:
+                raise TypeError
+        elif re.match(nodo.tipo, 'MAYOR'):
+            x = eval(env,nodo.hijo1)
+            y = eval(env,nodo.hijo2)
+            if verf_int(x,y) and verf_bool(x,y):
+                return eval(env,nodo.hijo1) > eval(env,nodo.hijo2)
+            else:
+                raise TypeError	
+		elif re.match(nodo.tipo, 'MENOROIGUAL'):
+            x = eval(env,nodo.hijo1)
+            y = eval(env,nodo.hijo2)
+            if verf_int(x,y) and verf_bool(x,y):
+                return eval(env,nodo.hijo1) <= eval(env,nodo.hijo2)
+            else:
+                raise TypeError
+        elif re.match(nodo.tipo, 'MAYOROIGUAL'):
+            x = eval(env,nodo.hijo1)
+            y = eval(env,nodo.hijo2)
+            if verf_int(x,y) and verf_bool(x,y):
+                return eval(env,nodo.hijo1) >= eval(env,nodo.hijo2)
+            else:
+                raise TypeError
+		elif re.match(nodo.tipo, 'DISTINTO'):
+            x = eval(env,nodo.hijo1)
+            y = eval(env,nodo.hijo2)
+            if verf_int(x,y) and verf_bool(x,y):
+                return eval(env,nodo.hijo1) != eval(env,nodo.hijo2)
+            else:
+                raise TypeError
+        elif re.match(nodo.tipo, 'IGUAL'):
+            x = eval(env,nodo.hijo1)
+            y = eval(env,nodo.hijo2)
+            if verf_int(x,y) and verf_bool(x,y):
+                return eval(env,nodo.hijo1) == eval(env,nodo.hijo2)
+            else:
+                raise TypeError		
         elif re.match(nodo.tipo,'ENTERO'):
             return int(nodo.hijo)
         elif re.match(nodo.tipo,'VARIABLE'):
             return lookup(env,nodo.hijo)
         elif re.match(nodo.tipo,'MAS'):
-            return eval(env,nodo.hijo1) + eval(env,nodo.hijo2) 
+            x = eval(env,nodo.hijo1)
+            y = eval(env,nodo.hijo2)
+            if verf_int(x,y) and verf_bool(x,y):
+                return eval(env,nodo.hijo1) + eval(env,nodo.hijo2) 
+            else:
+                raise TypeError
         elif re.match(nodo.tipo,'MENOS'):
-            return eval(env,nodo.hijo1) - eval(env,nodo.hijo2) 
+            x = eval(env,nodo.hijo1)
+            y = eval(env,nodo.hijo2)
+            if verf_int(x,y) and verf_bool(x,y):
+                return eval(env,nodo.hijo1) - eval(env,nodo.hijo2) 
+            else:
+                raise TypeError
         elif re.match(nodo.tipo,'PRODUCTO'):
-            return eval(env,nodo.hijo1) * eval(env,nodo.hijo2) 
+            x = eval(env,nodo.hijo1)
+            y = eval(env,nodo.hijo2)
+            if verf_int(x,y) and verf_bool(x,y):
+                return eval(env,nodo.hijo1) * eval(env,nodo.hijo2)
+            else:
+                raise TypeError
         elif re.match(nodo.tipo,'COCIENTE'):
             x = eval(env,nodo.hijo1) 
             y = eval(env,nodo.hijo2) 
-            if y == 0:
-                raise ZeroDivisionError
+            if verf_int(x,y) and verf_bool(x,y):
+                if y == 0:
+                    raise ZeroDivisionError
+                else:
+                    return x / y
             else:
-                return x / y
+                raise TypeError
         elif re.match(nodo.tipo,'PATRON'):
             return eval(env,nodo.hijo)
         elif re.match(nodo.tipo,'LET'):
@@ -113,7 +187,6 @@ def eval(env,nodo,h=None):
 
 def hijos_fun(arb_fun):
     return arb_fun.hijo
-
 def apply(env,p1,p2):
     if isinstance(p1,CLS):
         ltuplas = p1.getLista()
