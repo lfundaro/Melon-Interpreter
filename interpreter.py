@@ -117,7 +117,7 @@ def eval(env,nodo,h=None):
         elif re.match(nodo.tipo,'LISTAVACIA'):
             return nodo
         elif re.match(nodo.tipo,'BOOLEANO'):
-            return nodo.hijo
+            return str(nodo.hijo).lower()
         elif re.match(nodo.tipo, 'MENOR'):
             x = eval(env,nodo.hijo1)
             y = eval(env,nodo.hijo2)
@@ -132,10 +132,10 @@ def eval(env,nodo,h=None):
                 return str(eval(env,nodo.hijo1) > eval(env,nodo.hijo2)).lower()
             else:
                 raise TypeError('En la operacion de menor.')
-		elif re.match(nodo.tipo, 'NEGATIVO'):
-			x = eval(env,nodo.hijo1)
-			if isinstance(x,int):
-				return -x
+        elif re.match(nodo.tipo, 'NEGATIVO'):
+            x = eval(env,nodo.hijo2)
+            if isinstance(x,int):
+                return -x
         elif re.match(nodo.tipo, 'MENOROIGUAL'):
             x = eval(env,nodo.hijo1)
             y = eval(env,nodo.hijo2)
@@ -235,10 +235,6 @@ def eval(env,nodo,h=None):
             clausura = CLS(env,tuplas)
             return clausura
         elif re.match(nodo.tipo,'APLICAR'):
-            # if checkParen(nodo.hijo1):
-            #     return apply(env,eval(env,nodo.hijo1.hijo),eval(env,nodo.hijo2))
-            # if checkListaVac(nodo.hijo):
-            #     return apply(env,eval(env,nodo.hijo1),eval(env,nodo.hijo2)) 
             return apply(env,eval(env,nodo.hijo1),eval(env,nodo.hijo2))
     else:
         return nodo
@@ -253,9 +249,13 @@ def apply(env,p1,p2):
         if match(head[0],p2):
             return eval(extend(env,head[0].hijo,p2),head[1])
         else:
+            
             ltuplas = ltuplas[1:len(ltuplas)] # Cola de la lista
             p1.remplazar(ltuplas)
-            return apply(env,p1,p2)
+            if len(p1.lista) == 0:
+                raise ZeroDivisionError("MATCHING")
+            else:
+                return apply(env,p1,p2)
     else:
         apply(env,eval(env,p1),eval(env,p2))
         

@@ -1,0 +1,3186 @@
+Created by PLY version 3.3 (http://www.dabeaz.com/ply)
+
+Grammar
+
+Rule 0     S' -> expression
+Rule 1     expression -> expression PLUS expression
+Rule 2     expression -> expression TIMES expression
+Rule 3     expression -> expression MINUS expression
+Rule 4     expression -> expression DIVIDED expression
+Rule 5     expression -> expression DIFFERENT expression
+Rule 6     expression -> expression EQUAL expression
+Rule 7     expression -> expression LESSEREQ expression
+Rule 8     expression -> expression GREATEREQ expression
+Rule 9     expression -> expression LESSER expression
+Rule 10    expression -> expression GREATER expression
+Rule 11    expression -> MINUS expression
+Rule 12    expression -> expression OR expression
+Rule 13    expression -> expression AND expression
+Rule 14    expression -> NOT expression
+Rule 15    expression -> expression DCOLON expression
+Rule 16    expression -> IF expression THEN expression ELSE expression FI
+Rule 17    expression -> LET p EQUAL expression IN expression TEL
+Rule 18    expression -> FUN lista ARROW expression NUF
+Rule 19    expression -> FUN lista ARROW expression PIPE fun_rec
+Rule 20    fun_rec -> lista ARROW expression PIPE fun_rec
+Rule 21    fun_rec -> lista ARROW expression NUF
+Rule 22    lista -> lista p
+Rule 23    lista -> p
+Rule 24    expression -> e
+Rule 25    e -> e e
+Rule 26    e -> NUMBER
+Rule 27    e -> ID
+Rule 28    e -> OBRAKET CBRAKET
+Rule 29    e -> TRUE
+Rule 30    e -> FALSE
+Rule 31    e -> OPAREN expression CPAREN
+Rule 32    p -> patron
+Rule 33    patron -> NUMBER
+Rule 34    patron -> TRUE
+Rule 35    patron -> FALSE
+Rule 36    patron -> ID
+Rule 37    patron -> OPAREN patron CPAREN
+Rule 38    patron -> p DCOLON p
+Rule 39    patron -> OBRAKET CBRAKET
+
+Terminals, with rules where they appear
+
+AND                  : 13
+ARROW                : 18 19 20 21
+CBRAKET              : 28 39
+CPAREN               : 31 37
+DCOLON               : 15 38
+DIFFERENT            : 5
+DIVIDED              : 4
+ELSE                 : 16
+EQUAL                : 6 17
+FALSE                : 30 35
+FI                   : 16
+FUN                  : 18 19
+GREATER              : 10
+GREATEREQ            : 8
+ID                   : 27 36
+IF                   : 16
+IN                   : 17
+LESSER               : 9
+LESSEREQ             : 7
+LET                  : 17
+MINUS                : 3 11
+NOT                  : 14
+NUF                  : 18 21
+NUMBER               : 26 33
+OBRAKET              : 28 39
+OPAREN               : 31 37
+OR                   : 12
+PIPE                 : 19 20
+PLUS                 : 1
+TEL                  : 17
+THEN                 : 16
+TIMES                : 2
+TRUE                 : 29 34
+error                : 
+
+Nonterminals, with rules where they appear
+
+e                    : 24 25 25
+expression           : 1 1 2 2 3 3 4 4 5 5 6 6 7 7 8 8 9 9 10 10 11 12 12 13 13 14 15 15 16 16 16 17 17 18 19 20 21 31 0
+fun_rec              : 19 20
+lista                : 18 19 20 21 22
+p                    : 17 22 23 38 38
+patron               : 32 37
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . expression
+    (1) expression -> . expression PLUS expression
+    (2) expression -> . expression TIMES expression
+    (3) expression -> . expression MINUS expression
+    (4) expression -> . expression DIVIDED expression
+    (5) expression -> . expression DIFFERENT expression
+    (6) expression -> . expression EQUAL expression
+    (7) expression -> . expression LESSEREQ expression
+    (8) expression -> . expression GREATEREQ expression
+    (9) expression -> . expression LESSER expression
+    (10) expression -> . expression GREATER expression
+    (11) expression -> . MINUS expression
+    (12) expression -> . expression OR expression
+    (13) expression -> . expression AND expression
+    (14) expression -> . NOT expression
+    (15) expression -> . expression DCOLON expression
+    (16) expression -> . IF expression THEN expression ELSE expression FI
+    (17) expression -> . LET p EQUAL expression IN expression TEL
+    (18) expression -> . FUN lista ARROW expression NUF
+    (19) expression -> . FUN lista ARROW expression PIPE fun_rec
+    (24) expression -> . e
+    (25) e -> . e e
+    (26) e -> . NUMBER
+    (27) e -> . ID
+    (28) e -> . OBRAKET CBRAKET
+    (29) e -> . TRUE
+    (30) e -> . FALSE
+    (31) e -> . OPAREN expression CPAREN
+
+    MINUS           shift and go to state 3
+    NOT             shift and go to state 12
+    IF              shift and go to state 8
+    LET             shift and go to state 10
+    FUN             shift and go to state 1
+    NUMBER          shift and go to state 5
+    ID              shift and go to state 7
+    OBRAKET         shift and go to state 4
+    TRUE            shift and go to state 2
+    FALSE           shift and go to state 6
+    OPAREN          shift and go to state 11
+
+    expression                     shift and go to state 13
+    e                              shift and go to state 9
+
+state 1
+
+    (18) expression -> FUN . lista ARROW expression NUF
+    (19) expression -> FUN . lista ARROW expression PIPE fun_rec
+    (22) lista -> . lista p
+    (23) lista -> . p
+    (32) p -> . patron
+    (33) patron -> . NUMBER
+    (34) patron -> . TRUE
+    (35) patron -> . FALSE
+    (36) patron -> . ID
+    (37) patron -> . OPAREN patron CPAREN
+    (38) patron -> . p DCOLON p
+    (39) patron -> . OBRAKET CBRAKET
+
+    NUMBER          shift and go to state 18
+    TRUE            shift and go to state 22
+    FALSE           shift and go to state 14
+    ID              shift and go to state 21
+    OPAREN          shift and go to state 20
+    OBRAKET         shift and go to state 19
+
+    lista                          shift and go to state 17
+    patron                         shift and go to state 15
+    p                              shift and go to state 16
+
+state 2
+
+    (29) e -> TRUE .
+
+    NUMBER          reduce using rule 29 (e -> TRUE .)
+    ID              reduce using rule 29 (e -> TRUE .)
+    OBRAKET         reduce using rule 29 (e -> TRUE .)
+    TRUE            reduce using rule 29 (e -> TRUE .)
+    FALSE           reduce using rule 29 (e -> TRUE .)
+    OPAREN          reduce using rule 29 (e -> TRUE .)
+    PLUS            reduce using rule 29 (e -> TRUE .)
+    TIMES           reduce using rule 29 (e -> TRUE .)
+    MINUS           reduce using rule 29 (e -> TRUE .)
+    DIVIDED         reduce using rule 29 (e -> TRUE .)
+    DIFFERENT       reduce using rule 29 (e -> TRUE .)
+    EQUAL           reduce using rule 29 (e -> TRUE .)
+    LESSEREQ        reduce using rule 29 (e -> TRUE .)
+    GREATEREQ       reduce using rule 29 (e -> TRUE .)
+    LESSER          reduce using rule 29 (e -> TRUE .)
+    GREATER         reduce using rule 29 (e -> TRUE .)
+    OR              reduce using rule 29 (e -> TRUE .)
+    AND             reduce using rule 29 (e -> TRUE .)
+    DCOLON          reduce using rule 29 (e -> TRUE .)
+    $end            reduce using rule 29 (e -> TRUE .)
+    THEN            reduce using rule 29 (e -> TRUE .)
+    CPAREN          reduce using rule 29 (e -> TRUE .)
+    NUF             reduce using rule 29 (e -> TRUE .)
+    PIPE            reduce using rule 29 (e -> TRUE .)
+    ELSE            reduce using rule 29 (e -> TRUE .)
+    IN              reduce using rule 29 (e -> TRUE .)
+    FI              reduce using rule 29 (e -> TRUE .)
+    TEL             reduce using rule 29 (e -> TRUE .)
+
+
+state 3
+
+    (11) expression -> MINUS . expression
+    (1) expression -> . expression PLUS expression
+    (2) expression -> . expression TIMES expression
+    (3) expression -> . expression MINUS expression
+    (4) expression -> . expression DIVIDED expression
+    (5) expression -> . expression DIFFERENT expression
+    (6) expression -> . expression EQUAL expression
+    (7) expression -> . expression LESSEREQ expression
+    (8) expression -> . expression GREATEREQ expression
+    (9) expression -> . expression LESSER expression
+    (10) expression -> . expression GREATER expression
+    (11) expression -> . MINUS expression
+    (12) expression -> . expression OR expression
+    (13) expression -> . expression AND expression
+    (14) expression -> . NOT expression
+    (15) expression -> . expression DCOLON expression
+    (16) expression -> . IF expression THEN expression ELSE expression FI
+    (17) expression -> . LET p EQUAL expression IN expression TEL
+    (18) expression -> . FUN lista ARROW expression NUF
+    (19) expression -> . FUN lista ARROW expression PIPE fun_rec
+    (24) expression -> . e
+    (25) e -> . e e
+    (26) e -> . NUMBER
+    (27) e -> . ID
+    (28) e -> . OBRAKET CBRAKET
+    (29) e -> . TRUE
+    (30) e -> . FALSE
+    (31) e -> . OPAREN expression CPAREN
+
+    MINUS           shift and go to state 3
+    NOT             shift and go to state 12
+    IF              shift and go to state 8
+    LET             shift and go to state 10
+    FUN             shift and go to state 1
+    NUMBER          shift and go to state 5
+    ID              shift and go to state 7
+    OBRAKET         shift and go to state 4
+    TRUE            shift and go to state 2
+    FALSE           shift and go to state 6
+    OPAREN          shift and go to state 11
+
+    expression                     shift and go to state 23
+    e                              shift and go to state 9
+
+state 4
+
+    (28) e -> OBRAKET . CBRAKET
+
+    CBRAKET         shift and go to state 24
+
+
+state 5
+
+    (26) e -> NUMBER .
+
+    NUMBER          reduce using rule 26 (e -> NUMBER .)
+    ID              reduce using rule 26 (e -> NUMBER .)
+    OBRAKET         reduce using rule 26 (e -> NUMBER .)
+    TRUE            reduce using rule 26 (e -> NUMBER .)
+    FALSE           reduce using rule 26 (e -> NUMBER .)
+    OPAREN          reduce using rule 26 (e -> NUMBER .)
+    PLUS            reduce using rule 26 (e -> NUMBER .)
+    TIMES           reduce using rule 26 (e -> NUMBER .)
+    MINUS           reduce using rule 26 (e -> NUMBER .)
+    DIVIDED         reduce using rule 26 (e -> NUMBER .)
+    DIFFERENT       reduce using rule 26 (e -> NUMBER .)
+    EQUAL           reduce using rule 26 (e -> NUMBER .)
+    LESSEREQ        reduce using rule 26 (e -> NUMBER .)
+    GREATEREQ       reduce using rule 26 (e -> NUMBER .)
+    LESSER          reduce using rule 26 (e -> NUMBER .)
+    GREATER         reduce using rule 26 (e -> NUMBER .)
+    OR              reduce using rule 26 (e -> NUMBER .)
+    AND             reduce using rule 26 (e -> NUMBER .)
+    DCOLON          reduce using rule 26 (e -> NUMBER .)
+    $end            reduce using rule 26 (e -> NUMBER .)
+    THEN            reduce using rule 26 (e -> NUMBER .)
+    CPAREN          reduce using rule 26 (e -> NUMBER .)
+    NUF             reduce using rule 26 (e -> NUMBER .)
+    PIPE            reduce using rule 26 (e -> NUMBER .)
+    ELSE            reduce using rule 26 (e -> NUMBER .)
+    IN              reduce using rule 26 (e -> NUMBER .)
+    FI              reduce using rule 26 (e -> NUMBER .)
+    TEL             reduce using rule 26 (e -> NUMBER .)
+
+
+state 6
+
+    (30) e -> FALSE .
+
+    NUMBER          reduce using rule 30 (e -> FALSE .)
+    ID              reduce using rule 30 (e -> FALSE .)
+    OBRAKET         reduce using rule 30 (e -> FALSE .)
+    TRUE            reduce using rule 30 (e -> FALSE .)
+    FALSE           reduce using rule 30 (e -> FALSE .)
+    OPAREN          reduce using rule 30 (e -> FALSE .)
+    PLUS            reduce using rule 30 (e -> FALSE .)
+    TIMES           reduce using rule 30 (e -> FALSE .)
+    MINUS           reduce using rule 30 (e -> FALSE .)
+    DIVIDED         reduce using rule 30 (e -> FALSE .)
+    DIFFERENT       reduce using rule 30 (e -> FALSE .)
+    EQUAL           reduce using rule 30 (e -> FALSE .)
+    LESSEREQ        reduce using rule 30 (e -> FALSE .)
+    GREATEREQ       reduce using rule 30 (e -> FALSE .)
+    LESSER          reduce using rule 30 (e -> FALSE .)
+    GREATER         reduce using rule 30 (e -> FALSE .)
+    OR              reduce using rule 30 (e -> FALSE .)
+    AND             reduce using rule 30 (e -> FALSE .)
+    DCOLON          reduce using rule 30 (e -> FALSE .)
+    $end            reduce using rule 30 (e -> FALSE .)
+    THEN            reduce using rule 30 (e -> FALSE .)
+    CPAREN          reduce using rule 30 (e -> FALSE .)
+    NUF             reduce using rule 30 (e -> FALSE .)
+    PIPE            reduce using rule 30 (e -> FALSE .)
+    ELSE            reduce using rule 30 (e -> FALSE .)
+    IN              reduce using rule 30 (e -> FALSE .)
+    FI              reduce using rule 30 (e -> FALSE .)
+    TEL             reduce using rule 30 (e -> FALSE .)
+
+
+state 7
+
+    (27) e -> ID .
+
+    NUMBER          reduce using rule 27 (e -> ID .)
+    ID              reduce using rule 27 (e -> ID .)
+    OBRAKET         reduce using rule 27 (e -> ID .)
+    TRUE            reduce using rule 27 (e -> ID .)
+    FALSE           reduce using rule 27 (e -> ID .)
+    OPAREN          reduce using rule 27 (e -> ID .)
+    PLUS            reduce using rule 27 (e -> ID .)
+    TIMES           reduce using rule 27 (e -> ID .)
+    MINUS           reduce using rule 27 (e -> ID .)
+    DIVIDED         reduce using rule 27 (e -> ID .)
+    DIFFERENT       reduce using rule 27 (e -> ID .)
+    EQUAL           reduce using rule 27 (e -> ID .)
+    LESSEREQ        reduce using rule 27 (e -> ID .)
+    GREATEREQ       reduce using rule 27 (e -> ID .)
+    LESSER          reduce using rule 27 (e -> ID .)
+    GREATER         reduce using rule 27 (e -> ID .)
+    OR              reduce using rule 27 (e -> ID .)
+    AND             reduce using rule 27 (e -> ID .)
+    DCOLON          reduce using rule 27 (e -> ID .)
+    $end            reduce using rule 27 (e -> ID .)
+    THEN            reduce using rule 27 (e -> ID .)
+    CPAREN          reduce using rule 27 (e -> ID .)
+    NUF             reduce using rule 27 (e -> ID .)
+    PIPE            reduce using rule 27 (e -> ID .)
+    ELSE            reduce using rule 27 (e -> ID .)
+    IN              reduce using rule 27 (e -> ID .)
+    FI              reduce using rule 27 (e -> ID .)
+    TEL             reduce using rule 27 (e -> ID .)
+
+
+state 8
+
+    (16) expression -> IF . expression THEN expression ELSE expression FI
+    (1) expression -> . expression PLUS expression
+    (2) expression -> . expression TIMES expression
+    (3) expression -> . expression MINUS expression
+    (4) expression -> . expression DIVIDED expression
+    (5) expression -> . expression DIFFERENT expression
+    (6) expression -> . expression EQUAL expression
+    (7) expression -> . expression LESSEREQ expression
+    (8) expression -> . expression GREATEREQ expression
+    (9) expression -> . expression LESSER expression
+    (10) expression -> . expression GREATER expression
+    (11) expression -> . MINUS expression
+    (12) expression -> . expression OR expression
+    (13) expression -> . expression AND expression
+    (14) expression -> . NOT expression
+    (15) expression -> . expression DCOLON expression
+    (16) expression -> . IF expression THEN expression ELSE expression FI
+    (17) expression -> . LET p EQUAL expression IN expression TEL
+    (18) expression -> . FUN lista ARROW expression NUF
+    (19) expression -> . FUN lista ARROW expression PIPE fun_rec
+    (24) expression -> . e
+    (25) e -> . e e
+    (26) e -> . NUMBER
+    (27) e -> . ID
+    (28) e -> . OBRAKET CBRAKET
+    (29) e -> . TRUE
+    (30) e -> . FALSE
+    (31) e -> . OPAREN expression CPAREN
+
+    MINUS           shift and go to state 3
+    NOT             shift and go to state 12
+    IF              shift and go to state 8
+    LET             shift and go to state 10
+    FUN             shift and go to state 1
+    NUMBER          shift and go to state 5
+    ID              shift and go to state 7
+    OBRAKET         shift and go to state 4
+    TRUE            shift and go to state 2
+    FALSE           shift and go to state 6
+    OPAREN          shift and go to state 11
+
+    expression                     shift and go to state 25
+    e                              shift and go to state 9
+
+state 9
+
+    (24) expression -> e .
+    (25) e -> e . e
+    (25) e -> . e e
+    (26) e -> . NUMBER
+    (27) e -> . ID
+    (28) e -> . OBRAKET CBRAKET
+    (29) e -> . TRUE
+    (30) e -> . FALSE
+    (31) e -> . OPAREN expression CPAREN
+
+    PLUS            reduce using rule 24 (expression -> e .)
+    TIMES           reduce using rule 24 (expression -> e .)
+    MINUS           reduce using rule 24 (expression -> e .)
+    DIVIDED         reduce using rule 24 (expression -> e .)
+    DIFFERENT       reduce using rule 24 (expression -> e .)
+    EQUAL           reduce using rule 24 (expression -> e .)
+    LESSEREQ        reduce using rule 24 (expression -> e .)
+    GREATEREQ       reduce using rule 24 (expression -> e .)
+    LESSER          reduce using rule 24 (expression -> e .)
+    GREATER         reduce using rule 24 (expression -> e .)
+    OR              reduce using rule 24 (expression -> e .)
+    AND             reduce using rule 24 (expression -> e .)
+    DCOLON          reduce using rule 24 (expression -> e .)
+    $end            reduce using rule 24 (expression -> e .)
+    THEN            reduce using rule 24 (expression -> e .)
+    CPAREN          reduce using rule 24 (expression -> e .)
+    NUF             reduce using rule 24 (expression -> e .)
+    PIPE            reduce using rule 24 (expression -> e .)
+    ELSE            reduce using rule 24 (expression -> e .)
+    IN              reduce using rule 24 (expression -> e .)
+    FI              reduce using rule 24 (expression -> e .)
+    TEL             reduce using rule 24 (expression -> e .)
+    NUMBER          shift and go to state 5
+    ID              shift and go to state 7
+    OBRAKET         shift and go to state 4
+    TRUE            shift and go to state 2
+    FALSE           shift and go to state 6
+    OPAREN          shift and go to state 11
+
+    e                              shift and go to state 26
+
+state 10
+
+    (17) expression -> LET . p EQUAL expression IN expression TEL
+    (32) p -> . patron
+    (33) patron -> . NUMBER
+    (34) patron -> . TRUE
+    (35) patron -> . FALSE
+    (36) patron -> . ID
+    (37) patron -> . OPAREN patron CPAREN
+    (38) patron -> . p DCOLON p
+    (39) patron -> . OBRAKET CBRAKET
+
+    NUMBER          shift and go to state 18
+    TRUE            shift and go to state 22
+    FALSE           shift and go to state 14
+    ID              shift and go to state 21
+    OPAREN          shift and go to state 20
+    OBRAKET         shift and go to state 19
+
+    p                              shift and go to state 27
+    patron                         shift and go to state 15
+
+state 11
+
+    (31) e -> OPAREN . expression CPAREN
+    (1) expression -> . expression PLUS expression
+    (2) expression -> . expression TIMES expression
+    (3) expression -> . expression MINUS expression
+    (4) expression -> . expression DIVIDED expression
+    (5) expression -> . expression DIFFERENT expression
+    (6) expression -> . expression EQUAL expression
+    (7) expression -> . expression LESSEREQ expression
+    (8) expression -> . expression GREATEREQ expression
+    (9) expression -> . expression LESSER expression
+    (10) expression -> . expression GREATER expression
+    (11) expression -> . MINUS expression
+    (12) expression -> . expression OR expression
+    (13) expression -> . expression AND expression
+    (14) expression -> . NOT expression
+    (15) expression -> . expression DCOLON expression
+    (16) expression -> . IF expression THEN expression ELSE expression FI
+    (17) expression -> . LET p EQUAL expression IN expression TEL
+    (18) expression -> . FUN lista ARROW expression NUF
+    (19) expression -> . FUN lista ARROW expression PIPE fun_rec
+    (24) expression -> . e
+    (25) e -> . e e
+    (26) e -> . NUMBER
+    (27) e -> . ID
+    (28) e -> . OBRAKET CBRAKET
+    (29) e -> . TRUE
+    (30) e -> . FALSE
+    (31) e -> . OPAREN expression CPAREN
+
+    MINUS           shift and go to state 3
+    NOT             shift and go to state 12
+    IF              shift and go to state 8
+    LET             shift and go to state 10
+    FUN             shift and go to state 1
+    NUMBER          shift and go to state 5
+    ID              shift and go to state 7
+    OBRAKET         shift and go to state 4
+    TRUE            shift and go to state 2
+    FALSE           shift and go to state 6
+    OPAREN          shift and go to state 11
+
+    expression                     shift and go to state 28
+    e                              shift and go to state 9
+
+state 12
+
+    (14) expression -> NOT . expression
+    (1) expression -> . expression PLUS expression
+    (2) expression -> . expression TIMES expression
+    (3) expression -> . expression MINUS expression
+    (4) expression -> . expression DIVIDED expression
+    (5) expression -> . expression DIFFERENT expression
+    (6) expression -> . expression EQUAL expression
+    (7) expression -> . expression LESSEREQ expression
+    (8) expression -> . expression GREATEREQ expression
+    (9) expression -> . expression LESSER expression
+    (10) expression -> . expression GREATER expression
+    (11) expression -> . MINUS expression
+    (12) expression -> . expression OR expression
+    (13) expression -> . expression AND expression
+    (14) expression -> . NOT expression
+    (15) expression -> . expression DCOLON expression
+    (16) expression -> . IF expression THEN expression ELSE expression FI
+    (17) expression -> . LET p EQUAL expression IN expression TEL
+    (18) expression -> . FUN lista ARROW expression NUF
+    (19) expression -> . FUN lista ARROW expression PIPE fun_rec
+    (24) expression -> . e
+    (25) e -> . e e
+    (26) e -> . NUMBER
+    (27) e -> . ID
+    (28) e -> . OBRAKET CBRAKET
+    (29) e -> . TRUE
+    (30) e -> . FALSE
+    (31) e -> . OPAREN expression CPAREN
+
+    MINUS           shift and go to state 3
+    NOT             shift and go to state 12
+    IF              shift and go to state 8
+    LET             shift and go to state 10
+    FUN             shift and go to state 1
+    NUMBER          shift and go to state 5
+    ID              shift and go to state 7
+    OBRAKET         shift and go to state 4
+    TRUE            shift and go to state 2
+    FALSE           shift and go to state 6
+    OPAREN          shift and go to state 11
+
+    expression                     shift and go to state 29
+    e                              shift and go to state 9
+
+state 13
+
+    (0) S' -> expression .
+    (1) expression -> expression . PLUS expression
+    (2) expression -> expression . TIMES expression
+    (3) expression -> expression . MINUS expression
+    (4) expression -> expression . DIVIDED expression
+    (5) expression -> expression . DIFFERENT expression
+    (6) expression -> expression . EQUAL expression
+    (7) expression -> expression . LESSEREQ expression
+    (8) expression -> expression . GREATEREQ expression
+    (9) expression -> expression . LESSER expression
+    (10) expression -> expression . GREATER expression
+    (12) expression -> expression . OR expression
+    (13) expression -> expression . AND expression
+    (15) expression -> expression . DCOLON expression
+
+    PLUS            shift and go to state 39
+    TIMES           shift and go to state 36
+    MINUS           shift and go to state 41
+    DIVIDED         shift and go to state 33
+    DIFFERENT       shift and go to state 31
+    EQUAL           shift and go to state 35
+    LESSEREQ        shift and go to state 34
+    GREATEREQ       shift and go to state 38
+    LESSER          shift and go to state 37
+    GREATER         shift and go to state 32
+    OR              shift and go to state 42
+    AND             shift and go to state 30
+    DCOLON          shift and go to state 40
+
+
+state 14
+
+    (35) patron -> FALSE .
+
+    EQUAL           reduce using rule 35 (patron -> FALSE .)
+    DCOLON          reduce using rule 35 (patron -> FALSE .)
+    ARROW           reduce using rule 35 (patron -> FALSE .)
+    NUMBER          reduce using rule 35 (patron -> FALSE .)
+    TRUE            reduce using rule 35 (patron -> FALSE .)
+    FALSE           reduce using rule 35 (patron -> FALSE .)
+    ID              reduce using rule 35 (patron -> FALSE .)
+    OPAREN          reduce using rule 35 (patron -> FALSE .)
+    OBRAKET         reduce using rule 35 (patron -> FALSE .)
+    CPAREN          reduce using rule 35 (patron -> FALSE .)
+
+
+state 15
+
+    (32) p -> patron .
+
+    DCOLON          reduce using rule 32 (p -> patron .)
+    ARROW           reduce using rule 32 (p -> patron .)
+    NUMBER          reduce using rule 32 (p -> patron .)
+    TRUE            reduce using rule 32 (p -> patron .)
+    FALSE           reduce using rule 32 (p -> patron .)
+    ID              reduce using rule 32 (p -> patron .)
+    OPAREN          reduce using rule 32 (p -> patron .)
+    OBRAKET         reduce using rule 32 (p -> patron .)
+    EQUAL           reduce using rule 32 (p -> patron .)
+    CPAREN          reduce using rule 32 (p -> patron .)
+
+
+state 16
+
+    (23) lista -> p .
+    (38) patron -> p . DCOLON p
+
+    ARROW           reduce using rule 23 (lista -> p .)
+    NUMBER          reduce using rule 23 (lista -> p .)
+    TRUE            reduce using rule 23 (lista -> p .)
+    FALSE           reduce using rule 23 (lista -> p .)
+    ID              reduce using rule 23 (lista -> p .)
+    OPAREN          reduce using rule 23 (lista -> p .)
+    OBRAKET         reduce using rule 23 (lista -> p .)
+    DCOLON          shift and go to state 43
+
+
+state 17
+
+    (18) expression -> FUN lista . ARROW expression NUF
+    (19) expression -> FUN lista . ARROW expression PIPE fun_rec
+    (22) lista -> lista . p
+    (32) p -> . patron
+    (33) patron -> . NUMBER
+    (34) patron -> . TRUE
+    (35) patron -> . FALSE
+    (36) patron -> . ID
+    (37) patron -> . OPAREN patron CPAREN
+    (38) patron -> . p DCOLON p
+    (39) patron -> . OBRAKET CBRAKET
+
+    ARROW           shift and go to state 45
+    NUMBER          shift and go to state 18
+    TRUE            shift and go to state 22
+    FALSE           shift and go to state 14
+    ID              shift and go to state 21
+    OPAREN          shift and go to state 20
+    OBRAKET         shift and go to state 19
+
+    patron                         shift and go to state 15
+    p                              shift and go to state 44
+
+state 18
+
+    (33) patron -> NUMBER .
+
+    EQUAL           reduce using rule 33 (patron -> NUMBER .)
+    DCOLON          reduce using rule 33 (patron -> NUMBER .)
+    ARROW           reduce using rule 33 (patron -> NUMBER .)
+    NUMBER          reduce using rule 33 (patron -> NUMBER .)
+    TRUE            reduce using rule 33 (patron -> NUMBER .)
+    FALSE           reduce using rule 33 (patron -> NUMBER .)
+    ID              reduce using rule 33 (patron -> NUMBER .)
+    OPAREN          reduce using rule 33 (patron -> NUMBER .)
+    OBRAKET         reduce using rule 33 (patron -> NUMBER .)
+    CPAREN          reduce using rule 33 (patron -> NUMBER .)
+
+
+state 19
+
+    (39) patron -> OBRAKET . CBRAKET
+
+    CBRAKET         shift and go to state 46
+
+
+state 20
+
+    (37) patron -> OPAREN . patron CPAREN
+    (33) patron -> . NUMBER
+    (34) patron -> . TRUE
+    (35) patron -> . FALSE
+    (36) patron -> . ID
+    (37) patron -> . OPAREN patron CPAREN
+    (38) patron -> . p DCOLON p
+    (39) patron -> . OBRAKET CBRAKET
+    (32) p -> . patron
+
+    NUMBER          shift and go to state 18
+    TRUE            shift and go to state 22
+    FALSE           shift and go to state 14
+    ID              shift and go to state 21
+    OPAREN          shift and go to state 20
+    OBRAKET         shift and go to state 19
+
+    p                              shift and go to state 48
+    patron                         shift and go to state 47
+
+state 21
+
+    (36) patron -> ID .
+
+    EQUAL           reduce using rule 36 (patron -> ID .)
+    DCOLON          reduce using rule 36 (patron -> ID .)
+    ARROW           reduce using rule 36 (patron -> ID .)
+    NUMBER          reduce using rule 36 (patron -> ID .)
+    TRUE            reduce using rule 36 (patron -> ID .)
+    FALSE           reduce using rule 36 (patron -> ID .)
+    ID              reduce using rule 36 (patron -> ID .)
+    OPAREN          reduce using rule 36 (patron -> ID .)
+    OBRAKET         reduce using rule 36 (patron -> ID .)
+    CPAREN          reduce using rule 36 (patron -> ID .)
+
+
+state 22
+
+    (34) patron -> TRUE .
+
+    EQUAL           reduce using rule 34 (patron -> TRUE .)
+    DCOLON          reduce using rule 34 (patron -> TRUE .)
+    ARROW           reduce using rule 34 (patron -> TRUE .)
+    NUMBER          reduce using rule 34 (patron -> TRUE .)
+    TRUE            reduce using rule 34 (patron -> TRUE .)
+    FALSE           reduce using rule 34 (patron -> TRUE .)
+    ID              reduce using rule 34 (patron -> TRUE .)
+    OPAREN          reduce using rule 34 (patron -> TRUE .)
+    OBRAKET         reduce using rule 34 (patron -> TRUE .)
+    CPAREN          reduce using rule 34 (patron -> TRUE .)
+
+
+state 23
+
+    (11) expression -> MINUS expression .
+    (1) expression -> expression . PLUS expression
+    (2) expression -> expression . TIMES expression
+    (3) expression -> expression . MINUS expression
+    (4) expression -> expression . DIVIDED expression
+    (5) expression -> expression . DIFFERENT expression
+    (6) expression -> expression . EQUAL expression
+    (7) expression -> expression . LESSEREQ expression
+    (8) expression -> expression . GREATEREQ expression
+    (9) expression -> expression . LESSER expression
+    (10) expression -> expression . GREATER expression
+    (12) expression -> expression . OR expression
+    (13) expression -> expression . AND expression
+    (15) expression -> expression . DCOLON expression
+
+    PLUS            reduce using rule 11 (expression -> MINUS expression .)
+    TIMES           reduce using rule 11 (expression -> MINUS expression .)
+    MINUS           reduce using rule 11 (expression -> MINUS expression .)
+    DIVIDED         reduce using rule 11 (expression -> MINUS expression .)
+    DIFFERENT       reduce using rule 11 (expression -> MINUS expression .)
+    EQUAL           reduce using rule 11 (expression -> MINUS expression .)
+    LESSEREQ        reduce using rule 11 (expression -> MINUS expression .)
+    GREATEREQ       reduce using rule 11 (expression -> MINUS expression .)
+    LESSER          reduce using rule 11 (expression -> MINUS expression .)
+    GREATER         reduce using rule 11 (expression -> MINUS expression .)
+    OR              reduce using rule 11 (expression -> MINUS expression .)
+    AND             reduce using rule 11 (expression -> MINUS expression .)
+    DCOLON          reduce using rule 11 (expression -> MINUS expression .)
+    $end            reduce using rule 11 (expression -> MINUS expression .)
+    THEN            reduce using rule 11 (expression -> MINUS expression .)
+    CPAREN          reduce using rule 11 (expression -> MINUS expression .)
+    NUF             reduce using rule 11 (expression -> MINUS expression .)
+    PIPE            reduce using rule 11 (expression -> MINUS expression .)
+    ELSE            reduce using rule 11 (expression -> MINUS expression .)
+    IN              reduce using rule 11 (expression -> MINUS expression .)
+    FI              reduce using rule 11 (expression -> MINUS expression .)
+    TEL             reduce using rule 11 (expression -> MINUS expression .)
+
+  ! PLUS            [ shift and go to state 39 ]
+  ! TIMES           [ shift and go to state 36 ]
+  ! MINUS           [ shift and go to state 41 ]
+  ! DIVIDED         [ shift and go to state 33 ]
+  ! DIFFERENT       [ shift and go to state 31 ]
+  ! EQUAL           [ shift and go to state 35 ]
+  ! LESSEREQ        [ shift and go to state 34 ]
+  ! GREATEREQ       [ shift and go to state 38 ]
+  ! LESSER          [ shift and go to state 37 ]
+  ! GREATER         [ shift and go to state 32 ]
+  ! OR              [ shift and go to state 42 ]
+  ! AND             [ shift and go to state 30 ]
+  ! DCOLON          [ shift and go to state 40 ]
+
+
+state 24
+
+    (28) e -> OBRAKET CBRAKET .
+
+    NUMBER          reduce using rule 28 (e -> OBRAKET CBRAKET .)
+    ID              reduce using rule 28 (e -> OBRAKET CBRAKET .)
+    OBRAKET         reduce using rule 28 (e -> OBRAKET CBRAKET .)
+    TRUE            reduce using rule 28 (e -> OBRAKET CBRAKET .)
+    FALSE           reduce using rule 28 (e -> OBRAKET CBRAKET .)
+    OPAREN          reduce using rule 28 (e -> OBRAKET CBRAKET .)
+    PLUS            reduce using rule 28 (e -> OBRAKET CBRAKET .)
+    TIMES           reduce using rule 28 (e -> OBRAKET CBRAKET .)
+    MINUS           reduce using rule 28 (e -> OBRAKET CBRAKET .)
+    DIVIDED         reduce using rule 28 (e -> OBRAKET CBRAKET .)
+    DIFFERENT       reduce using rule 28 (e -> OBRAKET CBRAKET .)
+    EQUAL           reduce using rule 28 (e -> OBRAKET CBRAKET .)
+    LESSEREQ        reduce using rule 28 (e -> OBRAKET CBRAKET .)
+    GREATEREQ       reduce using rule 28 (e -> OBRAKET CBRAKET .)
+    LESSER          reduce using rule 28 (e -> OBRAKET CBRAKET .)
+    GREATER         reduce using rule 28 (e -> OBRAKET CBRAKET .)
+    OR              reduce using rule 28 (e -> OBRAKET CBRAKET .)
+    AND             reduce using rule 28 (e -> OBRAKET CBRAKET .)
+    DCOLON          reduce using rule 28 (e -> OBRAKET CBRAKET .)
+    $end            reduce using rule 28 (e -> OBRAKET CBRAKET .)
+    THEN            reduce using rule 28 (e -> OBRAKET CBRAKET .)
+    CPAREN          reduce using rule 28 (e -> OBRAKET CBRAKET .)
+    NUF             reduce using rule 28 (e -> OBRAKET CBRAKET .)
+    PIPE            reduce using rule 28 (e -> OBRAKET CBRAKET .)
+    ELSE            reduce using rule 28 (e -> OBRAKET CBRAKET .)
+    IN              reduce using rule 28 (e -> OBRAKET CBRAKET .)
+    FI              reduce using rule 28 (e -> OBRAKET CBRAKET .)
+    TEL             reduce using rule 28 (e -> OBRAKET CBRAKET .)
+
+
+state 25
+
+    (16) expression -> IF expression . THEN expression ELSE expression FI
+    (1) expression -> expression . PLUS expression
+    (2) expression -> expression . TIMES expression
+    (3) expression -> expression . MINUS expression
+    (4) expression -> expression . DIVIDED expression
+    (5) expression -> expression . DIFFERENT expression
+    (6) expression -> expression . EQUAL expression
+    (7) expression -> expression . LESSEREQ expression
+    (8) expression -> expression . GREATEREQ expression
+    (9) expression -> expression . LESSER expression
+    (10) expression -> expression . GREATER expression
+    (12) expression -> expression . OR expression
+    (13) expression -> expression . AND expression
+    (15) expression -> expression . DCOLON expression
+
+    THEN            shift and go to state 49
+    PLUS            shift and go to state 39
+    TIMES           shift and go to state 36
+    MINUS           shift and go to state 41
+    DIVIDED         shift and go to state 33
+    DIFFERENT       shift and go to state 31
+    EQUAL           shift and go to state 35
+    LESSEREQ        shift and go to state 34
+    GREATEREQ       shift and go to state 38
+    LESSER          shift and go to state 37
+    GREATER         shift and go to state 32
+    OR              shift and go to state 42
+    AND             shift and go to state 30
+    DCOLON          shift and go to state 40
+
+
+state 26
+
+    (25) e -> e e .
+    (25) e -> e . e
+    (25) e -> . e e
+    (26) e -> . NUMBER
+    (27) e -> . ID
+    (28) e -> . OBRAKET CBRAKET
+    (29) e -> . TRUE
+    (30) e -> . FALSE
+    (31) e -> . OPAREN expression CPAREN
+
+    NUMBER          reduce using rule 25 (e -> e e .)
+    ID              reduce using rule 25 (e -> e e .)
+    OBRAKET         reduce using rule 25 (e -> e e .)
+    OPAREN          reduce using rule 25 (e -> e e .)
+    PLUS            reduce using rule 25 (e -> e e .)
+    TIMES           reduce using rule 25 (e -> e e .)
+    MINUS           reduce using rule 25 (e -> e e .)
+    DIVIDED         reduce using rule 25 (e -> e e .)
+    DIFFERENT       reduce using rule 25 (e -> e e .)
+    EQUAL           reduce using rule 25 (e -> e e .)
+    LESSEREQ        reduce using rule 25 (e -> e e .)
+    GREATEREQ       reduce using rule 25 (e -> e e .)
+    LESSER          reduce using rule 25 (e -> e e .)
+    GREATER         reduce using rule 25 (e -> e e .)
+    OR              reduce using rule 25 (e -> e e .)
+    AND             reduce using rule 25 (e -> e e .)
+    DCOLON          reduce using rule 25 (e -> e e .)
+    $end            reduce using rule 25 (e -> e e .)
+    THEN            reduce using rule 25 (e -> e e .)
+    CPAREN          reduce using rule 25 (e -> e e .)
+    NUF             reduce using rule 25 (e -> e e .)
+    PIPE            reduce using rule 25 (e -> e e .)
+    ELSE            reduce using rule 25 (e -> e e .)
+    IN              reduce using rule 25 (e -> e e .)
+    FI              reduce using rule 25 (e -> e e .)
+    TEL             reduce using rule 25 (e -> e e .)
+    TRUE            shift and go to state 2
+    FALSE           shift and go to state 6
+
+  ! TRUE            [ reduce using rule 25 (e -> e e .) ]
+  ! FALSE           [ reduce using rule 25 (e -> e e .) ]
+  ! NUMBER          [ shift and go to state 5 ]
+  ! ID              [ shift and go to state 7 ]
+  ! OBRAKET         [ shift and go to state 4 ]
+  ! OPAREN          [ shift and go to state 11 ]
+
+    e                              shift and go to state 26
+
+state 27
+
+    (17) expression -> LET p . EQUAL expression IN expression TEL
+    (38) patron -> p . DCOLON p
+
+    EQUAL           shift and go to state 50
+    DCOLON          shift and go to state 43
+
+
+state 28
+
+    (31) e -> OPAREN expression . CPAREN
+    (1) expression -> expression . PLUS expression
+    (2) expression -> expression . TIMES expression
+    (3) expression -> expression . MINUS expression
+    (4) expression -> expression . DIVIDED expression
+    (5) expression -> expression . DIFFERENT expression
+    (6) expression -> expression . EQUAL expression
+    (7) expression -> expression . LESSEREQ expression
+    (8) expression -> expression . GREATEREQ expression
+    (9) expression -> expression . LESSER expression
+    (10) expression -> expression . GREATER expression
+    (12) expression -> expression . OR expression
+    (13) expression -> expression . AND expression
+    (15) expression -> expression . DCOLON expression
+
+    CPAREN          shift and go to state 51
+    PLUS            shift and go to state 39
+    TIMES           shift and go to state 36
+    MINUS           shift and go to state 41
+    DIVIDED         shift and go to state 33
+    DIFFERENT       shift and go to state 31
+    EQUAL           shift and go to state 35
+    LESSEREQ        shift and go to state 34
+    GREATEREQ       shift and go to state 38
+    LESSER          shift and go to state 37
+    GREATER         shift and go to state 32
+    OR              shift and go to state 42
+    AND             shift and go to state 30
+    DCOLON          shift and go to state 40
+
+
+state 29
+
+    (14) expression -> NOT expression .
+    (1) expression -> expression . PLUS expression
+    (2) expression -> expression . TIMES expression
+    (3) expression -> expression . MINUS expression
+    (4) expression -> expression . DIVIDED expression
+    (5) expression -> expression . DIFFERENT expression
+    (6) expression -> expression . EQUAL expression
+    (7) expression -> expression . LESSEREQ expression
+    (8) expression -> expression . GREATEREQ expression
+    (9) expression -> expression . LESSER expression
+    (10) expression -> expression . GREATER expression
+    (12) expression -> expression . OR expression
+    (13) expression -> expression . AND expression
+    (15) expression -> expression . DCOLON expression
+
+    OR              reduce using rule 14 (expression -> NOT expression .)
+    AND             reduce using rule 14 (expression -> NOT expression .)
+    $end            reduce using rule 14 (expression -> NOT expression .)
+    THEN            reduce using rule 14 (expression -> NOT expression .)
+    CPAREN          reduce using rule 14 (expression -> NOT expression .)
+    NUF             reduce using rule 14 (expression -> NOT expression .)
+    PIPE            reduce using rule 14 (expression -> NOT expression .)
+    ELSE            reduce using rule 14 (expression -> NOT expression .)
+    IN              reduce using rule 14 (expression -> NOT expression .)
+    FI              reduce using rule 14 (expression -> NOT expression .)
+    TEL             reduce using rule 14 (expression -> NOT expression .)
+    PLUS            shift and go to state 39
+    TIMES           shift and go to state 36
+    MINUS           shift and go to state 41
+    DIVIDED         shift and go to state 33
+    DIFFERENT       shift and go to state 31
+    EQUAL           shift and go to state 35
+    LESSEREQ        shift and go to state 34
+    GREATEREQ       shift and go to state 38
+    LESSER          shift and go to state 37
+    GREATER         shift and go to state 32
+    DCOLON          shift and go to state 40
+
+  ! PLUS            [ reduce using rule 14 (expression -> NOT expression .) ]
+  ! TIMES           [ reduce using rule 14 (expression -> NOT expression .) ]
+  ! MINUS           [ reduce using rule 14 (expression -> NOT expression .) ]
+  ! DIVIDED         [ reduce using rule 14 (expression -> NOT expression .) ]
+  ! DIFFERENT       [ reduce using rule 14 (expression -> NOT expression .) ]
+  ! EQUAL           [ reduce using rule 14 (expression -> NOT expression .) ]
+  ! LESSEREQ        [ reduce using rule 14 (expression -> NOT expression .) ]
+  ! GREATEREQ       [ reduce using rule 14 (expression -> NOT expression .) ]
+  ! LESSER          [ reduce using rule 14 (expression -> NOT expression .) ]
+  ! GREATER         [ reduce using rule 14 (expression -> NOT expression .) ]
+  ! DCOLON          [ reduce using rule 14 (expression -> NOT expression .) ]
+  ! OR              [ shift and go to state 42 ]
+  ! AND             [ shift and go to state 30 ]
+
+
+state 30
+
+    (13) expression -> expression AND . expression
+    (1) expression -> . expression PLUS expression
+    (2) expression -> . expression TIMES expression
+    (3) expression -> . expression MINUS expression
+    (4) expression -> . expression DIVIDED expression
+    (5) expression -> . expression DIFFERENT expression
+    (6) expression -> . expression EQUAL expression
+    (7) expression -> . expression LESSEREQ expression
+    (8) expression -> . expression GREATEREQ expression
+    (9) expression -> . expression LESSER expression
+    (10) expression -> . expression GREATER expression
+    (11) expression -> . MINUS expression
+    (12) expression -> . expression OR expression
+    (13) expression -> . expression AND expression
+    (14) expression -> . NOT expression
+    (15) expression -> . expression DCOLON expression
+    (16) expression -> . IF expression THEN expression ELSE expression FI
+    (17) expression -> . LET p EQUAL expression IN expression TEL
+    (18) expression -> . FUN lista ARROW expression NUF
+    (19) expression -> . FUN lista ARROW expression PIPE fun_rec
+    (24) expression -> . e
+    (25) e -> . e e
+    (26) e -> . NUMBER
+    (27) e -> . ID
+    (28) e -> . OBRAKET CBRAKET
+    (29) e -> . TRUE
+    (30) e -> . FALSE
+    (31) e -> . OPAREN expression CPAREN
+
+    MINUS           shift and go to state 3
+    NOT             shift and go to state 12
+    IF              shift and go to state 8
+    LET             shift and go to state 10
+    FUN             shift and go to state 1
+    NUMBER          shift and go to state 5
+    ID              shift and go to state 7
+    OBRAKET         shift and go to state 4
+    TRUE            shift and go to state 2
+    FALSE           shift and go to state 6
+    OPAREN          shift and go to state 11
+
+    expression                     shift and go to state 52
+    e                              shift and go to state 9
+
+state 31
+
+    (5) expression -> expression DIFFERENT . expression
+    (1) expression -> . expression PLUS expression
+    (2) expression -> . expression TIMES expression
+    (3) expression -> . expression MINUS expression
+    (4) expression -> . expression DIVIDED expression
+    (5) expression -> . expression DIFFERENT expression
+    (6) expression -> . expression EQUAL expression
+    (7) expression -> . expression LESSEREQ expression
+    (8) expression -> . expression GREATEREQ expression
+    (9) expression -> . expression LESSER expression
+    (10) expression -> . expression GREATER expression
+    (11) expression -> . MINUS expression
+    (12) expression -> . expression OR expression
+    (13) expression -> . expression AND expression
+    (14) expression -> . NOT expression
+    (15) expression -> . expression DCOLON expression
+    (16) expression -> . IF expression THEN expression ELSE expression FI
+    (17) expression -> . LET p EQUAL expression IN expression TEL
+    (18) expression -> . FUN lista ARROW expression NUF
+    (19) expression -> . FUN lista ARROW expression PIPE fun_rec
+    (24) expression -> . e
+    (25) e -> . e e
+    (26) e -> . NUMBER
+    (27) e -> . ID
+    (28) e -> . OBRAKET CBRAKET
+    (29) e -> . TRUE
+    (30) e -> . FALSE
+    (31) e -> . OPAREN expression CPAREN
+
+    MINUS           shift and go to state 3
+    NOT             shift and go to state 12
+    IF              shift and go to state 8
+    LET             shift and go to state 10
+    FUN             shift and go to state 1
+    NUMBER          shift and go to state 5
+    ID              shift and go to state 7
+    OBRAKET         shift and go to state 4
+    TRUE            shift and go to state 2
+    FALSE           shift and go to state 6
+    OPAREN          shift and go to state 11
+
+    expression                     shift and go to state 53
+    e                              shift and go to state 9
+
+state 32
+
+    (10) expression -> expression GREATER . expression
+    (1) expression -> . expression PLUS expression
+    (2) expression -> . expression TIMES expression
+    (3) expression -> . expression MINUS expression
+    (4) expression -> . expression DIVIDED expression
+    (5) expression -> . expression DIFFERENT expression
+    (6) expression -> . expression EQUAL expression
+    (7) expression -> . expression LESSEREQ expression
+    (8) expression -> . expression GREATEREQ expression
+    (9) expression -> . expression LESSER expression
+    (10) expression -> . expression GREATER expression
+    (11) expression -> . MINUS expression
+    (12) expression -> . expression OR expression
+    (13) expression -> . expression AND expression
+    (14) expression -> . NOT expression
+    (15) expression -> . expression DCOLON expression
+    (16) expression -> . IF expression THEN expression ELSE expression FI
+    (17) expression -> . LET p EQUAL expression IN expression TEL
+    (18) expression -> . FUN lista ARROW expression NUF
+    (19) expression -> . FUN lista ARROW expression PIPE fun_rec
+    (24) expression -> . e
+    (25) e -> . e e
+    (26) e -> . NUMBER
+    (27) e -> . ID
+    (28) e -> . OBRAKET CBRAKET
+    (29) e -> . TRUE
+    (30) e -> . FALSE
+    (31) e -> . OPAREN expression CPAREN
+
+    MINUS           shift and go to state 3
+    NOT             shift and go to state 12
+    IF              shift and go to state 8
+    LET             shift and go to state 10
+    FUN             shift and go to state 1
+    NUMBER          shift and go to state 5
+    ID              shift and go to state 7
+    OBRAKET         shift and go to state 4
+    TRUE            shift and go to state 2
+    FALSE           shift and go to state 6
+    OPAREN          shift and go to state 11
+
+    expression                     shift and go to state 54
+    e                              shift and go to state 9
+
+state 33
+
+    (4) expression -> expression DIVIDED . expression
+    (1) expression -> . expression PLUS expression
+    (2) expression -> . expression TIMES expression
+    (3) expression -> . expression MINUS expression
+    (4) expression -> . expression DIVIDED expression
+    (5) expression -> . expression DIFFERENT expression
+    (6) expression -> . expression EQUAL expression
+    (7) expression -> . expression LESSEREQ expression
+    (8) expression -> . expression GREATEREQ expression
+    (9) expression -> . expression LESSER expression
+    (10) expression -> . expression GREATER expression
+    (11) expression -> . MINUS expression
+    (12) expression -> . expression OR expression
+    (13) expression -> . expression AND expression
+    (14) expression -> . NOT expression
+    (15) expression -> . expression DCOLON expression
+    (16) expression -> . IF expression THEN expression ELSE expression FI
+    (17) expression -> . LET p EQUAL expression IN expression TEL
+    (18) expression -> . FUN lista ARROW expression NUF
+    (19) expression -> . FUN lista ARROW expression PIPE fun_rec
+    (24) expression -> . e
+    (25) e -> . e e
+    (26) e -> . NUMBER
+    (27) e -> . ID
+    (28) e -> . OBRAKET CBRAKET
+    (29) e -> . TRUE
+    (30) e -> . FALSE
+    (31) e -> . OPAREN expression CPAREN
+
+    MINUS           shift and go to state 3
+    NOT             shift and go to state 12
+    IF              shift and go to state 8
+    LET             shift and go to state 10
+    FUN             shift and go to state 1
+    NUMBER          shift and go to state 5
+    ID              shift and go to state 7
+    OBRAKET         shift and go to state 4
+    TRUE            shift and go to state 2
+    FALSE           shift and go to state 6
+    OPAREN          shift and go to state 11
+
+    expression                     shift and go to state 55
+    e                              shift and go to state 9
+
+state 34
+
+    (7) expression -> expression LESSEREQ . expression
+    (1) expression -> . expression PLUS expression
+    (2) expression -> . expression TIMES expression
+    (3) expression -> . expression MINUS expression
+    (4) expression -> . expression DIVIDED expression
+    (5) expression -> . expression DIFFERENT expression
+    (6) expression -> . expression EQUAL expression
+    (7) expression -> . expression LESSEREQ expression
+    (8) expression -> . expression GREATEREQ expression
+    (9) expression -> . expression LESSER expression
+    (10) expression -> . expression GREATER expression
+    (11) expression -> . MINUS expression
+    (12) expression -> . expression OR expression
+    (13) expression -> . expression AND expression
+    (14) expression -> . NOT expression
+    (15) expression -> . expression DCOLON expression
+    (16) expression -> . IF expression THEN expression ELSE expression FI
+    (17) expression -> . LET p EQUAL expression IN expression TEL
+    (18) expression -> . FUN lista ARROW expression NUF
+    (19) expression -> . FUN lista ARROW expression PIPE fun_rec
+    (24) expression -> . e
+    (25) e -> . e e
+    (26) e -> . NUMBER
+    (27) e -> . ID
+    (28) e -> . OBRAKET CBRAKET
+    (29) e -> . TRUE
+    (30) e -> . FALSE
+    (31) e -> . OPAREN expression CPAREN
+
+    MINUS           shift and go to state 3
+    NOT             shift and go to state 12
+    IF              shift and go to state 8
+    LET             shift and go to state 10
+    FUN             shift and go to state 1
+    NUMBER          shift and go to state 5
+    ID              shift and go to state 7
+    OBRAKET         shift and go to state 4
+    TRUE            shift and go to state 2
+    FALSE           shift and go to state 6
+    OPAREN          shift and go to state 11
+
+    expression                     shift and go to state 56
+    e                              shift and go to state 9
+
+state 35
+
+    (6) expression -> expression EQUAL . expression
+    (1) expression -> . expression PLUS expression
+    (2) expression -> . expression TIMES expression
+    (3) expression -> . expression MINUS expression
+    (4) expression -> . expression DIVIDED expression
+    (5) expression -> . expression DIFFERENT expression
+    (6) expression -> . expression EQUAL expression
+    (7) expression -> . expression LESSEREQ expression
+    (8) expression -> . expression GREATEREQ expression
+    (9) expression -> . expression LESSER expression
+    (10) expression -> . expression GREATER expression
+    (11) expression -> . MINUS expression
+    (12) expression -> . expression OR expression
+    (13) expression -> . expression AND expression
+    (14) expression -> . NOT expression
+    (15) expression -> . expression DCOLON expression
+    (16) expression -> . IF expression THEN expression ELSE expression FI
+    (17) expression -> . LET p EQUAL expression IN expression TEL
+    (18) expression -> . FUN lista ARROW expression NUF
+    (19) expression -> . FUN lista ARROW expression PIPE fun_rec
+    (24) expression -> . e
+    (25) e -> . e e
+    (26) e -> . NUMBER
+    (27) e -> . ID
+    (28) e -> . OBRAKET CBRAKET
+    (29) e -> . TRUE
+    (30) e -> . FALSE
+    (31) e -> . OPAREN expression CPAREN
+
+    MINUS           shift and go to state 3
+    NOT             shift and go to state 12
+    IF              shift and go to state 8
+    LET             shift and go to state 10
+    FUN             shift and go to state 1
+    NUMBER          shift and go to state 5
+    ID              shift and go to state 7
+    OBRAKET         shift and go to state 4
+    TRUE            shift and go to state 2
+    FALSE           shift and go to state 6
+    OPAREN          shift and go to state 11
+
+    expression                     shift and go to state 57
+    e                              shift and go to state 9
+
+state 36
+
+    (2) expression -> expression TIMES . expression
+    (1) expression -> . expression PLUS expression
+    (2) expression -> . expression TIMES expression
+    (3) expression -> . expression MINUS expression
+    (4) expression -> . expression DIVIDED expression
+    (5) expression -> . expression DIFFERENT expression
+    (6) expression -> . expression EQUAL expression
+    (7) expression -> . expression LESSEREQ expression
+    (8) expression -> . expression GREATEREQ expression
+    (9) expression -> . expression LESSER expression
+    (10) expression -> . expression GREATER expression
+    (11) expression -> . MINUS expression
+    (12) expression -> . expression OR expression
+    (13) expression -> . expression AND expression
+    (14) expression -> . NOT expression
+    (15) expression -> . expression DCOLON expression
+    (16) expression -> . IF expression THEN expression ELSE expression FI
+    (17) expression -> . LET p EQUAL expression IN expression TEL
+    (18) expression -> . FUN lista ARROW expression NUF
+    (19) expression -> . FUN lista ARROW expression PIPE fun_rec
+    (24) expression -> . e
+    (25) e -> . e e
+    (26) e -> . NUMBER
+    (27) e -> . ID
+    (28) e -> . OBRAKET CBRAKET
+    (29) e -> . TRUE
+    (30) e -> . FALSE
+    (31) e -> . OPAREN expression CPAREN
+
+    MINUS           shift and go to state 3
+    NOT             shift and go to state 12
+    IF              shift and go to state 8
+    LET             shift and go to state 10
+    FUN             shift and go to state 1
+    NUMBER          shift and go to state 5
+    ID              shift and go to state 7
+    OBRAKET         shift and go to state 4
+    TRUE            shift and go to state 2
+    FALSE           shift and go to state 6
+    OPAREN          shift and go to state 11
+
+    expression                     shift and go to state 58
+    e                              shift and go to state 9
+
+state 37
+
+    (9) expression -> expression LESSER . expression
+    (1) expression -> . expression PLUS expression
+    (2) expression -> . expression TIMES expression
+    (3) expression -> . expression MINUS expression
+    (4) expression -> . expression DIVIDED expression
+    (5) expression -> . expression DIFFERENT expression
+    (6) expression -> . expression EQUAL expression
+    (7) expression -> . expression LESSEREQ expression
+    (8) expression -> . expression GREATEREQ expression
+    (9) expression -> . expression LESSER expression
+    (10) expression -> . expression GREATER expression
+    (11) expression -> . MINUS expression
+    (12) expression -> . expression OR expression
+    (13) expression -> . expression AND expression
+    (14) expression -> . NOT expression
+    (15) expression -> . expression DCOLON expression
+    (16) expression -> . IF expression THEN expression ELSE expression FI
+    (17) expression -> . LET p EQUAL expression IN expression TEL
+    (18) expression -> . FUN lista ARROW expression NUF
+    (19) expression -> . FUN lista ARROW expression PIPE fun_rec
+    (24) expression -> . e
+    (25) e -> . e e
+    (26) e -> . NUMBER
+    (27) e -> . ID
+    (28) e -> . OBRAKET CBRAKET
+    (29) e -> . TRUE
+    (30) e -> . FALSE
+    (31) e -> . OPAREN expression CPAREN
+
+    MINUS           shift and go to state 3
+    NOT             shift and go to state 12
+    IF              shift and go to state 8
+    LET             shift and go to state 10
+    FUN             shift and go to state 1
+    NUMBER          shift and go to state 5
+    ID              shift and go to state 7
+    OBRAKET         shift and go to state 4
+    TRUE            shift and go to state 2
+    FALSE           shift and go to state 6
+    OPAREN          shift and go to state 11
+
+    expression                     shift and go to state 59
+    e                              shift and go to state 9
+
+state 38
+
+    (8) expression -> expression GREATEREQ . expression
+    (1) expression -> . expression PLUS expression
+    (2) expression -> . expression TIMES expression
+    (3) expression -> . expression MINUS expression
+    (4) expression -> . expression DIVIDED expression
+    (5) expression -> . expression DIFFERENT expression
+    (6) expression -> . expression EQUAL expression
+    (7) expression -> . expression LESSEREQ expression
+    (8) expression -> . expression GREATEREQ expression
+    (9) expression -> . expression LESSER expression
+    (10) expression -> . expression GREATER expression
+    (11) expression -> . MINUS expression
+    (12) expression -> . expression OR expression
+    (13) expression -> . expression AND expression
+    (14) expression -> . NOT expression
+    (15) expression -> . expression DCOLON expression
+    (16) expression -> . IF expression THEN expression ELSE expression FI
+    (17) expression -> . LET p EQUAL expression IN expression TEL
+    (18) expression -> . FUN lista ARROW expression NUF
+    (19) expression -> . FUN lista ARROW expression PIPE fun_rec
+    (24) expression -> . e
+    (25) e -> . e e
+    (26) e -> . NUMBER
+    (27) e -> . ID
+    (28) e -> . OBRAKET CBRAKET
+    (29) e -> . TRUE
+    (30) e -> . FALSE
+    (31) e -> . OPAREN expression CPAREN
+
+    MINUS           shift and go to state 3
+    NOT             shift and go to state 12
+    IF              shift and go to state 8
+    LET             shift and go to state 10
+    FUN             shift and go to state 1
+    NUMBER          shift and go to state 5
+    ID              shift and go to state 7
+    OBRAKET         shift and go to state 4
+    TRUE            shift and go to state 2
+    FALSE           shift and go to state 6
+    OPAREN          shift and go to state 11
+
+    expression                     shift and go to state 60
+    e                              shift and go to state 9
+
+state 39
+
+    (1) expression -> expression PLUS . expression
+    (1) expression -> . expression PLUS expression
+    (2) expression -> . expression TIMES expression
+    (3) expression -> . expression MINUS expression
+    (4) expression -> . expression DIVIDED expression
+    (5) expression -> . expression DIFFERENT expression
+    (6) expression -> . expression EQUAL expression
+    (7) expression -> . expression LESSEREQ expression
+    (8) expression -> . expression GREATEREQ expression
+    (9) expression -> . expression LESSER expression
+    (10) expression -> . expression GREATER expression
+    (11) expression -> . MINUS expression
+    (12) expression -> . expression OR expression
+    (13) expression -> . expression AND expression
+    (14) expression -> . NOT expression
+    (15) expression -> . expression DCOLON expression
+    (16) expression -> . IF expression THEN expression ELSE expression FI
+    (17) expression -> . LET p EQUAL expression IN expression TEL
+    (18) expression -> . FUN lista ARROW expression NUF
+    (19) expression -> . FUN lista ARROW expression PIPE fun_rec
+    (24) expression -> . e
+    (25) e -> . e e
+    (26) e -> . NUMBER
+    (27) e -> . ID
+    (28) e -> . OBRAKET CBRAKET
+    (29) e -> . TRUE
+    (30) e -> . FALSE
+    (31) e -> . OPAREN expression CPAREN
+
+    MINUS           shift and go to state 3
+    NOT             shift and go to state 12
+    IF              shift and go to state 8
+    LET             shift and go to state 10
+    FUN             shift and go to state 1
+    NUMBER          shift and go to state 5
+    ID              shift and go to state 7
+    OBRAKET         shift and go to state 4
+    TRUE            shift and go to state 2
+    FALSE           shift and go to state 6
+    OPAREN          shift and go to state 11
+
+    expression                     shift and go to state 61
+    e                              shift and go to state 9
+
+state 40
+
+    (15) expression -> expression DCOLON . expression
+    (1) expression -> . expression PLUS expression
+    (2) expression -> . expression TIMES expression
+    (3) expression -> . expression MINUS expression
+    (4) expression -> . expression DIVIDED expression
+    (5) expression -> . expression DIFFERENT expression
+    (6) expression -> . expression EQUAL expression
+    (7) expression -> . expression LESSEREQ expression
+    (8) expression -> . expression GREATEREQ expression
+    (9) expression -> . expression LESSER expression
+    (10) expression -> . expression GREATER expression
+    (11) expression -> . MINUS expression
+    (12) expression -> . expression OR expression
+    (13) expression -> . expression AND expression
+    (14) expression -> . NOT expression
+    (15) expression -> . expression DCOLON expression
+    (16) expression -> . IF expression THEN expression ELSE expression FI
+    (17) expression -> . LET p EQUAL expression IN expression TEL
+    (18) expression -> . FUN lista ARROW expression NUF
+    (19) expression -> . FUN lista ARROW expression PIPE fun_rec
+    (24) expression -> . e
+    (25) e -> . e e
+    (26) e -> . NUMBER
+    (27) e -> . ID
+    (28) e -> . OBRAKET CBRAKET
+    (29) e -> . TRUE
+    (30) e -> . FALSE
+    (31) e -> . OPAREN expression CPAREN
+
+    MINUS           shift and go to state 3
+    NOT             shift and go to state 12
+    IF              shift and go to state 8
+    LET             shift and go to state 10
+    FUN             shift and go to state 1
+    NUMBER          shift and go to state 5
+    ID              shift and go to state 7
+    OBRAKET         shift and go to state 4
+    TRUE            shift and go to state 2
+    FALSE           shift and go to state 6
+    OPAREN          shift and go to state 11
+
+    expression                     shift and go to state 62
+    e                              shift and go to state 9
+
+state 41
+
+    (3) expression -> expression MINUS . expression
+    (1) expression -> . expression PLUS expression
+    (2) expression -> . expression TIMES expression
+    (3) expression -> . expression MINUS expression
+    (4) expression -> . expression DIVIDED expression
+    (5) expression -> . expression DIFFERENT expression
+    (6) expression -> . expression EQUAL expression
+    (7) expression -> . expression LESSEREQ expression
+    (8) expression -> . expression GREATEREQ expression
+    (9) expression -> . expression LESSER expression
+    (10) expression -> . expression GREATER expression
+    (11) expression -> . MINUS expression
+    (12) expression -> . expression OR expression
+    (13) expression -> . expression AND expression
+    (14) expression -> . NOT expression
+    (15) expression -> . expression DCOLON expression
+    (16) expression -> . IF expression THEN expression ELSE expression FI
+    (17) expression -> . LET p EQUAL expression IN expression TEL
+    (18) expression -> . FUN lista ARROW expression NUF
+    (19) expression -> . FUN lista ARROW expression PIPE fun_rec
+    (24) expression -> . e
+    (25) e -> . e e
+    (26) e -> . NUMBER
+    (27) e -> . ID
+    (28) e -> . OBRAKET CBRAKET
+    (29) e -> . TRUE
+    (30) e -> . FALSE
+    (31) e -> . OPAREN expression CPAREN
+
+    MINUS           shift and go to state 3
+    NOT             shift and go to state 12
+    IF              shift and go to state 8
+    LET             shift and go to state 10
+    FUN             shift and go to state 1
+    NUMBER          shift and go to state 5
+    ID              shift and go to state 7
+    OBRAKET         shift and go to state 4
+    TRUE            shift and go to state 2
+    FALSE           shift and go to state 6
+    OPAREN          shift and go to state 11
+
+    expression                     shift and go to state 63
+    e                              shift and go to state 9
+
+state 42
+
+    (12) expression -> expression OR . expression
+    (1) expression -> . expression PLUS expression
+    (2) expression -> . expression TIMES expression
+    (3) expression -> . expression MINUS expression
+    (4) expression -> . expression DIVIDED expression
+    (5) expression -> . expression DIFFERENT expression
+    (6) expression -> . expression EQUAL expression
+    (7) expression -> . expression LESSEREQ expression
+    (8) expression -> . expression GREATEREQ expression
+    (9) expression -> . expression LESSER expression
+    (10) expression -> . expression GREATER expression
+    (11) expression -> . MINUS expression
+    (12) expression -> . expression OR expression
+    (13) expression -> . expression AND expression
+    (14) expression -> . NOT expression
+    (15) expression -> . expression DCOLON expression
+    (16) expression -> . IF expression THEN expression ELSE expression FI
+    (17) expression -> . LET p EQUAL expression IN expression TEL
+    (18) expression -> . FUN lista ARROW expression NUF
+    (19) expression -> . FUN lista ARROW expression PIPE fun_rec
+    (24) expression -> . e
+    (25) e -> . e e
+    (26) e -> . NUMBER
+    (27) e -> . ID
+    (28) e -> . OBRAKET CBRAKET
+    (29) e -> . TRUE
+    (30) e -> . FALSE
+    (31) e -> . OPAREN expression CPAREN
+
+    MINUS           shift and go to state 3
+    NOT             shift and go to state 12
+    IF              shift and go to state 8
+    LET             shift and go to state 10
+    FUN             shift and go to state 1
+    NUMBER          shift and go to state 5
+    ID              shift and go to state 7
+    OBRAKET         shift and go to state 4
+    TRUE            shift and go to state 2
+    FALSE           shift and go to state 6
+    OPAREN          shift and go to state 11
+
+    expression                     shift and go to state 64
+    e                              shift and go to state 9
+
+state 43
+
+    (38) patron -> p DCOLON . p
+    (32) p -> . patron
+    (33) patron -> . NUMBER
+    (34) patron -> . TRUE
+    (35) patron -> . FALSE
+    (36) patron -> . ID
+    (37) patron -> . OPAREN patron CPAREN
+    (38) patron -> . p DCOLON p
+    (39) patron -> . OBRAKET CBRAKET
+
+    NUMBER          shift and go to state 18
+    TRUE            shift and go to state 22
+    FALSE           shift and go to state 14
+    ID              shift and go to state 21
+    OPAREN          shift and go to state 20
+    OBRAKET         shift and go to state 19
+
+    p                              shift and go to state 65
+    patron                         shift and go to state 15
+
+state 44
+
+    (22) lista -> lista p .
+    (38) patron -> p . DCOLON p
+
+    ARROW           reduce using rule 22 (lista -> lista p .)
+    NUMBER          reduce using rule 22 (lista -> lista p .)
+    TRUE            reduce using rule 22 (lista -> lista p .)
+    FALSE           reduce using rule 22 (lista -> lista p .)
+    ID              reduce using rule 22 (lista -> lista p .)
+    OPAREN          reduce using rule 22 (lista -> lista p .)
+    OBRAKET         reduce using rule 22 (lista -> lista p .)
+    DCOLON          shift and go to state 43
+
+
+state 45
+
+    (18) expression -> FUN lista ARROW . expression NUF
+    (19) expression -> FUN lista ARROW . expression PIPE fun_rec
+    (1) expression -> . expression PLUS expression
+    (2) expression -> . expression TIMES expression
+    (3) expression -> . expression MINUS expression
+    (4) expression -> . expression DIVIDED expression
+    (5) expression -> . expression DIFFERENT expression
+    (6) expression -> . expression EQUAL expression
+    (7) expression -> . expression LESSEREQ expression
+    (8) expression -> . expression GREATEREQ expression
+    (9) expression -> . expression LESSER expression
+    (10) expression -> . expression GREATER expression
+    (11) expression -> . MINUS expression
+    (12) expression -> . expression OR expression
+    (13) expression -> . expression AND expression
+    (14) expression -> . NOT expression
+    (15) expression -> . expression DCOLON expression
+    (16) expression -> . IF expression THEN expression ELSE expression FI
+    (17) expression -> . LET p EQUAL expression IN expression TEL
+    (18) expression -> . FUN lista ARROW expression NUF
+    (19) expression -> . FUN lista ARROW expression PIPE fun_rec
+    (24) expression -> . e
+    (25) e -> . e e
+    (26) e -> . NUMBER
+    (27) e -> . ID
+    (28) e -> . OBRAKET CBRAKET
+    (29) e -> . TRUE
+    (30) e -> . FALSE
+    (31) e -> . OPAREN expression CPAREN
+
+    MINUS           shift and go to state 3
+    NOT             shift and go to state 12
+    IF              shift and go to state 8
+    LET             shift and go to state 10
+    FUN             shift and go to state 1
+    NUMBER          shift and go to state 5
+    ID              shift and go to state 7
+    OBRAKET         shift and go to state 4
+    TRUE            shift and go to state 2
+    FALSE           shift and go to state 6
+    OPAREN          shift and go to state 11
+
+    expression                     shift and go to state 66
+    e                              shift and go to state 9
+
+state 46
+
+    (39) patron -> OBRAKET CBRAKET .
+
+    EQUAL           reduce using rule 39 (patron -> OBRAKET CBRAKET .)
+    DCOLON          reduce using rule 39 (patron -> OBRAKET CBRAKET .)
+    ARROW           reduce using rule 39 (patron -> OBRAKET CBRAKET .)
+    NUMBER          reduce using rule 39 (patron -> OBRAKET CBRAKET .)
+    TRUE            reduce using rule 39 (patron -> OBRAKET CBRAKET .)
+    FALSE           reduce using rule 39 (patron -> OBRAKET CBRAKET .)
+    ID              reduce using rule 39 (patron -> OBRAKET CBRAKET .)
+    OPAREN          reduce using rule 39 (patron -> OBRAKET CBRAKET .)
+    OBRAKET         reduce using rule 39 (patron -> OBRAKET CBRAKET .)
+    CPAREN          reduce using rule 39 (patron -> OBRAKET CBRAKET .)
+
+
+state 47
+
+    (37) patron -> OPAREN patron . CPAREN
+    (32) p -> patron .
+
+    CPAREN          shift and go to state 67
+    DCOLON          reduce using rule 32 (p -> patron .)
+
+
+state 48
+
+    (38) patron -> p . DCOLON p
+
+    DCOLON          shift and go to state 43
+
+
+state 49
+
+    (16) expression -> IF expression THEN . expression ELSE expression FI
+    (1) expression -> . expression PLUS expression
+    (2) expression -> . expression TIMES expression
+    (3) expression -> . expression MINUS expression
+    (4) expression -> . expression DIVIDED expression
+    (5) expression -> . expression DIFFERENT expression
+    (6) expression -> . expression EQUAL expression
+    (7) expression -> . expression LESSEREQ expression
+    (8) expression -> . expression GREATEREQ expression
+    (9) expression -> . expression LESSER expression
+    (10) expression -> . expression GREATER expression
+    (11) expression -> . MINUS expression
+    (12) expression -> . expression OR expression
+    (13) expression -> . expression AND expression
+    (14) expression -> . NOT expression
+    (15) expression -> . expression DCOLON expression
+    (16) expression -> . IF expression THEN expression ELSE expression FI
+    (17) expression -> . LET p EQUAL expression IN expression TEL
+    (18) expression -> . FUN lista ARROW expression NUF
+    (19) expression -> . FUN lista ARROW expression PIPE fun_rec
+    (24) expression -> . e
+    (25) e -> . e e
+    (26) e -> . NUMBER
+    (27) e -> . ID
+    (28) e -> . OBRAKET CBRAKET
+    (29) e -> . TRUE
+    (30) e -> . FALSE
+    (31) e -> . OPAREN expression CPAREN
+
+    MINUS           shift and go to state 3
+    NOT             shift and go to state 12
+    IF              shift and go to state 8
+    LET             shift and go to state 10
+    FUN             shift and go to state 1
+    NUMBER          shift and go to state 5
+    ID              shift and go to state 7
+    OBRAKET         shift and go to state 4
+    TRUE            shift and go to state 2
+    FALSE           shift and go to state 6
+    OPAREN          shift and go to state 11
+
+    expression                     shift and go to state 68
+    e                              shift and go to state 9
+
+state 50
+
+    (17) expression -> LET p EQUAL . expression IN expression TEL
+    (1) expression -> . expression PLUS expression
+    (2) expression -> . expression TIMES expression
+    (3) expression -> . expression MINUS expression
+    (4) expression -> . expression DIVIDED expression
+    (5) expression -> . expression DIFFERENT expression
+    (6) expression -> . expression EQUAL expression
+    (7) expression -> . expression LESSEREQ expression
+    (8) expression -> . expression GREATEREQ expression
+    (9) expression -> . expression LESSER expression
+    (10) expression -> . expression GREATER expression
+    (11) expression -> . MINUS expression
+    (12) expression -> . expression OR expression
+    (13) expression -> . expression AND expression
+    (14) expression -> . NOT expression
+    (15) expression -> . expression DCOLON expression
+    (16) expression -> . IF expression THEN expression ELSE expression FI
+    (17) expression -> . LET p EQUAL expression IN expression TEL
+    (18) expression -> . FUN lista ARROW expression NUF
+    (19) expression -> . FUN lista ARROW expression PIPE fun_rec
+    (24) expression -> . e
+    (25) e -> . e e
+    (26) e -> . NUMBER
+    (27) e -> . ID
+    (28) e -> . OBRAKET CBRAKET
+    (29) e -> . TRUE
+    (30) e -> . FALSE
+    (31) e -> . OPAREN expression CPAREN
+
+    MINUS           shift and go to state 3
+    NOT             shift and go to state 12
+    IF              shift and go to state 8
+    LET             shift and go to state 10
+    FUN             shift and go to state 1
+    NUMBER          shift and go to state 5
+    ID              shift and go to state 7
+    OBRAKET         shift and go to state 4
+    TRUE            shift and go to state 2
+    FALSE           shift and go to state 6
+    OPAREN          shift and go to state 11
+
+    expression                     shift and go to state 69
+    e                              shift and go to state 9
+
+state 51
+
+    (31) e -> OPAREN expression CPAREN .
+
+    NUMBER          reduce using rule 31 (e -> OPAREN expression CPAREN .)
+    ID              reduce using rule 31 (e -> OPAREN expression CPAREN .)
+    OBRAKET         reduce using rule 31 (e -> OPAREN expression CPAREN .)
+    TRUE            reduce using rule 31 (e -> OPAREN expression CPAREN .)
+    FALSE           reduce using rule 31 (e -> OPAREN expression CPAREN .)
+    OPAREN          reduce using rule 31 (e -> OPAREN expression CPAREN .)
+    PLUS            reduce using rule 31 (e -> OPAREN expression CPAREN .)
+    TIMES           reduce using rule 31 (e -> OPAREN expression CPAREN .)
+    MINUS           reduce using rule 31 (e -> OPAREN expression CPAREN .)
+    DIVIDED         reduce using rule 31 (e -> OPAREN expression CPAREN .)
+    DIFFERENT       reduce using rule 31 (e -> OPAREN expression CPAREN .)
+    EQUAL           reduce using rule 31 (e -> OPAREN expression CPAREN .)
+    LESSEREQ        reduce using rule 31 (e -> OPAREN expression CPAREN .)
+    GREATEREQ       reduce using rule 31 (e -> OPAREN expression CPAREN .)
+    LESSER          reduce using rule 31 (e -> OPAREN expression CPAREN .)
+    GREATER         reduce using rule 31 (e -> OPAREN expression CPAREN .)
+    OR              reduce using rule 31 (e -> OPAREN expression CPAREN .)
+    AND             reduce using rule 31 (e -> OPAREN expression CPAREN .)
+    DCOLON          reduce using rule 31 (e -> OPAREN expression CPAREN .)
+    $end            reduce using rule 31 (e -> OPAREN expression CPAREN .)
+    THEN            reduce using rule 31 (e -> OPAREN expression CPAREN .)
+    CPAREN          reduce using rule 31 (e -> OPAREN expression CPAREN .)
+    NUF             reduce using rule 31 (e -> OPAREN expression CPAREN .)
+    PIPE            reduce using rule 31 (e -> OPAREN expression CPAREN .)
+    ELSE            reduce using rule 31 (e -> OPAREN expression CPAREN .)
+    IN              reduce using rule 31 (e -> OPAREN expression CPAREN .)
+    FI              reduce using rule 31 (e -> OPAREN expression CPAREN .)
+    TEL             reduce using rule 31 (e -> OPAREN expression CPAREN .)
+
+
+state 52
+
+    (13) expression -> expression AND expression .
+    (1) expression -> expression . PLUS expression
+    (2) expression -> expression . TIMES expression
+    (3) expression -> expression . MINUS expression
+    (4) expression -> expression . DIVIDED expression
+    (5) expression -> expression . DIFFERENT expression
+    (6) expression -> expression . EQUAL expression
+    (7) expression -> expression . LESSEREQ expression
+    (8) expression -> expression . GREATEREQ expression
+    (9) expression -> expression . LESSER expression
+    (10) expression -> expression . GREATER expression
+    (12) expression -> expression . OR expression
+    (13) expression -> expression . AND expression
+    (15) expression -> expression . DCOLON expression
+
+    OR              reduce using rule 13 (expression -> expression AND expression .)
+    AND             reduce using rule 13 (expression -> expression AND expression .)
+    $end            reduce using rule 13 (expression -> expression AND expression .)
+    THEN            reduce using rule 13 (expression -> expression AND expression .)
+    CPAREN          reduce using rule 13 (expression -> expression AND expression .)
+    NUF             reduce using rule 13 (expression -> expression AND expression .)
+    PIPE            reduce using rule 13 (expression -> expression AND expression .)
+    ELSE            reduce using rule 13 (expression -> expression AND expression .)
+    IN              reduce using rule 13 (expression -> expression AND expression .)
+    FI              reduce using rule 13 (expression -> expression AND expression .)
+    TEL             reduce using rule 13 (expression -> expression AND expression .)
+    PLUS            shift and go to state 39
+    TIMES           shift and go to state 36
+    MINUS           shift and go to state 41
+    DIVIDED         shift and go to state 33
+    DIFFERENT       shift and go to state 31
+    EQUAL           shift and go to state 35
+    LESSEREQ        shift and go to state 34
+    GREATEREQ       shift and go to state 38
+    LESSER          shift and go to state 37
+    GREATER         shift and go to state 32
+    DCOLON          shift and go to state 40
+
+  ! PLUS            [ reduce using rule 13 (expression -> expression AND expression .) ]
+  ! TIMES           [ reduce using rule 13 (expression -> expression AND expression .) ]
+  ! MINUS           [ reduce using rule 13 (expression -> expression AND expression .) ]
+  ! DIVIDED         [ reduce using rule 13 (expression -> expression AND expression .) ]
+  ! DIFFERENT       [ reduce using rule 13 (expression -> expression AND expression .) ]
+  ! EQUAL           [ reduce using rule 13 (expression -> expression AND expression .) ]
+  ! LESSEREQ        [ reduce using rule 13 (expression -> expression AND expression .) ]
+  ! GREATEREQ       [ reduce using rule 13 (expression -> expression AND expression .) ]
+  ! LESSER          [ reduce using rule 13 (expression -> expression AND expression .) ]
+  ! GREATER         [ reduce using rule 13 (expression -> expression AND expression .) ]
+  ! DCOLON          [ reduce using rule 13 (expression -> expression AND expression .) ]
+  ! OR              [ shift and go to state 42 ]
+  ! AND             [ shift and go to state 30 ]
+
+
+state 53
+
+    (5) expression -> expression DIFFERENT expression .
+    (1) expression -> expression . PLUS expression
+    (2) expression -> expression . TIMES expression
+    (3) expression -> expression . MINUS expression
+    (4) expression -> expression . DIVIDED expression
+    (5) expression -> expression . DIFFERENT expression
+    (6) expression -> expression . EQUAL expression
+    (7) expression -> expression . LESSEREQ expression
+    (8) expression -> expression . GREATEREQ expression
+    (9) expression -> expression . LESSER expression
+    (10) expression -> expression . GREATER expression
+    (12) expression -> expression . OR expression
+    (13) expression -> expression . AND expression
+    (15) expression -> expression . DCOLON expression
+
+    DIFFERENT       reduce using rule 5 (expression -> expression DIFFERENT expression .)
+    EQUAL           reduce using rule 5 (expression -> expression DIFFERENT expression .)
+    LESSEREQ        reduce using rule 5 (expression -> expression DIFFERENT expression .)
+    GREATEREQ       reduce using rule 5 (expression -> expression DIFFERENT expression .)
+    LESSER          reduce using rule 5 (expression -> expression DIFFERENT expression .)
+    GREATER         reduce using rule 5 (expression -> expression DIFFERENT expression .)
+    OR              reduce using rule 5 (expression -> expression DIFFERENT expression .)
+    AND             reduce using rule 5 (expression -> expression DIFFERENT expression .)
+    $end            reduce using rule 5 (expression -> expression DIFFERENT expression .)
+    THEN            reduce using rule 5 (expression -> expression DIFFERENT expression .)
+    CPAREN          reduce using rule 5 (expression -> expression DIFFERENT expression .)
+    NUF             reduce using rule 5 (expression -> expression DIFFERENT expression .)
+    PIPE            reduce using rule 5 (expression -> expression DIFFERENT expression .)
+    ELSE            reduce using rule 5 (expression -> expression DIFFERENT expression .)
+    IN              reduce using rule 5 (expression -> expression DIFFERENT expression .)
+    FI              reduce using rule 5 (expression -> expression DIFFERENT expression .)
+    TEL             reduce using rule 5 (expression -> expression DIFFERENT expression .)
+    PLUS            shift and go to state 39
+    TIMES           shift and go to state 36
+    MINUS           shift and go to state 41
+    DIVIDED         shift and go to state 33
+    DCOLON          shift and go to state 40
+
+  ! PLUS            [ reduce using rule 5 (expression -> expression DIFFERENT expression .) ]
+  ! TIMES           [ reduce using rule 5 (expression -> expression DIFFERENT expression .) ]
+  ! MINUS           [ reduce using rule 5 (expression -> expression DIFFERENT expression .) ]
+  ! DIVIDED         [ reduce using rule 5 (expression -> expression DIFFERENT expression .) ]
+  ! DCOLON          [ reduce using rule 5 (expression -> expression DIFFERENT expression .) ]
+  ! DIFFERENT       [ shift and go to state 31 ]
+  ! EQUAL           [ shift and go to state 35 ]
+  ! LESSEREQ        [ shift and go to state 34 ]
+  ! GREATEREQ       [ shift and go to state 38 ]
+  ! LESSER          [ shift and go to state 37 ]
+  ! GREATER         [ shift and go to state 32 ]
+  ! OR              [ shift and go to state 42 ]
+  ! AND             [ shift and go to state 30 ]
+
+
+state 54
+
+    (10) expression -> expression GREATER expression .
+    (1) expression -> expression . PLUS expression
+    (2) expression -> expression . TIMES expression
+    (3) expression -> expression . MINUS expression
+    (4) expression -> expression . DIVIDED expression
+    (5) expression -> expression . DIFFERENT expression
+    (6) expression -> expression . EQUAL expression
+    (7) expression -> expression . LESSEREQ expression
+    (8) expression -> expression . GREATEREQ expression
+    (9) expression -> expression . LESSER expression
+    (10) expression -> expression . GREATER expression
+    (12) expression -> expression . OR expression
+    (13) expression -> expression . AND expression
+    (15) expression -> expression . DCOLON expression
+
+    DIFFERENT       reduce using rule 10 (expression -> expression GREATER expression .)
+    EQUAL           reduce using rule 10 (expression -> expression GREATER expression .)
+    LESSEREQ        reduce using rule 10 (expression -> expression GREATER expression .)
+    GREATEREQ       reduce using rule 10 (expression -> expression GREATER expression .)
+    LESSER          reduce using rule 10 (expression -> expression GREATER expression .)
+    GREATER         reduce using rule 10 (expression -> expression GREATER expression .)
+    OR              reduce using rule 10 (expression -> expression GREATER expression .)
+    AND             reduce using rule 10 (expression -> expression GREATER expression .)
+    $end            reduce using rule 10 (expression -> expression GREATER expression .)
+    THEN            reduce using rule 10 (expression -> expression GREATER expression .)
+    CPAREN          reduce using rule 10 (expression -> expression GREATER expression .)
+    NUF             reduce using rule 10 (expression -> expression GREATER expression .)
+    PIPE            reduce using rule 10 (expression -> expression GREATER expression .)
+    ELSE            reduce using rule 10 (expression -> expression GREATER expression .)
+    IN              reduce using rule 10 (expression -> expression GREATER expression .)
+    FI              reduce using rule 10 (expression -> expression GREATER expression .)
+    TEL             reduce using rule 10 (expression -> expression GREATER expression .)
+    PLUS            shift and go to state 39
+    TIMES           shift and go to state 36
+    MINUS           shift and go to state 41
+    DIVIDED         shift and go to state 33
+    DCOLON          shift and go to state 40
+
+  ! PLUS            [ reduce using rule 10 (expression -> expression GREATER expression .) ]
+  ! TIMES           [ reduce using rule 10 (expression -> expression GREATER expression .) ]
+  ! MINUS           [ reduce using rule 10 (expression -> expression GREATER expression .) ]
+  ! DIVIDED         [ reduce using rule 10 (expression -> expression GREATER expression .) ]
+  ! DCOLON          [ reduce using rule 10 (expression -> expression GREATER expression .) ]
+  ! DIFFERENT       [ shift and go to state 31 ]
+  ! EQUAL           [ shift and go to state 35 ]
+  ! LESSEREQ        [ shift and go to state 34 ]
+  ! GREATEREQ       [ shift and go to state 38 ]
+  ! LESSER          [ shift and go to state 37 ]
+  ! GREATER         [ shift and go to state 32 ]
+  ! OR              [ shift and go to state 42 ]
+  ! AND             [ shift and go to state 30 ]
+
+
+state 55
+
+    (4) expression -> expression DIVIDED expression .
+    (1) expression -> expression . PLUS expression
+    (2) expression -> expression . TIMES expression
+    (3) expression -> expression . MINUS expression
+    (4) expression -> expression . DIVIDED expression
+    (5) expression -> expression . DIFFERENT expression
+    (6) expression -> expression . EQUAL expression
+    (7) expression -> expression . LESSEREQ expression
+    (8) expression -> expression . GREATEREQ expression
+    (9) expression -> expression . LESSER expression
+    (10) expression -> expression . GREATER expression
+    (12) expression -> expression . OR expression
+    (13) expression -> expression . AND expression
+    (15) expression -> expression . DCOLON expression
+
+    PLUS            reduce using rule 4 (expression -> expression DIVIDED expression .)
+    TIMES           reduce using rule 4 (expression -> expression DIVIDED expression .)
+    MINUS           reduce using rule 4 (expression -> expression DIVIDED expression .)
+    DIVIDED         reduce using rule 4 (expression -> expression DIVIDED expression .)
+    DIFFERENT       reduce using rule 4 (expression -> expression DIVIDED expression .)
+    EQUAL           reduce using rule 4 (expression -> expression DIVIDED expression .)
+    LESSEREQ        reduce using rule 4 (expression -> expression DIVIDED expression .)
+    GREATEREQ       reduce using rule 4 (expression -> expression DIVIDED expression .)
+    LESSER          reduce using rule 4 (expression -> expression DIVIDED expression .)
+    GREATER         reduce using rule 4 (expression -> expression DIVIDED expression .)
+    OR              reduce using rule 4 (expression -> expression DIVIDED expression .)
+    AND             reduce using rule 4 (expression -> expression DIVIDED expression .)
+    $end            reduce using rule 4 (expression -> expression DIVIDED expression .)
+    THEN            reduce using rule 4 (expression -> expression DIVIDED expression .)
+    CPAREN          reduce using rule 4 (expression -> expression DIVIDED expression .)
+    NUF             reduce using rule 4 (expression -> expression DIVIDED expression .)
+    PIPE            reduce using rule 4 (expression -> expression DIVIDED expression .)
+    ELSE            reduce using rule 4 (expression -> expression DIVIDED expression .)
+    IN              reduce using rule 4 (expression -> expression DIVIDED expression .)
+    FI              reduce using rule 4 (expression -> expression DIVIDED expression .)
+    TEL             reduce using rule 4 (expression -> expression DIVIDED expression .)
+    DCOLON          shift and go to state 40
+
+  ! DCOLON          [ reduce using rule 4 (expression -> expression DIVIDED expression .) ]
+  ! PLUS            [ shift and go to state 39 ]
+  ! TIMES           [ shift and go to state 36 ]
+  ! MINUS           [ shift and go to state 41 ]
+  ! DIVIDED         [ shift and go to state 33 ]
+  ! DIFFERENT       [ shift and go to state 31 ]
+  ! EQUAL           [ shift and go to state 35 ]
+  ! LESSEREQ        [ shift and go to state 34 ]
+  ! GREATEREQ       [ shift and go to state 38 ]
+  ! LESSER          [ shift and go to state 37 ]
+  ! GREATER         [ shift and go to state 32 ]
+  ! OR              [ shift and go to state 42 ]
+  ! AND             [ shift and go to state 30 ]
+
+
+state 56
+
+    (7) expression -> expression LESSEREQ expression .
+    (1) expression -> expression . PLUS expression
+    (2) expression -> expression . TIMES expression
+    (3) expression -> expression . MINUS expression
+    (4) expression -> expression . DIVIDED expression
+    (5) expression -> expression . DIFFERENT expression
+    (6) expression -> expression . EQUAL expression
+    (7) expression -> expression . LESSEREQ expression
+    (8) expression -> expression . GREATEREQ expression
+    (9) expression -> expression . LESSER expression
+    (10) expression -> expression . GREATER expression
+    (12) expression -> expression . OR expression
+    (13) expression -> expression . AND expression
+    (15) expression -> expression . DCOLON expression
+
+    DIFFERENT       reduce using rule 7 (expression -> expression LESSEREQ expression .)
+    EQUAL           reduce using rule 7 (expression -> expression LESSEREQ expression .)
+    LESSEREQ        reduce using rule 7 (expression -> expression LESSEREQ expression .)
+    GREATEREQ       reduce using rule 7 (expression -> expression LESSEREQ expression .)
+    LESSER          reduce using rule 7 (expression -> expression LESSEREQ expression .)
+    GREATER         reduce using rule 7 (expression -> expression LESSEREQ expression .)
+    OR              reduce using rule 7 (expression -> expression LESSEREQ expression .)
+    AND             reduce using rule 7 (expression -> expression LESSEREQ expression .)
+    $end            reduce using rule 7 (expression -> expression LESSEREQ expression .)
+    THEN            reduce using rule 7 (expression -> expression LESSEREQ expression .)
+    CPAREN          reduce using rule 7 (expression -> expression LESSEREQ expression .)
+    NUF             reduce using rule 7 (expression -> expression LESSEREQ expression .)
+    PIPE            reduce using rule 7 (expression -> expression LESSEREQ expression .)
+    ELSE            reduce using rule 7 (expression -> expression LESSEREQ expression .)
+    IN              reduce using rule 7 (expression -> expression LESSEREQ expression .)
+    FI              reduce using rule 7 (expression -> expression LESSEREQ expression .)
+    TEL             reduce using rule 7 (expression -> expression LESSEREQ expression .)
+    PLUS            shift and go to state 39
+    TIMES           shift and go to state 36
+    MINUS           shift and go to state 41
+    DIVIDED         shift and go to state 33
+    DCOLON          shift and go to state 40
+
+  ! PLUS            [ reduce using rule 7 (expression -> expression LESSEREQ expression .) ]
+  ! TIMES           [ reduce using rule 7 (expression -> expression LESSEREQ expression .) ]
+  ! MINUS           [ reduce using rule 7 (expression -> expression LESSEREQ expression .) ]
+  ! DIVIDED         [ reduce using rule 7 (expression -> expression LESSEREQ expression .) ]
+  ! DCOLON          [ reduce using rule 7 (expression -> expression LESSEREQ expression .) ]
+  ! DIFFERENT       [ shift and go to state 31 ]
+  ! EQUAL           [ shift and go to state 35 ]
+  ! LESSEREQ        [ shift and go to state 34 ]
+  ! GREATEREQ       [ shift and go to state 38 ]
+  ! LESSER          [ shift and go to state 37 ]
+  ! GREATER         [ shift and go to state 32 ]
+  ! OR              [ shift and go to state 42 ]
+  ! AND             [ shift and go to state 30 ]
+
+
+state 57
+
+    (6) expression -> expression EQUAL expression .
+    (1) expression -> expression . PLUS expression
+    (2) expression -> expression . TIMES expression
+    (3) expression -> expression . MINUS expression
+    (4) expression -> expression . DIVIDED expression
+    (5) expression -> expression . DIFFERENT expression
+    (6) expression -> expression . EQUAL expression
+    (7) expression -> expression . LESSEREQ expression
+    (8) expression -> expression . GREATEREQ expression
+    (9) expression -> expression . LESSER expression
+    (10) expression -> expression . GREATER expression
+    (12) expression -> expression . OR expression
+    (13) expression -> expression . AND expression
+    (15) expression -> expression . DCOLON expression
+
+    DIFFERENT       reduce using rule 6 (expression -> expression EQUAL expression .)
+    EQUAL           reduce using rule 6 (expression -> expression EQUAL expression .)
+    LESSEREQ        reduce using rule 6 (expression -> expression EQUAL expression .)
+    GREATEREQ       reduce using rule 6 (expression -> expression EQUAL expression .)
+    LESSER          reduce using rule 6 (expression -> expression EQUAL expression .)
+    GREATER         reduce using rule 6 (expression -> expression EQUAL expression .)
+    OR              reduce using rule 6 (expression -> expression EQUAL expression .)
+    AND             reduce using rule 6 (expression -> expression EQUAL expression .)
+    $end            reduce using rule 6 (expression -> expression EQUAL expression .)
+    THEN            reduce using rule 6 (expression -> expression EQUAL expression .)
+    CPAREN          reduce using rule 6 (expression -> expression EQUAL expression .)
+    NUF             reduce using rule 6 (expression -> expression EQUAL expression .)
+    PIPE            reduce using rule 6 (expression -> expression EQUAL expression .)
+    ELSE            reduce using rule 6 (expression -> expression EQUAL expression .)
+    IN              reduce using rule 6 (expression -> expression EQUAL expression .)
+    FI              reduce using rule 6 (expression -> expression EQUAL expression .)
+    TEL             reduce using rule 6 (expression -> expression EQUAL expression .)
+    PLUS            shift and go to state 39
+    TIMES           shift and go to state 36
+    MINUS           shift and go to state 41
+    DIVIDED         shift and go to state 33
+    DCOLON          shift and go to state 40
+
+  ! PLUS            [ reduce using rule 6 (expression -> expression EQUAL expression .) ]
+  ! TIMES           [ reduce using rule 6 (expression -> expression EQUAL expression .) ]
+  ! MINUS           [ reduce using rule 6 (expression -> expression EQUAL expression .) ]
+  ! DIVIDED         [ reduce using rule 6 (expression -> expression EQUAL expression .) ]
+  ! DCOLON          [ reduce using rule 6 (expression -> expression EQUAL expression .) ]
+  ! DIFFERENT       [ shift and go to state 31 ]
+  ! EQUAL           [ shift and go to state 35 ]
+  ! LESSEREQ        [ shift and go to state 34 ]
+  ! GREATEREQ       [ shift and go to state 38 ]
+  ! LESSER          [ shift and go to state 37 ]
+  ! GREATER         [ shift and go to state 32 ]
+  ! OR              [ shift and go to state 42 ]
+  ! AND             [ shift and go to state 30 ]
+
+
+state 58
+
+    (2) expression -> expression TIMES expression .
+    (1) expression -> expression . PLUS expression
+    (2) expression -> expression . TIMES expression
+    (3) expression -> expression . MINUS expression
+    (4) expression -> expression . DIVIDED expression
+    (5) expression -> expression . DIFFERENT expression
+    (6) expression -> expression . EQUAL expression
+    (7) expression -> expression . LESSEREQ expression
+    (8) expression -> expression . GREATEREQ expression
+    (9) expression -> expression . LESSER expression
+    (10) expression -> expression . GREATER expression
+    (12) expression -> expression . OR expression
+    (13) expression -> expression . AND expression
+    (15) expression -> expression . DCOLON expression
+
+    PLUS            reduce using rule 2 (expression -> expression TIMES expression .)
+    TIMES           reduce using rule 2 (expression -> expression TIMES expression .)
+    MINUS           reduce using rule 2 (expression -> expression TIMES expression .)
+    DIVIDED         reduce using rule 2 (expression -> expression TIMES expression .)
+    DIFFERENT       reduce using rule 2 (expression -> expression TIMES expression .)
+    EQUAL           reduce using rule 2 (expression -> expression TIMES expression .)
+    LESSEREQ        reduce using rule 2 (expression -> expression TIMES expression .)
+    GREATEREQ       reduce using rule 2 (expression -> expression TIMES expression .)
+    LESSER          reduce using rule 2 (expression -> expression TIMES expression .)
+    GREATER         reduce using rule 2 (expression -> expression TIMES expression .)
+    OR              reduce using rule 2 (expression -> expression TIMES expression .)
+    AND             reduce using rule 2 (expression -> expression TIMES expression .)
+    $end            reduce using rule 2 (expression -> expression TIMES expression .)
+    THEN            reduce using rule 2 (expression -> expression TIMES expression .)
+    CPAREN          reduce using rule 2 (expression -> expression TIMES expression .)
+    NUF             reduce using rule 2 (expression -> expression TIMES expression .)
+    PIPE            reduce using rule 2 (expression -> expression TIMES expression .)
+    ELSE            reduce using rule 2 (expression -> expression TIMES expression .)
+    IN              reduce using rule 2 (expression -> expression TIMES expression .)
+    FI              reduce using rule 2 (expression -> expression TIMES expression .)
+    TEL             reduce using rule 2 (expression -> expression TIMES expression .)
+    DCOLON          shift and go to state 40
+
+  ! DCOLON          [ reduce using rule 2 (expression -> expression TIMES expression .) ]
+  ! PLUS            [ shift and go to state 39 ]
+  ! TIMES           [ shift and go to state 36 ]
+  ! MINUS           [ shift and go to state 41 ]
+  ! DIVIDED         [ shift and go to state 33 ]
+  ! DIFFERENT       [ shift and go to state 31 ]
+  ! EQUAL           [ shift and go to state 35 ]
+  ! LESSEREQ        [ shift and go to state 34 ]
+  ! GREATEREQ       [ shift and go to state 38 ]
+  ! LESSER          [ shift and go to state 37 ]
+  ! GREATER         [ shift and go to state 32 ]
+  ! OR              [ shift and go to state 42 ]
+  ! AND             [ shift and go to state 30 ]
+
+
+state 59
+
+    (9) expression -> expression LESSER expression .
+    (1) expression -> expression . PLUS expression
+    (2) expression -> expression . TIMES expression
+    (3) expression -> expression . MINUS expression
+    (4) expression -> expression . DIVIDED expression
+    (5) expression -> expression . DIFFERENT expression
+    (6) expression -> expression . EQUAL expression
+    (7) expression -> expression . LESSEREQ expression
+    (8) expression -> expression . GREATEREQ expression
+    (9) expression -> expression . LESSER expression
+    (10) expression -> expression . GREATER expression
+    (12) expression -> expression . OR expression
+    (13) expression -> expression . AND expression
+    (15) expression -> expression . DCOLON expression
+
+    DIFFERENT       reduce using rule 9 (expression -> expression LESSER expression .)
+    EQUAL           reduce using rule 9 (expression -> expression LESSER expression .)
+    LESSEREQ        reduce using rule 9 (expression -> expression LESSER expression .)
+    GREATEREQ       reduce using rule 9 (expression -> expression LESSER expression .)
+    LESSER          reduce using rule 9 (expression -> expression LESSER expression .)
+    GREATER         reduce using rule 9 (expression -> expression LESSER expression .)
+    OR              reduce using rule 9 (expression -> expression LESSER expression .)
+    AND             reduce using rule 9 (expression -> expression LESSER expression .)
+    $end            reduce using rule 9 (expression -> expression LESSER expression .)
+    THEN            reduce using rule 9 (expression -> expression LESSER expression .)
+    CPAREN          reduce using rule 9 (expression -> expression LESSER expression .)
+    NUF             reduce using rule 9 (expression -> expression LESSER expression .)
+    PIPE            reduce using rule 9 (expression -> expression LESSER expression .)
+    ELSE            reduce using rule 9 (expression -> expression LESSER expression .)
+    IN              reduce using rule 9 (expression -> expression LESSER expression .)
+    FI              reduce using rule 9 (expression -> expression LESSER expression .)
+    TEL             reduce using rule 9 (expression -> expression LESSER expression .)
+    PLUS            shift and go to state 39
+    TIMES           shift and go to state 36
+    MINUS           shift and go to state 41
+    DIVIDED         shift and go to state 33
+    DCOLON          shift and go to state 40
+
+  ! PLUS            [ reduce using rule 9 (expression -> expression LESSER expression .) ]
+  ! TIMES           [ reduce using rule 9 (expression -> expression LESSER expression .) ]
+  ! MINUS           [ reduce using rule 9 (expression -> expression LESSER expression .) ]
+  ! DIVIDED         [ reduce using rule 9 (expression -> expression LESSER expression .) ]
+  ! DCOLON          [ reduce using rule 9 (expression -> expression LESSER expression .) ]
+  ! DIFFERENT       [ shift and go to state 31 ]
+  ! EQUAL           [ shift and go to state 35 ]
+  ! LESSEREQ        [ shift and go to state 34 ]
+  ! GREATEREQ       [ shift and go to state 38 ]
+  ! LESSER          [ shift and go to state 37 ]
+  ! GREATER         [ shift and go to state 32 ]
+  ! OR              [ shift and go to state 42 ]
+  ! AND             [ shift and go to state 30 ]
+
+
+state 60
+
+    (8) expression -> expression GREATEREQ expression .
+    (1) expression -> expression . PLUS expression
+    (2) expression -> expression . TIMES expression
+    (3) expression -> expression . MINUS expression
+    (4) expression -> expression . DIVIDED expression
+    (5) expression -> expression . DIFFERENT expression
+    (6) expression -> expression . EQUAL expression
+    (7) expression -> expression . LESSEREQ expression
+    (8) expression -> expression . GREATEREQ expression
+    (9) expression -> expression . LESSER expression
+    (10) expression -> expression . GREATER expression
+    (12) expression -> expression . OR expression
+    (13) expression -> expression . AND expression
+    (15) expression -> expression . DCOLON expression
+
+    DIFFERENT       reduce using rule 8 (expression -> expression GREATEREQ expression .)
+    EQUAL           reduce using rule 8 (expression -> expression GREATEREQ expression .)
+    LESSEREQ        reduce using rule 8 (expression -> expression GREATEREQ expression .)
+    GREATEREQ       reduce using rule 8 (expression -> expression GREATEREQ expression .)
+    LESSER          reduce using rule 8 (expression -> expression GREATEREQ expression .)
+    GREATER         reduce using rule 8 (expression -> expression GREATEREQ expression .)
+    OR              reduce using rule 8 (expression -> expression GREATEREQ expression .)
+    AND             reduce using rule 8 (expression -> expression GREATEREQ expression .)
+    $end            reduce using rule 8 (expression -> expression GREATEREQ expression .)
+    THEN            reduce using rule 8 (expression -> expression GREATEREQ expression .)
+    CPAREN          reduce using rule 8 (expression -> expression GREATEREQ expression .)
+    NUF             reduce using rule 8 (expression -> expression GREATEREQ expression .)
+    PIPE            reduce using rule 8 (expression -> expression GREATEREQ expression .)
+    ELSE            reduce using rule 8 (expression -> expression GREATEREQ expression .)
+    IN              reduce using rule 8 (expression -> expression GREATEREQ expression .)
+    FI              reduce using rule 8 (expression -> expression GREATEREQ expression .)
+    TEL             reduce using rule 8 (expression -> expression GREATEREQ expression .)
+    PLUS            shift and go to state 39
+    TIMES           shift and go to state 36
+    MINUS           shift and go to state 41
+    DIVIDED         shift and go to state 33
+    DCOLON          shift and go to state 40
+
+  ! PLUS            [ reduce using rule 8 (expression -> expression GREATEREQ expression .) ]
+  ! TIMES           [ reduce using rule 8 (expression -> expression GREATEREQ expression .) ]
+  ! MINUS           [ reduce using rule 8 (expression -> expression GREATEREQ expression .) ]
+  ! DIVIDED         [ reduce using rule 8 (expression -> expression GREATEREQ expression .) ]
+  ! DCOLON          [ reduce using rule 8 (expression -> expression GREATEREQ expression .) ]
+  ! DIFFERENT       [ shift and go to state 31 ]
+  ! EQUAL           [ shift and go to state 35 ]
+  ! LESSEREQ        [ shift and go to state 34 ]
+  ! GREATEREQ       [ shift and go to state 38 ]
+  ! LESSER          [ shift and go to state 37 ]
+  ! GREATER         [ shift and go to state 32 ]
+  ! OR              [ shift and go to state 42 ]
+  ! AND             [ shift and go to state 30 ]
+
+
+state 61
+
+    (1) expression -> expression PLUS expression .
+    (1) expression -> expression . PLUS expression
+    (2) expression -> expression . TIMES expression
+    (3) expression -> expression . MINUS expression
+    (4) expression -> expression . DIVIDED expression
+    (5) expression -> expression . DIFFERENT expression
+    (6) expression -> expression . EQUAL expression
+    (7) expression -> expression . LESSEREQ expression
+    (8) expression -> expression . GREATEREQ expression
+    (9) expression -> expression . LESSER expression
+    (10) expression -> expression . GREATER expression
+    (12) expression -> expression . OR expression
+    (13) expression -> expression . AND expression
+    (15) expression -> expression . DCOLON expression
+
+    PLUS            reduce using rule 1 (expression -> expression PLUS expression .)
+    MINUS           reduce using rule 1 (expression -> expression PLUS expression .)
+    DIFFERENT       reduce using rule 1 (expression -> expression PLUS expression .)
+    EQUAL           reduce using rule 1 (expression -> expression PLUS expression .)
+    LESSEREQ        reduce using rule 1 (expression -> expression PLUS expression .)
+    GREATEREQ       reduce using rule 1 (expression -> expression PLUS expression .)
+    LESSER          reduce using rule 1 (expression -> expression PLUS expression .)
+    GREATER         reduce using rule 1 (expression -> expression PLUS expression .)
+    OR              reduce using rule 1 (expression -> expression PLUS expression .)
+    AND             reduce using rule 1 (expression -> expression PLUS expression .)
+    $end            reduce using rule 1 (expression -> expression PLUS expression .)
+    THEN            reduce using rule 1 (expression -> expression PLUS expression .)
+    CPAREN          reduce using rule 1 (expression -> expression PLUS expression .)
+    NUF             reduce using rule 1 (expression -> expression PLUS expression .)
+    PIPE            reduce using rule 1 (expression -> expression PLUS expression .)
+    ELSE            reduce using rule 1 (expression -> expression PLUS expression .)
+    IN              reduce using rule 1 (expression -> expression PLUS expression .)
+    FI              reduce using rule 1 (expression -> expression PLUS expression .)
+    TEL             reduce using rule 1 (expression -> expression PLUS expression .)
+    TIMES           shift and go to state 36
+    DIVIDED         shift and go to state 33
+    DCOLON          shift and go to state 40
+
+  ! TIMES           [ reduce using rule 1 (expression -> expression PLUS expression .) ]
+  ! DIVIDED         [ reduce using rule 1 (expression -> expression PLUS expression .) ]
+  ! DCOLON          [ reduce using rule 1 (expression -> expression PLUS expression .) ]
+  ! PLUS            [ shift and go to state 39 ]
+  ! MINUS           [ shift and go to state 41 ]
+  ! DIFFERENT       [ shift and go to state 31 ]
+  ! EQUAL           [ shift and go to state 35 ]
+  ! LESSEREQ        [ shift and go to state 34 ]
+  ! GREATEREQ       [ shift and go to state 38 ]
+  ! LESSER          [ shift and go to state 37 ]
+  ! GREATER         [ shift and go to state 32 ]
+  ! OR              [ shift and go to state 42 ]
+  ! AND             [ shift and go to state 30 ]
+
+
+state 62
+
+    (15) expression -> expression DCOLON expression .
+    (1) expression -> expression . PLUS expression
+    (2) expression -> expression . TIMES expression
+    (3) expression -> expression . MINUS expression
+    (4) expression -> expression . DIVIDED expression
+    (5) expression -> expression . DIFFERENT expression
+    (6) expression -> expression . EQUAL expression
+    (7) expression -> expression . LESSEREQ expression
+    (8) expression -> expression . GREATEREQ expression
+    (9) expression -> expression . LESSER expression
+    (10) expression -> expression . GREATER expression
+    (12) expression -> expression . OR expression
+    (13) expression -> expression . AND expression
+    (15) expression -> expression . DCOLON expression
+
+    PLUS            reduce using rule 15 (expression -> expression DCOLON expression .)
+    TIMES           reduce using rule 15 (expression -> expression DCOLON expression .)
+    MINUS           reduce using rule 15 (expression -> expression DCOLON expression .)
+    DIVIDED         reduce using rule 15 (expression -> expression DCOLON expression .)
+    DIFFERENT       reduce using rule 15 (expression -> expression DCOLON expression .)
+    EQUAL           reduce using rule 15 (expression -> expression DCOLON expression .)
+    LESSEREQ        reduce using rule 15 (expression -> expression DCOLON expression .)
+    GREATEREQ       reduce using rule 15 (expression -> expression DCOLON expression .)
+    LESSER          reduce using rule 15 (expression -> expression DCOLON expression .)
+    GREATER         reduce using rule 15 (expression -> expression DCOLON expression .)
+    OR              reduce using rule 15 (expression -> expression DCOLON expression .)
+    AND             reduce using rule 15 (expression -> expression DCOLON expression .)
+    $end            reduce using rule 15 (expression -> expression DCOLON expression .)
+    THEN            reduce using rule 15 (expression -> expression DCOLON expression .)
+    CPAREN          reduce using rule 15 (expression -> expression DCOLON expression .)
+    NUF             reduce using rule 15 (expression -> expression DCOLON expression .)
+    PIPE            reduce using rule 15 (expression -> expression DCOLON expression .)
+    ELSE            reduce using rule 15 (expression -> expression DCOLON expression .)
+    IN              reduce using rule 15 (expression -> expression DCOLON expression .)
+    FI              reduce using rule 15 (expression -> expression DCOLON expression .)
+    TEL             reduce using rule 15 (expression -> expression DCOLON expression .)
+    DCOLON          shift and go to state 40
+
+  ! DCOLON          [ reduce using rule 15 (expression -> expression DCOLON expression .) ]
+  ! PLUS            [ shift and go to state 39 ]
+  ! TIMES           [ shift and go to state 36 ]
+  ! MINUS           [ shift and go to state 41 ]
+  ! DIVIDED         [ shift and go to state 33 ]
+  ! DIFFERENT       [ shift and go to state 31 ]
+  ! EQUAL           [ shift and go to state 35 ]
+  ! LESSEREQ        [ shift and go to state 34 ]
+  ! GREATEREQ       [ shift and go to state 38 ]
+  ! LESSER          [ shift and go to state 37 ]
+  ! GREATER         [ shift and go to state 32 ]
+  ! OR              [ shift and go to state 42 ]
+  ! AND             [ shift and go to state 30 ]
+
+
+state 63
+
+    (3) expression -> expression MINUS expression .
+    (1) expression -> expression . PLUS expression
+    (2) expression -> expression . TIMES expression
+    (3) expression -> expression . MINUS expression
+    (4) expression -> expression . DIVIDED expression
+    (5) expression -> expression . DIFFERENT expression
+    (6) expression -> expression . EQUAL expression
+    (7) expression -> expression . LESSEREQ expression
+    (8) expression -> expression . GREATEREQ expression
+    (9) expression -> expression . LESSER expression
+    (10) expression -> expression . GREATER expression
+    (12) expression -> expression . OR expression
+    (13) expression -> expression . AND expression
+    (15) expression -> expression . DCOLON expression
+
+    PLUS            reduce using rule 3 (expression -> expression MINUS expression .)
+    MINUS           reduce using rule 3 (expression -> expression MINUS expression .)
+    DIFFERENT       reduce using rule 3 (expression -> expression MINUS expression .)
+    EQUAL           reduce using rule 3 (expression -> expression MINUS expression .)
+    LESSEREQ        reduce using rule 3 (expression -> expression MINUS expression .)
+    GREATEREQ       reduce using rule 3 (expression -> expression MINUS expression .)
+    LESSER          reduce using rule 3 (expression -> expression MINUS expression .)
+    GREATER         reduce using rule 3 (expression -> expression MINUS expression .)
+    OR              reduce using rule 3 (expression -> expression MINUS expression .)
+    AND             reduce using rule 3 (expression -> expression MINUS expression .)
+    $end            reduce using rule 3 (expression -> expression MINUS expression .)
+    THEN            reduce using rule 3 (expression -> expression MINUS expression .)
+    CPAREN          reduce using rule 3 (expression -> expression MINUS expression .)
+    NUF             reduce using rule 3 (expression -> expression MINUS expression .)
+    PIPE            reduce using rule 3 (expression -> expression MINUS expression .)
+    ELSE            reduce using rule 3 (expression -> expression MINUS expression .)
+    IN              reduce using rule 3 (expression -> expression MINUS expression .)
+    FI              reduce using rule 3 (expression -> expression MINUS expression .)
+    TEL             reduce using rule 3 (expression -> expression MINUS expression .)
+    TIMES           shift and go to state 36
+    DIVIDED         shift and go to state 33
+    DCOLON          shift and go to state 40
+
+  ! TIMES           [ reduce using rule 3 (expression -> expression MINUS expression .) ]
+  ! DIVIDED         [ reduce using rule 3 (expression -> expression MINUS expression .) ]
+  ! DCOLON          [ reduce using rule 3 (expression -> expression MINUS expression .) ]
+  ! PLUS            [ shift and go to state 39 ]
+  ! MINUS           [ shift and go to state 41 ]
+  ! DIFFERENT       [ shift and go to state 31 ]
+  ! EQUAL           [ shift and go to state 35 ]
+  ! LESSEREQ        [ shift and go to state 34 ]
+  ! GREATEREQ       [ shift and go to state 38 ]
+  ! LESSER          [ shift and go to state 37 ]
+  ! GREATER         [ shift and go to state 32 ]
+  ! OR              [ shift and go to state 42 ]
+  ! AND             [ shift and go to state 30 ]
+
+
+state 64
+
+    (12) expression -> expression OR expression .
+    (1) expression -> expression . PLUS expression
+    (2) expression -> expression . TIMES expression
+    (3) expression -> expression . MINUS expression
+    (4) expression -> expression . DIVIDED expression
+    (5) expression -> expression . DIFFERENT expression
+    (6) expression -> expression . EQUAL expression
+    (7) expression -> expression . LESSEREQ expression
+    (8) expression -> expression . GREATEREQ expression
+    (9) expression -> expression . LESSER expression
+    (10) expression -> expression . GREATER expression
+    (12) expression -> expression . OR expression
+    (13) expression -> expression . AND expression
+    (15) expression -> expression . DCOLON expression
+
+    OR              reduce using rule 12 (expression -> expression OR expression .)
+    AND             reduce using rule 12 (expression -> expression OR expression .)
+    $end            reduce using rule 12 (expression -> expression OR expression .)
+    THEN            reduce using rule 12 (expression -> expression OR expression .)
+    CPAREN          reduce using rule 12 (expression -> expression OR expression .)
+    NUF             reduce using rule 12 (expression -> expression OR expression .)
+    PIPE            reduce using rule 12 (expression -> expression OR expression .)
+    ELSE            reduce using rule 12 (expression -> expression OR expression .)
+    IN              reduce using rule 12 (expression -> expression OR expression .)
+    FI              reduce using rule 12 (expression -> expression OR expression .)
+    TEL             reduce using rule 12 (expression -> expression OR expression .)
+    PLUS            shift and go to state 39
+    TIMES           shift and go to state 36
+    MINUS           shift and go to state 41
+    DIVIDED         shift and go to state 33
+    DIFFERENT       shift and go to state 31
+    EQUAL           shift and go to state 35
+    LESSEREQ        shift and go to state 34
+    GREATEREQ       shift and go to state 38
+    LESSER          shift and go to state 37
+    GREATER         shift and go to state 32
+    DCOLON          shift and go to state 40
+
+  ! PLUS            [ reduce using rule 12 (expression -> expression OR expression .) ]
+  ! TIMES           [ reduce using rule 12 (expression -> expression OR expression .) ]
+  ! MINUS           [ reduce using rule 12 (expression -> expression OR expression .) ]
+  ! DIVIDED         [ reduce using rule 12 (expression -> expression OR expression .) ]
+  ! DIFFERENT       [ reduce using rule 12 (expression -> expression OR expression .) ]
+  ! EQUAL           [ reduce using rule 12 (expression -> expression OR expression .) ]
+  ! LESSEREQ        [ reduce using rule 12 (expression -> expression OR expression .) ]
+  ! GREATEREQ       [ reduce using rule 12 (expression -> expression OR expression .) ]
+  ! LESSER          [ reduce using rule 12 (expression -> expression OR expression .) ]
+  ! GREATER         [ reduce using rule 12 (expression -> expression OR expression .) ]
+  ! DCOLON          [ reduce using rule 12 (expression -> expression OR expression .) ]
+  ! OR              [ shift and go to state 42 ]
+  ! AND             [ shift and go to state 30 ]
+
+
+state 65
+
+    (38) patron -> p DCOLON p .
+    (38) patron -> p . DCOLON p
+
+    EQUAL           reduce using rule 38 (patron -> p DCOLON p .)
+    ARROW           reduce using rule 38 (patron -> p DCOLON p .)
+    NUMBER          reduce using rule 38 (patron -> p DCOLON p .)
+    TRUE            reduce using rule 38 (patron -> p DCOLON p .)
+    FALSE           reduce using rule 38 (patron -> p DCOLON p .)
+    ID              reduce using rule 38 (patron -> p DCOLON p .)
+    OPAREN          reduce using rule 38 (patron -> p DCOLON p .)
+    OBRAKET         reduce using rule 38 (patron -> p DCOLON p .)
+    CPAREN          reduce using rule 38 (patron -> p DCOLON p .)
+    DCOLON          shift and go to state 43
+
+  ! DCOLON          [ reduce using rule 38 (patron -> p DCOLON p .) ]
+
+
+state 66
+
+    (18) expression -> FUN lista ARROW expression . NUF
+    (19) expression -> FUN lista ARROW expression . PIPE fun_rec
+    (1) expression -> expression . PLUS expression
+    (2) expression -> expression . TIMES expression
+    (3) expression -> expression . MINUS expression
+    (4) expression -> expression . DIVIDED expression
+    (5) expression -> expression . DIFFERENT expression
+    (6) expression -> expression . EQUAL expression
+    (7) expression -> expression . LESSEREQ expression
+    (8) expression -> expression . GREATEREQ expression
+    (9) expression -> expression . LESSER expression
+    (10) expression -> expression . GREATER expression
+    (12) expression -> expression . OR expression
+    (13) expression -> expression . AND expression
+    (15) expression -> expression . DCOLON expression
+
+    NUF             shift and go to state 71
+    PIPE            shift and go to state 70
+    PLUS            shift and go to state 39
+    TIMES           shift and go to state 36
+    MINUS           shift and go to state 41
+    DIVIDED         shift and go to state 33
+    DIFFERENT       shift and go to state 31
+    EQUAL           shift and go to state 35
+    LESSEREQ        shift and go to state 34
+    GREATEREQ       shift and go to state 38
+    LESSER          shift and go to state 37
+    GREATER         shift and go to state 32
+    OR              shift and go to state 42
+    AND             shift and go to state 30
+    DCOLON          shift and go to state 40
+
+
+state 67
+
+    (37) patron -> OPAREN patron CPAREN .
+
+    EQUAL           reduce using rule 37 (patron -> OPAREN patron CPAREN .)
+    DCOLON          reduce using rule 37 (patron -> OPAREN patron CPAREN .)
+    ARROW           reduce using rule 37 (patron -> OPAREN patron CPAREN .)
+    NUMBER          reduce using rule 37 (patron -> OPAREN patron CPAREN .)
+    TRUE            reduce using rule 37 (patron -> OPAREN patron CPAREN .)
+    FALSE           reduce using rule 37 (patron -> OPAREN patron CPAREN .)
+    ID              reduce using rule 37 (patron -> OPAREN patron CPAREN .)
+    OPAREN          reduce using rule 37 (patron -> OPAREN patron CPAREN .)
+    OBRAKET         reduce using rule 37 (patron -> OPAREN patron CPAREN .)
+    CPAREN          reduce using rule 37 (patron -> OPAREN patron CPAREN .)
+
+
+state 68
+
+    (16) expression -> IF expression THEN expression . ELSE expression FI
+    (1) expression -> expression . PLUS expression
+    (2) expression -> expression . TIMES expression
+    (3) expression -> expression . MINUS expression
+    (4) expression -> expression . DIVIDED expression
+    (5) expression -> expression . DIFFERENT expression
+    (6) expression -> expression . EQUAL expression
+    (7) expression -> expression . LESSEREQ expression
+    (8) expression -> expression . GREATEREQ expression
+    (9) expression -> expression . LESSER expression
+    (10) expression -> expression . GREATER expression
+    (12) expression -> expression . OR expression
+    (13) expression -> expression . AND expression
+    (15) expression -> expression . DCOLON expression
+
+    ELSE            shift and go to state 72
+    PLUS            shift and go to state 39
+    TIMES           shift and go to state 36
+    MINUS           shift and go to state 41
+    DIVIDED         shift and go to state 33
+    DIFFERENT       shift and go to state 31
+    EQUAL           shift and go to state 35
+    LESSEREQ        shift and go to state 34
+    GREATEREQ       shift and go to state 38
+    LESSER          shift and go to state 37
+    GREATER         shift and go to state 32
+    OR              shift and go to state 42
+    AND             shift and go to state 30
+    DCOLON          shift and go to state 40
+
+
+state 69
+
+    (17) expression -> LET p EQUAL expression . IN expression TEL
+    (1) expression -> expression . PLUS expression
+    (2) expression -> expression . TIMES expression
+    (3) expression -> expression . MINUS expression
+    (4) expression -> expression . DIVIDED expression
+    (5) expression -> expression . DIFFERENT expression
+    (6) expression -> expression . EQUAL expression
+    (7) expression -> expression . LESSEREQ expression
+    (8) expression -> expression . GREATEREQ expression
+    (9) expression -> expression . LESSER expression
+    (10) expression -> expression . GREATER expression
+    (12) expression -> expression . OR expression
+    (13) expression -> expression . AND expression
+    (15) expression -> expression . DCOLON expression
+
+    IN              shift and go to state 73
+    PLUS            shift and go to state 39
+    TIMES           shift and go to state 36
+    MINUS           shift and go to state 41
+    DIVIDED         shift and go to state 33
+    DIFFERENT       shift and go to state 31
+    EQUAL           shift and go to state 35
+    LESSEREQ        shift and go to state 34
+    GREATEREQ       shift and go to state 38
+    LESSER          shift and go to state 37
+    GREATER         shift and go to state 32
+    OR              shift and go to state 42
+    AND             shift and go to state 30
+    DCOLON          shift and go to state 40
+
+
+state 70
+
+    (19) expression -> FUN lista ARROW expression PIPE . fun_rec
+    (20) fun_rec -> . lista ARROW expression PIPE fun_rec
+    (21) fun_rec -> . lista ARROW expression NUF
+    (22) lista -> . lista p
+    (23) lista -> . p
+    (32) p -> . patron
+    (33) patron -> . NUMBER
+    (34) patron -> . TRUE
+    (35) patron -> . FALSE
+    (36) patron -> . ID
+    (37) patron -> . OPAREN patron CPAREN
+    (38) patron -> . p DCOLON p
+    (39) patron -> . OBRAKET CBRAKET
+
+    NUMBER          shift and go to state 18
+    TRUE            shift and go to state 22
+    FALSE           shift and go to state 14
+    ID              shift and go to state 21
+    OPAREN          shift and go to state 20
+    OBRAKET         shift and go to state 19
+
+    fun_rec                        shift and go to state 74
+    lista                          shift and go to state 75
+    patron                         shift and go to state 15
+    p                              shift and go to state 16
+
+state 71
+
+    (18) expression -> FUN lista ARROW expression NUF .
+
+    PLUS            reduce using rule 18 (expression -> FUN lista ARROW expression NUF .)
+    TIMES           reduce using rule 18 (expression -> FUN lista ARROW expression NUF .)
+    MINUS           reduce using rule 18 (expression -> FUN lista ARROW expression NUF .)
+    DIVIDED         reduce using rule 18 (expression -> FUN lista ARROW expression NUF .)
+    DIFFERENT       reduce using rule 18 (expression -> FUN lista ARROW expression NUF .)
+    EQUAL           reduce using rule 18 (expression -> FUN lista ARROW expression NUF .)
+    LESSEREQ        reduce using rule 18 (expression -> FUN lista ARROW expression NUF .)
+    GREATEREQ       reduce using rule 18 (expression -> FUN lista ARROW expression NUF .)
+    LESSER          reduce using rule 18 (expression -> FUN lista ARROW expression NUF .)
+    GREATER         reduce using rule 18 (expression -> FUN lista ARROW expression NUF .)
+    OR              reduce using rule 18 (expression -> FUN lista ARROW expression NUF .)
+    AND             reduce using rule 18 (expression -> FUN lista ARROW expression NUF .)
+    DCOLON          reduce using rule 18 (expression -> FUN lista ARROW expression NUF .)
+    $end            reduce using rule 18 (expression -> FUN lista ARROW expression NUF .)
+    THEN            reduce using rule 18 (expression -> FUN lista ARROW expression NUF .)
+    CPAREN          reduce using rule 18 (expression -> FUN lista ARROW expression NUF .)
+    NUF             reduce using rule 18 (expression -> FUN lista ARROW expression NUF .)
+    PIPE            reduce using rule 18 (expression -> FUN lista ARROW expression NUF .)
+    ELSE            reduce using rule 18 (expression -> FUN lista ARROW expression NUF .)
+    IN              reduce using rule 18 (expression -> FUN lista ARROW expression NUF .)
+    FI              reduce using rule 18 (expression -> FUN lista ARROW expression NUF .)
+    TEL             reduce using rule 18 (expression -> FUN lista ARROW expression NUF .)
+
+
+state 72
+
+    (16) expression -> IF expression THEN expression ELSE . expression FI
+    (1) expression -> . expression PLUS expression
+    (2) expression -> . expression TIMES expression
+    (3) expression -> . expression MINUS expression
+    (4) expression -> . expression DIVIDED expression
+    (5) expression -> . expression DIFFERENT expression
+    (6) expression -> . expression EQUAL expression
+    (7) expression -> . expression LESSEREQ expression
+    (8) expression -> . expression GREATEREQ expression
+    (9) expression -> . expression LESSER expression
+    (10) expression -> . expression GREATER expression
+    (11) expression -> . MINUS expression
+    (12) expression -> . expression OR expression
+    (13) expression -> . expression AND expression
+    (14) expression -> . NOT expression
+    (15) expression -> . expression DCOLON expression
+    (16) expression -> . IF expression THEN expression ELSE expression FI
+    (17) expression -> . LET p EQUAL expression IN expression TEL
+    (18) expression -> . FUN lista ARROW expression NUF
+    (19) expression -> . FUN lista ARROW expression PIPE fun_rec
+    (24) expression -> . e
+    (25) e -> . e e
+    (26) e -> . NUMBER
+    (27) e -> . ID
+    (28) e -> . OBRAKET CBRAKET
+    (29) e -> . TRUE
+    (30) e -> . FALSE
+    (31) e -> . OPAREN expression CPAREN
+
+    MINUS           shift and go to state 3
+    NOT             shift and go to state 12
+    IF              shift and go to state 8
+    LET             shift and go to state 10
+    FUN             shift and go to state 1
+    NUMBER          shift and go to state 5
+    ID              shift and go to state 7
+    OBRAKET         shift and go to state 4
+    TRUE            shift and go to state 2
+    FALSE           shift and go to state 6
+    OPAREN          shift and go to state 11
+
+    expression                     shift and go to state 76
+    e                              shift and go to state 9
+
+state 73
+
+    (17) expression -> LET p EQUAL expression IN . expression TEL
+    (1) expression -> . expression PLUS expression
+    (2) expression -> . expression TIMES expression
+    (3) expression -> . expression MINUS expression
+    (4) expression -> . expression DIVIDED expression
+    (5) expression -> . expression DIFFERENT expression
+    (6) expression -> . expression EQUAL expression
+    (7) expression -> . expression LESSEREQ expression
+    (8) expression -> . expression GREATEREQ expression
+    (9) expression -> . expression LESSER expression
+    (10) expression -> . expression GREATER expression
+    (11) expression -> . MINUS expression
+    (12) expression -> . expression OR expression
+    (13) expression -> . expression AND expression
+    (14) expression -> . NOT expression
+    (15) expression -> . expression DCOLON expression
+    (16) expression -> . IF expression THEN expression ELSE expression FI
+    (17) expression -> . LET p EQUAL expression IN expression TEL
+    (18) expression -> . FUN lista ARROW expression NUF
+    (19) expression -> . FUN lista ARROW expression PIPE fun_rec
+    (24) expression -> . e
+    (25) e -> . e e
+    (26) e -> . NUMBER
+    (27) e -> . ID
+    (28) e -> . OBRAKET CBRAKET
+    (29) e -> . TRUE
+    (30) e -> . FALSE
+    (31) e -> . OPAREN expression CPAREN
+
+    MINUS           shift and go to state 3
+    NOT             shift and go to state 12
+    IF              shift and go to state 8
+    LET             shift and go to state 10
+    FUN             shift and go to state 1
+    NUMBER          shift and go to state 5
+    ID              shift and go to state 7
+    OBRAKET         shift and go to state 4
+    TRUE            shift and go to state 2
+    FALSE           shift and go to state 6
+    OPAREN          shift and go to state 11
+
+    expression                     shift and go to state 77
+    e                              shift and go to state 9
+
+state 74
+
+    (19) expression -> FUN lista ARROW expression PIPE fun_rec .
+
+    PLUS            reduce using rule 19 (expression -> FUN lista ARROW expression PIPE fun_rec .)
+    TIMES           reduce using rule 19 (expression -> FUN lista ARROW expression PIPE fun_rec .)
+    MINUS           reduce using rule 19 (expression -> FUN lista ARROW expression PIPE fun_rec .)
+    DIVIDED         reduce using rule 19 (expression -> FUN lista ARROW expression PIPE fun_rec .)
+    DIFFERENT       reduce using rule 19 (expression -> FUN lista ARROW expression PIPE fun_rec .)
+    EQUAL           reduce using rule 19 (expression -> FUN lista ARROW expression PIPE fun_rec .)
+    LESSEREQ        reduce using rule 19 (expression -> FUN lista ARROW expression PIPE fun_rec .)
+    GREATEREQ       reduce using rule 19 (expression -> FUN lista ARROW expression PIPE fun_rec .)
+    LESSER          reduce using rule 19 (expression -> FUN lista ARROW expression PIPE fun_rec .)
+    GREATER         reduce using rule 19 (expression -> FUN lista ARROW expression PIPE fun_rec .)
+    OR              reduce using rule 19 (expression -> FUN lista ARROW expression PIPE fun_rec .)
+    AND             reduce using rule 19 (expression -> FUN lista ARROW expression PIPE fun_rec .)
+    DCOLON          reduce using rule 19 (expression -> FUN lista ARROW expression PIPE fun_rec .)
+    $end            reduce using rule 19 (expression -> FUN lista ARROW expression PIPE fun_rec .)
+    THEN            reduce using rule 19 (expression -> FUN lista ARROW expression PIPE fun_rec .)
+    CPAREN          reduce using rule 19 (expression -> FUN lista ARROW expression PIPE fun_rec .)
+    NUF             reduce using rule 19 (expression -> FUN lista ARROW expression PIPE fun_rec .)
+    PIPE            reduce using rule 19 (expression -> FUN lista ARROW expression PIPE fun_rec .)
+    ELSE            reduce using rule 19 (expression -> FUN lista ARROW expression PIPE fun_rec .)
+    IN              reduce using rule 19 (expression -> FUN lista ARROW expression PIPE fun_rec .)
+    FI              reduce using rule 19 (expression -> FUN lista ARROW expression PIPE fun_rec .)
+    TEL             reduce using rule 19 (expression -> FUN lista ARROW expression PIPE fun_rec .)
+
+
+state 75
+
+    (20) fun_rec -> lista . ARROW expression PIPE fun_rec
+    (21) fun_rec -> lista . ARROW expression NUF
+    (22) lista -> lista . p
+    (32) p -> . patron
+    (33) patron -> . NUMBER
+    (34) patron -> . TRUE
+    (35) patron -> . FALSE
+    (36) patron -> . ID
+    (37) patron -> . OPAREN patron CPAREN
+    (38) patron -> . p DCOLON p
+    (39) patron -> . OBRAKET CBRAKET
+
+    ARROW           shift and go to state 78
+    NUMBER          shift and go to state 18
+    TRUE            shift and go to state 22
+    FALSE           shift and go to state 14
+    ID              shift and go to state 21
+    OPAREN          shift and go to state 20
+    OBRAKET         shift and go to state 19
+
+    patron                         shift and go to state 15
+    p                              shift and go to state 44
+
+state 76
+
+    (16) expression -> IF expression THEN expression ELSE expression . FI
+    (1) expression -> expression . PLUS expression
+    (2) expression -> expression . TIMES expression
+    (3) expression -> expression . MINUS expression
+    (4) expression -> expression . DIVIDED expression
+    (5) expression -> expression . DIFFERENT expression
+    (6) expression -> expression . EQUAL expression
+    (7) expression -> expression . LESSEREQ expression
+    (8) expression -> expression . GREATEREQ expression
+    (9) expression -> expression . LESSER expression
+    (10) expression -> expression . GREATER expression
+    (12) expression -> expression . OR expression
+    (13) expression -> expression . AND expression
+    (15) expression -> expression . DCOLON expression
+
+    FI              shift and go to state 79
+    PLUS            shift and go to state 39
+    TIMES           shift and go to state 36
+    MINUS           shift and go to state 41
+    DIVIDED         shift and go to state 33
+    DIFFERENT       shift and go to state 31
+    EQUAL           shift and go to state 35
+    LESSEREQ        shift and go to state 34
+    GREATEREQ       shift and go to state 38
+    LESSER          shift and go to state 37
+    GREATER         shift and go to state 32
+    OR              shift and go to state 42
+    AND             shift and go to state 30
+    DCOLON          shift and go to state 40
+
+
+state 77
+
+    (17) expression -> LET p EQUAL expression IN expression . TEL
+    (1) expression -> expression . PLUS expression
+    (2) expression -> expression . TIMES expression
+    (3) expression -> expression . MINUS expression
+    (4) expression -> expression . DIVIDED expression
+    (5) expression -> expression . DIFFERENT expression
+    (6) expression -> expression . EQUAL expression
+    (7) expression -> expression . LESSEREQ expression
+    (8) expression -> expression . GREATEREQ expression
+    (9) expression -> expression . LESSER expression
+    (10) expression -> expression . GREATER expression
+    (12) expression -> expression . OR expression
+    (13) expression -> expression . AND expression
+    (15) expression -> expression . DCOLON expression
+
+    TEL             shift and go to state 80
+    PLUS            shift and go to state 39
+    TIMES           shift and go to state 36
+    MINUS           shift and go to state 41
+    DIVIDED         shift and go to state 33
+    DIFFERENT       shift and go to state 31
+    EQUAL           shift and go to state 35
+    LESSEREQ        shift and go to state 34
+    GREATEREQ       shift and go to state 38
+    LESSER          shift and go to state 37
+    GREATER         shift and go to state 32
+    OR              shift and go to state 42
+    AND             shift and go to state 30
+    DCOLON          shift and go to state 40
+
+
+state 78
+
+    (20) fun_rec -> lista ARROW . expression PIPE fun_rec
+    (21) fun_rec -> lista ARROW . expression NUF
+    (1) expression -> . expression PLUS expression
+    (2) expression -> . expression TIMES expression
+    (3) expression -> . expression MINUS expression
+    (4) expression -> . expression DIVIDED expression
+    (5) expression -> . expression DIFFERENT expression
+    (6) expression -> . expression EQUAL expression
+    (7) expression -> . expression LESSEREQ expression
+    (8) expression -> . expression GREATEREQ expression
+    (9) expression -> . expression LESSER expression
+    (10) expression -> . expression GREATER expression
+    (11) expression -> . MINUS expression
+    (12) expression -> . expression OR expression
+    (13) expression -> . expression AND expression
+    (14) expression -> . NOT expression
+    (15) expression -> . expression DCOLON expression
+    (16) expression -> . IF expression THEN expression ELSE expression FI
+    (17) expression -> . LET p EQUAL expression IN expression TEL
+    (18) expression -> . FUN lista ARROW expression NUF
+    (19) expression -> . FUN lista ARROW expression PIPE fun_rec
+    (24) expression -> . e
+    (25) e -> . e e
+    (26) e -> . NUMBER
+    (27) e -> . ID
+    (28) e -> . OBRAKET CBRAKET
+    (29) e -> . TRUE
+    (30) e -> . FALSE
+    (31) e -> . OPAREN expression CPAREN
+
+    MINUS           shift and go to state 3
+    NOT             shift and go to state 12
+    IF              shift and go to state 8
+    LET             shift and go to state 10
+    FUN             shift and go to state 1
+    NUMBER          shift and go to state 5
+    ID              shift and go to state 7
+    OBRAKET         shift and go to state 4
+    TRUE            shift and go to state 2
+    FALSE           shift and go to state 6
+    OPAREN          shift and go to state 11
+
+    expression                     shift and go to state 81
+    e                              shift and go to state 9
+
+state 79
+
+    (16) expression -> IF expression THEN expression ELSE expression FI .
+
+    PLUS            reduce using rule 16 (expression -> IF expression THEN expression ELSE expression FI .)
+    TIMES           reduce using rule 16 (expression -> IF expression THEN expression ELSE expression FI .)
+    MINUS           reduce using rule 16 (expression -> IF expression THEN expression ELSE expression FI .)
+    DIVIDED         reduce using rule 16 (expression -> IF expression THEN expression ELSE expression FI .)
+    DIFFERENT       reduce using rule 16 (expression -> IF expression THEN expression ELSE expression FI .)
+    EQUAL           reduce using rule 16 (expression -> IF expression THEN expression ELSE expression FI .)
+    LESSEREQ        reduce using rule 16 (expression -> IF expression THEN expression ELSE expression FI .)
+    GREATEREQ       reduce using rule 16 (expression -> IF expression THEN expression ELSE expression FI .)
+    LESSER          reduce using rule 16 (expression -> IF expression THEN expression ELSE expression FI .)
+    GREATER         reduce using rule 16 (expression -> IF expression THEN expression ELSE expression FI .)
+    OR              reduce using rule 16 (expression -> IF expression THEN expression ELSE expression FI .)
+    AND             reduce using rule 16 (expression -> IF expression THEN expression ELSE expression FI .)
+    DCOLON          reduce using rule 16 (expression -> IF expression THEN expression ELSE expression FI .)
+    $end            reduce using rule 16 (expression -> IF expression THEN expression ELSE expression FI .)
+    THEN            reduce using rule 16 (expression -> IF expression THEN expression ELSE expression FI .)
+    CPAREN          reduce using rule 16 (expression -> IF expression THEN expression ELSE expression FI .)
+    NUF             reduce using rule 16 (expression -> IF expression THEN expression ELSE expression FI .)
+    PIPE            reduce using rule 16 (expression -> IF expression THEN expression ELSE expression FI .)
+    ELSE            reduce using rule 16 (expression -> IF expression THEN expression ELSE expression FI .)
+    IN              reduce using rule 16 (expression -> IF expression THEN expression ELSE expression FI .)
+    FI              reduce using rule 16 (expression -> IF expression THEN expression ELSE expression FI .)
+    TEL             reduce using rule 16 (expression -> IF expression THEN expression ELSE expression FI .)
+
+
+state 80
+
+    (17) expression -> LET p EQUAL expression IN expression TEL .
+
+    PLUS            reduce using rule 17 (expression -> LET p EQUAL expression IN expression TEL .)
+    TIMES           reduce using rule 17 (expression -> LET p EQUAL expression IN expression TEL .)
+    MINUS           reduce using rule 17 (expression -> LET p EQUAL expression IN expression TEL .)
+    DIVIDED         reduce using rule 17 (expression -> LET p EQUAL expression IN expression TEL .)
+    DIFFERENT       reduce using rule 17 (expression -> LET p EQUAL expression IN expression TEL .)
+    EQUAL           reduce using rule 17 (expression -> LET p EQUAL expression IN expression TEL .)
+    LESSEREQ        reduce using rule 17 (expression -> LET p EQUAL expression IN expression TEL .)
+    GREATEREQ       reduce using rule 17 (expression -> LET p EQUAL expression IN expression TEL .)
+    LESSER          reduce using rule 17 (expression -> LET p EQUAL expression IN expression TEL .)
+    GREATER         reduce using rule 17 (expression -> LET p EQUAL expression IN expression TEL .)
+    OR              reduce using rule 17 (expression -> LET p EQUAL expression IN expression TEL .)
+    AND             reduce using rule 17 (expression -> LET p EQUAL expression IN expression TEL .)
+    DCOLON          reduce using rule 17 (expression -> LET p EQUAL expression IN expression TEL .)
+    $end            reduce using rule 17 (expression -> LET p EQUAL expression IN expression TEL .)
+    THEN            reduce using rule 17 (expression -> LET p EQUAL expression IN expression TEL .)
+    CPAREN          reduce using rule 17 (expression -> LET p EQUAL expression IN expression TEL .)
+    NUF             reduce using rule 17 (expression -> LET p EQUAL expression IN expression TEL .)
+    PIPE            reduce using rule 17 (expression -> LET p EQUAL expression IN expression TEL .)
+    ELSE            reduce using rule 17 (expression -> LET p EQUAL expression IN expression TEL .)
+    IN              reduce using rule 17 (expression -> LET p EQUAL expression IN expression TEL .)
+    FI              reduce using rule 17 (expression -> LET p EQUAL expression IN expression TEL .)
+    TEL             reduce using rule 17 (expression -> LET p EQUAL expression IN expression TEL .)
+
+
+state 81
+
+    (20) fun_rec -> lista ARROW expression . PIPE fun_rec
+    (21) fun_rec -> lista ARROW expression . NUF
+    (1) expression -> expression . PLUS expression
+    (2) expression -> expression . TIMES expression
+    (3) expression -> expression . MINUS expression
+    (4) expression -> expression . DIVIDED expression
+    (5) expression -> expression . DIFFERENT expression
+    (6) expression -> expression . EQUAL expression
+    (7) expression -> expression . LESSEREQ expression
+    (8) expression -> expression . GREATEREQ expression
+    (9) expression -> expression . LESSER expression
+    (10) expression -> expression . GREATER expression
+    (12) expression -> expression . OR expression
+    (13) expression -> expression . AND expression
+    (15) expression -> expression . DCOLON expression
+
+    PIPE            shift and go to state 82
+    NUF             shift and go to state 83
+    PLUS            shift and go to state 39
+    TIMES           shift and go to state 36
+    MINUS           shift and go to state 41
+    DIVIDED         shift and go to state 33
+    DIFFERENT       shift and go to state 31
+    EQUAL           shift and go to state 35
+    LESSEREQ        shift and go to state 34
+    GREATEREQ       shift and go to state 38
+    LESSER          shift and go to state 37
+    GREATER         shift and go to state 32
+    OR              shift and go to state 42
+    AND             shift and go to state 30
+    DCOLON          shift and go to state 40
+
+
+state 82
+
+    (20) fun_rec -> lista ARROW expression PIPE . fun_rec
+    (20) fun_rec -> . lista ARROW expression PIPE fun_rec
+    (21) fun_rec -> . lista ARROW expression NUF
+    (22) lista -> . lista p
+    (23) lista -> . p
+    (32) p -> . patron
+    (33) patron -> . NUMBER
+    (34) patron -> . TRUE
+    (35) patron -> . FALSE
+    (36) patron -> . ID
+    (37) patron -> . OPAREN patron CPAREN
+    (38) patron -> . p DCOLON p
+    (39) patron -> . OBRAKET CBRAKET
+
+    NUMBER          shift and go to state 18
+    TRUE            shift and go to state 22
+    FALSE           shift and go to state 14
+    ID              shift and go to state 21
+    OPAREN          shift and go to state 20
+    OBRAKET         shift and go to state 19
+
+    fun_rec                        shift and go to state 84
+    lista                          shift and go to state 75
+    patron                         shift and go to state 15
+    p                              shift and go to state 16
+
+state 83
+
+    (21) fun_rec -> lista ARROW expression NUF .
+
+    PLUS            reduce using rule 21 (fun_rec -> lista ARROW expression NUF .)
+    TIMES           reduce using rule 21 (fun_rec -> lista ARROW expression NUF .)
+    MINUS           reduce using rule 21 (fun_rec -> lista ARROW expression NUF .)
+    DIVIDED         reduce using rule 21 (fun_rec -> lista ARROW expression NUF .)
+    DIFFERENT       reduce using rule 21 (fun_rec -> lista ARROW expression NUF .)
+    EQUAL           reduce using rule 21 (fun_rec -> lista ARROW expression NUF .)
+    LESSEREQ        reduce using rule 21 (fun_rec -> lista ARROW expression NUF .)
+    GREATEREQ       reduce using rule 21 (fun_rec -> lista ARROW expression NUF .)
+    LESSER          reduce using rule 21 (fun_rec -> lista ARROW expression NUF .)
+    GREATER         reduce using rule 21 (fun_rec -> lista ARROW expression NUF .)
+    OR              reduce using rule 21 (fun_rec -> lista ARROW expression NUF .)
+    AND             reduce using rule 21 (fun_rec -> lista ARROW expression NUF .)
+    DCOLON          reduce using rule 21 (fun_rec -> lista ARROW expression NUF .)
+    $end            reduce using rule 21 (fun_rec -> lista ARROW expression NUF .)
+    THEN            reduce using rule 21 (fun_rec -> lista ARROW expression NUF .)
+    CPAREN          reduce using rule 21 (fun_rec -> lista ARROW expression NUF .)
+    NUF             reduce using rule 21 (fun_rec -> lista ARROW expression NUF .)
+    PIPE            reduce using rule 21 (fun_rec -> lista ARROW expression NUF .)
+    ELSE            reduce using rule 21 (fun_rec -> lista ARROW expression NUF .)
+    IN              reduce using rule 21 (fun_rec -> lista ARROW expression NUF .)
+    FI              reduce using rule 21 (fun_rec -> lista ARROW expression NUF .)
+    TEL             reduce using rule 21 (fun_rec -> lista ARROW expression NUF .)
+
+
+state 84
+
+    (20) fun_rec -> lista ARROW expression PIPE fun_rec .
+
+    PLUS            reduce using rule 20 (fun_rec -> lista ARROW expression PIPE fun_rec .)
+    TIMES           reduce using rule 20 (fun_rec -> lista ARROW expression PIPE fun_rec .)
+    MINUS           reduce using rule 20 (fun_rec -> lista ARROW expression PIPE fun_rec .)
+    DIVIDED         reduce using rule 20 (fun_rec -> lista ARROW expression PIPE fun_rec .)
+    DIFFERENT       reduce using rule 20 (fun_rec -> lista ARROW expression PIPE fun_rec .)
+    EQUAL           reduce using rule 20 (fun_rec -> lista ARROW expression PIPE fun_rec .)
+    LESSEREQ        reduce using rule 20 (fun_rec -> lista ARROW expression PIPE fun_rec .)
+    GREATEREQ       reduce using rule 20 (fun_rec -> lista ARROW expression PIPE fun_rec .)
+    LESSER          reduce using rule 20 (fun_rec -> lista ARROW expression PIPE fun_rec .)
+    GREATER         reduce using rule 20 (fun_rec -> lista ARROW expression PIPE fun_rec .)
+    OR              reduce using rule 20 (fun_rec -> lista ARROW expression PIPE fun_rec .)
+    AND             reduce using rule 20 (fun_rec -> lista ARROW expression PIPE fun_rec .)
+    DCOLON          reduce using rule 20 (fun_rec -> lista ARROW expression PIPE fun_rec .)
+    $end            reduce using rule 20 (fun_rec -> lista ARROW expression PIPE fun_rec .)
+    THEN            reduce using rule 20 (fun_rec -> lista ARROW expression PIPE fun_rec .)
+    CPAREN          reduce using rule 20 (fun_rec -> lista ARROW expression PIPE fun_rec .)
+    NUF             reduce using rule 20 (fun_rec -> lista ARROW expression PIPE fun_rec .)
+    PIPE            reduce using rule 20 (fun_rec -> lista ARROW expression PIPE fun_rec .)
+    ELSE            reduce using rule 20 (fun_rec -> lista ARROW expression PIPE fun_rec .)
+    IN              reduce using rule 20 (fun_rec -> lista ARROW expression PIPE fun_rec .)
+    FI              reduce using rule 20 (fun_rec -> lista ARROW expression PIPE fun_rec .)
+    TEL             reduce using rule 20 (fun_rec -> lista ARROW expression PIPE fun_rec .)
+

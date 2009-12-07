@@ -191,7 +191,7 @@ def p_e_ID(p):
 # Definicion para lista vacia
 def p_e_listavac(p):
     'e : OBRAKET CBRAKET'
-    p[0] = NodoGen("LISTAVACIA",[])
+    p[0] = NodoGen("LISTAVACIA","[]")
 
 
 # Definicion para las expresiones booleanas
@@ -246,7 +246,7 @@ def p_patron_list(p):
 # Definicion para lista vacia
 def p_patron_listavac(p):
     'patron : OBRAKET CBRAKET'
-    p[0] = NodoGen("LISTAVACIA",[])
+    p[0] = NodoGen("LISTAVACIA","[]")
 
 # Definicion de errores
 def p_error(p):
