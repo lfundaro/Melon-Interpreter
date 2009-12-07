@@ -28,8 +28,8 @@ precedence = (
     ('nonassoc', 'DIFFERENT', 'LESSEREQ', 'LESSER', 'GREATEREQ','GREATER','EQUAL'), 
     ('left', 'PLUS', 'MINUS'),
     ('left', 'TIMES', 'DIVIDED'),
-    ('right', 'UMINUS'), 
     ('right', 'DCOLON'),
+    ('right', 'UMINUS'), 
     ('left' , 'APLICA'),
     ('nonassoc', 'TRUE', 'FALSE'), 
     )
@@ -242,6 +242,10 @@ def p_patron_list(p):
     '''patron : p DCOLON p'''
     p[0] = NodoBin('LISTA',p[1], p[3])
 
+# Definicion para lista vacia
+def p_patron_listavac(p):
+    'patron : OBRAKET CBRAKET'
+    p[0] = NodoGen("LISTAVACIA")
 
 # Definicion de errores
 def p_error(p):

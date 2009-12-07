@@ -18,7 +18,15 @@ class CLS:
     def remplazar(self,cola):
         self.lista = cola
 
-def match(n1, n2):
+def checkParen(nodo):
+    if re.match(nodo.tipo,'PAREN'):
+        return True
+    else:
+        return False
+
+def match(n1, n2 = None):
+    if isinstance(n2,int):
+        return match(n1,NodoGen("ENTERO",str(n2)))
     if re.match(n1.tipo,'BOOLEANO') and re.match(n2.tipo,'BOOLEANO'):
         if re.match(n1.hijo,'TRUE') and re.match(n2.hijo,'TRUE'):
             return True
@@ -30,6 +38,8 @@ def match(n1, n2):
         return True
     elif re.match(n1.tipo,'VARIABLE') or re.match(n2.tipo,'VARIABLE'):
         return True
+    # elif re.match(n1.tipo,'ENTERO'):
+    #     return True
     elif re.match(n1.tipo,'LISTA') and re.match(n2.tipo,'LISTA'):
         if match(n1.hijo1,n2.hijo1):
             if isinstance(n1.hijo2,NodoBin) and isinstance(n2.hijo2,NodoBin):
@@ -80,7 +90,7 @@ def eval(env,nodo,h=None):
         elif re.match(nodo.tipo,'VARIABLE'):
             return lookup(env,nodo.hijo)
         elif re.match(nodo.tipo,'MAS'):
-            return eval(env,nodo.hijo1) + eval(env,nodo.hijo2) 
+            return eval(nodo.hijo1) + eval(env,nodo.hijo2) 
         elif re.match(nodo.tipo,'MENOS'):
             return eval(env,nodo.hijo1) - eval(env,nodo.hijo2) 
         elif re.match(nodo.tipo,'PRODUCTO'):
@@ -101,13 +111,21 @@ def eval(env,nodo,h=None):
         elif re.match(nodo.tipo,'FUN'):
             hijos = hijos_fun(nodo)
             tuplas = []
+            ################################
+            # FALTA HACER LA CLAUSURA      #
+            # MULTIPLE FUN X -> FUN Y -> Z #
+            ################################
+            
             for i in hijos: # i : NodoFunH
                 for j in i.hijo1.hijo: # j : patrones en ListaPatron
                     tuplas.append((j.hijo,i.hijo2)) # tupla (patron,expr)
             clausura = CLS(env,tuplas)
             return clausura
         elif re.match(nodo.tipo,'APLICAR'):
-            return apply(env,eval(env,nodo.hijo1),eval(env,nodo.hijo2))
+            if checkParen(nodo.hijo1):
+                return apply(env,eval(env,nodo.hijo1.hijo),eval(env,nodo.hijo2))
+            else:
+                return apply(env,eval(env,nodo.hijo1),eval(env,nodo.hijo2))
     else:
         return nodo
 
@@ -125,9 +143,8 @@ def apply(env,p1,p2):
             p1.remplazar(ltuplas)
             return apply(env,p1,p2)
     else:
-        print p1.__class__
         apply(env,eval(env,p1),eval(env,p2))
-        
+            
         
         
         
