@@ -59,8 +59,8 @@ def match(n1, n2 = None):
         return True
     elif re.match(n1.tipo,'VARIABLE') or re.match(n2.tipo,'VARIABLE'):
         return True
-    # elif re.match(n1.tipo,'ENTERO'):
-    #     return True
+    elif re.match(n1.tipo,'ENTERO'):
+        return True
     elif re.match(n1.tipo,'ENTERO') and re.match(n2.tipo,'ENTERO'):
         if re.match(n1.hijo,n2.hijo):
             return True
@@ -86,10 +86,10 @@ def lookup(env,x):
 
 # Verificacion de que ambos parametros son numeros enteros.		
 def is_int(x,y):
-	if isinstance(x, int) and isinstance(y,int):
-            return True
-	else:
-            return False
+    if isinstance(x, int) and isinstance(y,int):
+        return True
+    else:
+        return False
 			
 # Verificacion de que ambos parametros son string para false y true de MeLon.		
 def is_string(x,y):
@@ -111,6 +111,9 @@ def eval(env,nodo,h=None):
         if re.match(nodo.tipo,''):
             nodo = nodo.hijo
             return eval(env,nodo)
+        elif re.match(nodo.tipo, 'PAREN'):
+			nodo = nodo.hijo
+			return eval(env,nodo)
         elif re.match(nodo.tipo,'LISTAVACIA'):
             return nodo
         elif re.match(nodo.tipo,'BOOLEANO'):
@@ -119,48 +122,42 @@ def eval(env,nodo,h=None):
             x = eval(env,nodo.hijo1)
             y = eval(env,nodo.hijo2)
             if is_int(x,y):
-                value = eval(env,nodo.hijo1) < eval(env,nodo.hijo2)
-                return true_false(value)
+                return str(eval(env,nodo.hijo1) < eval(env,nodo.hijo2)).lower()
             else:
                 raise TypeError('En la operacion de mayor.')
         elif re.match(nodo.tipo, 'MAYOR'):
             x = eval(env,nodo.hijo1)
             y = eval(env,nodo.hijo2)
             if is_int(x,y):
-                value = eval(env,nodo.hijo1) > eval(env,nodo.hijo2)
-                return true_false(value)
+                return str(eval(env,nodo.hijo1) > eval(env,nodo.hijo2)).lower()
             else:
                 raise TypeError('En la operacion de menor.')
         elif re.match(nodo.tipo, 'MENOROIGUAL'):
             x = eval(env,nodo.hijo1)
             y = eval(env,nodo.hijo2)
             if is_int(x,y):
-                value = eval(env,nodo.hijo1) <= eval(env,nodo.hijo2)
-                return true_false(value)
+                 return str(eval(env,nodo.hijo1) <= eval(env,nodo.hijo2)).lower()
             else:
                 raise TypeError('En la operacion de menor o igual.')
         elif re.match(nodo.tipo, 'MAYOROIGUAL'):
             x = eval(env,nodo.hijo1)
             y = eval(env,nodo.hijo2)
             if is_int(x,y):
-                value = eval(env,nodo.hijo1) >= eval(env,nodo.hijo2)
-                return true_false(value)
+                    return str(eval(env,nodo.hijo1) >= eval(env,nodo.hijo2)).lower()
             else:
                 raise TypeError('En la operacion de mayor.')
         elif re.match(nodo.tipo, 'DISTINTO'):
             x = eval(env,nodo.hijo1)
             y = eval(env,nodo.hijo2)
             if (is_int(x,y)) or (is_string(x,y)):
-                value = eval(env,nodo.hijo1) != eval(env,nodo.hijo2)
-                return true_false(value)
+                return str(eval(env,nodo.hijo1) != eval(env,nodo.hijo2)).lower()
             else:
                 raise TypeError('En la operacion de diferente.')
         elif re.match(nodo.tipo, 'IGUAL'):
             x = eval(env,nodo.hijo1)
             y = eval(env,nodo.hijo2)
             if (is_int(x,y)) or (is_string(x,y)):
-                value = eval(env,nodo.hijo1) == eval(env,nodo.hijo2)
-                return true_false(value)
+                    return str(eval(env,nodo.hijo1) == eval(env,nodo.hijo2)).lower()
             else:
                 raise TypeError('En la operacion de igualdad.')	
         elif re.match(nodo.tipo,'ENTERO'):
@@ -169,7 +166,7 @@ def eval(env,nodo,h=None):
             if lookup(env,nodo.hijo):
                 return lookup(env,nodo.hijo)
             else:
-                LookUpError(' Variable no declarada.')
+                raise LookUpError('Variable "' +str(nodo.hijo) + '" no declarada.')
         elif re.match(nodo.tipo,'MAS'):
             x = eval(env,nodo.hijo1)
             y = eval(env,nodo.hijo2)
@@ -179,9 +176,7 @@ def eval(env,nodo,h=None):
                 raise TypeError('En la operacion de suma.')
         elif re.match(nodo.tipo,'MENOS'):
             x = eval(env,nodo.hijo1)
-            print x
             y = eval(env,nodo.hijo2)
-            print y
             if is_int(x,y):
                 return eval(env,nodo.hijo1) - eval(env,nodo.hijo2) 
             else:
@@ -207,16 +202,14 @@ def eval(env,nodo,h=None):
             x = eval(env,nodo.hijo1) 
             y = eval(env,nodo.hijo2) 
             if not is_int(x,y):
-                value = eval(env,nodo.hijo1) or eval(env,nodo.hijo2)
-                return true_false(value)
+                return str(eval(env,nodo.hijo1) or eval(env,nodo.hijo2)).lower()
             else:
                 raise TypeError
         elif re.match(nodo.tipo,'AND'):
             x = eval(env,nodo.hijo1) 
             y = eval(env,nodo.hijo2) 
             if not is_int(x,y) and is_bool(x,y):
-                value = eval(env,nodo.hijo1) and eval(env,nodo.hijo2)
-                return true_false(value)
+                return str(eval(env,nodo.hijo1) and eval(env,nodo.hijo2)).lower()
             else:
                 raise TypeError
         elif re.match(nodo.tipo,'PATRON'):
@@ -240,7 +233,7 @@ def eval(env,nodo,h=None):
         elif re.match(nodo.tipo,'APLICAR'):
             if checkParen(nodo.hijo1):
                 return apply(env,eval(env,nodo.hijo1.hijo),eval(env,nodo.hijo2))
-            elif checkListaVac(nodo.hijo):
+			elif checkListaVac(nodo.hijo):
                 return apply(env,eval(env,nodo.hijo1),eval(env,nodo.hijo2)) 
             else:
                 return apply(env,eval(env,nodo.hijo1),eval(env,nodo.hijo2))
