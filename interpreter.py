@@ -18,18 +18,36 @@ class CLS:
     def remplazar(self,cola):
         self.lista = cola
 
-def match(n1, n2):
-    if re.match(n1.tipo,'BOOLEANO') and re.match(n2.tipo,'BOOLEANO'):
+def checkParen(nodo):
+    if re.match(nodo.tipo,'PAREN'):
+        return True
+    else:
+        return False
+
+def checkListaVac(nodo):
+    if re.match(nodo.tipo,'LISTAVACIA'):
+        return True
+    else:
+        return False
+
+def match(n1, n2 = None):
+    if isinstance(n2,int):
+        return match(n1,NodoGen("ENTERO",str(n2)))
+    elif isinstance(n2,str):
+        return match(n1,NodoGen("LISTAVACIA",n2))
+    elif re.match(n1.tipo,'BOOLEANO') and re.match(n2.tipo,'BOOLEANO'):
         if re.match(n1.hijo,'TRUE') and re.match(n2.hijo,'TRUE'):
             return True
         elif re.match(n1.hijo, 'FALSE') and re.match(n2.hijo,'FALSE'):
             return True
         else: 
             return False
-    elif re.match(n1.tipo,'^LISTAVACIA$') and re.match(n2.tipo, '^LISTAVACIA$'):
+    elif re.match(n1.tipo,'^LISTAVACIA$') and re.match(n2.tipo,'^LISTAVACIA$'):
         return True
     elif re.match(n1.tipo,'VARIABLE') or re.match(n2.tipo,'VARIABLE'):
         return True
+    # elif re.match(n1.tipo,'ENTERO'):
+    #     return True
     elif re.match(n1.tipo,'LISTA') and re.match(n2.tipo,'LISTA'):
         if match(n1.hijo1,n2.hijo1):
             if isinstance(n1.hijo2,NodoBin) and isinstance(n2.hijo2,NodoBin):
@@ -72,7 +90,7 @@ def is_int(x,y):
             return True
 	else:
             return False
-
+			
 # Verificacion de que ambos parametros son string para false y true de MeLon.		
 def is_string(x,y):
     if isinstance(x,str) and isinstance(y,str):
@@ -94,7 +112,7 @@ def eval(env,nodo,h=None):
             nodo = nodo.hijo
             return eval(env,nodo)
         elif re.match(nodo.tipo,'LISTAVACIA'):
-            return '[]'
+            return nodo
         elif re.match(nodo.tipo,'BOOLEANO'):
             return nodo.hijo
         elif re.match(nodo.tipo, 'MENOR'):
@@ -210,53 +228,40 @@ def eval(env,nodo,h=None):
         elif re.match(nodo.tipo,'FUN'):
             hijos = hijos_fun(nodo)
             tuplas = []
+            ################################
+            # FALTA HACER LA CLAUSURA      #
+            # MULTIPLE FUN X -> FUN Y -> Z #
+            ################################
             for i in hijos: # i : NodoFunH
                 for j in i.hijo1.hijo: # j : patrones en ListaPatron
                     tuplas.append((j.hijo,i.hijo2)) # tupla (patron,expr)
             clausura = CLS(env,tuplas)
             return clausura
         elif re.match(nodo.tipo,'APLICAR'):
-            return apply(env,eval(env,nodo.hijo1),eval(env,nodo.hijo2))
+            if checkParen(nodo.hijo1):
+                return apply(env,eval(env,nodo.hijo1.hijo),eval(env,nodo.hijo2))
+            elif checkListaVac(nodo.hijo):
+                return apply(env,eval(env,nodo.hijo1),eval(env,nodo.hijo2)) 
+            else:
+                return apply(env,eval(env,nodo.hijo1),eval(env,nodo.hijo2))
     else:
         return nodo
 
 def hijos_fun(arb_fun):
     return arb_fun.hijo
+
 def apply(env,p1,p2):
     if isinstance(p1,CLS):
         ltuplas = p1.getLista()
         head = ltuplas[0]
         if match(head[0],p2):
+            print 'CLAUSURA1'
             return eval(extend(env,head[0].hijo,p2),head[1])
         else:
+            print 'CLAUSURA2'
             ltuplas = ltuplas[1:len(ltuplas)] # Cola de la lista
             p1.remplazar(ltuplas)
             return apply(env,p1,p2)
     else:
-        print p1.__class__
         apply(env,eval(env,p1),eval(env,p2))
         
-        
-        
-        
-
-
-
-            
-
-    
-    
-
-    
-
-
-        
-        
-        
-    
-       
-
-	
-        
-    
-    

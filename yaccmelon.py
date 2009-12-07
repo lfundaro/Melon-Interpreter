@@ -191,7 +191,7 @@ def p_e_ID(p):
 # Definicion para lista vacia
 def p_e_listavac(p):
     'e : OBRAKET CBRAKET'
-    p[0] = NodoGen("LISTAVACIA")
+    p[0] = NodoGen("LISTAVACIA",[])
 
 
 # Definicion para las expresiones booleanas
@@ -243,6 +243,11 @@ def p_patron_list(p):
     p[0] = NodoBin('LISTA',p[1], p[3])
 
 
+# Definicion para lista vacia
+def p_patron_listavac(p):
+    'patron : OBRAKET CBRAKET'
+    p[0] = NodoGen("LISTAVACIA",[])
+
 # Definicion de errores
 def p_error(p):
     raise SyntaxError(p)
@@ -276,4 +281,5 @@ def beginParse(program):
     except ZeroDivisionError, messag:
         messag = messag.messg
         print 'Error: ' + messag
+
 

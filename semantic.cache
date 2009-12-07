@@ -1,0 +1,22 @@
+;; Object proyecto2-carambula-fundaro/
+;; SEMANTICDB Tags save file
+(semanticdb-project-database-file "proyecto2-carambula-fundaro/"
+  :tables (list 
+   (semanticdb-table "yaccmelon.py"
+    :major-mode 'python-mode
+    :tags '(("yacc" include nil (dependency-file none) [618 640]) ("syntree" include nil (dependency-file none) [641 662]) ("lexparam" include nil (dependency-file none) [663 685]) ("lex" include nil (dependency-file none) [686 708]) ("precedence" variable nil nil [743 1076]) ("p_expression_arit" function (:arguments (("p" variable nil (reparse-symbol function_parameters) [1201 1202]))) nil [1179 1644]) ("p_expression_comp" function (:arguments (("p" variable nil (reparse-symbol function_parameters) [1700 1701]))) nil [1678 2359]) ("p_expression_uminus" function (:arguments (("p" variable nil (reparse-symbol function_parameters) [2424 2425]))) nil [2400 2518]) ("p_expression_or" function (:arguments (("p" variable nil (reparse-symbol function_parameters) [2566 2567]))) nil [2546 2649]) ("p_expression_and" function (:arguments (("p" variable nil (reparse-symbol function_parameters) [2698 2699]))) nil [2677 2788]) ("p_expression_not" function (:arguments (("p" variable nil (reparse-symbol function_parameters) [2857 2858]))) nil [2836 2930]) ("p_expression_list" function (:arguments (("p" variable nil (reparse-symbol function_parameters) [2993 2994]))) nil [2971 3083]) ("p_expression_if" function (:arguments (("p" variable nil (reparse-symbol function_parameters) [3124 3125]))) nil [3104 3244]) ("p_expression_let" function (:arguments (("p" variable nil (reparse-symbol function_parameters) [3287 3288]))) nil [3266 3400]) ("p_expression_fun" function (:arguments (("p" variable nil (reparse-symbol function_parameters) [3480 3481]))) nil [3459 4489]) ("p_expression_fun_rec" function (:arguments (("p" variable nil (reparse-symbol function_parameters) [4516 4517]))) nil [4491 5118]) ("p_patron_lista_rec" function (:arguments (("p" variable nil (reparse-symbol function_parameters) [5186 5187]))) nil [5163 5243]) ("p_patron_lista" function (:arguments (("p" variable nil (reparse-symbol function_parameters) [5294 5295]))) nil [5275 5342]) ("p_expression_e" function (:arguments (("p" variable nil (reparse-symbol function_parameters) [5384 5385]))) nil [5365 5437]) ("p_e_aplica" function (:arguments (("p" variable nil (reparse-symbol function_parameters) [5477 5478]))) nil [5462 5549]) ("p_e_num" function (:arguments (("p" variable nil (reparse-symbol function_parameters) [5593 5594]))) nil [5581 5648]) ("p_e_ID" function (:arguments (("p" variable nil (reparse-symbol function_parameters) [5693 5694]))) nil [5682 5746]) ("p_e_listavac" function (:arguments (("p" variable nil (reparse-symbol function_parameters) [5795 5796]))) nil [5778 5858]) ("p_e_bool" function (:arguments (("p" variable nil (reparse-symbol function_parameters) [5917 5918]))) nil [5904 5995]) ("p_e_parentesis" function (:arguments (("p" variable nil (reparse-symbol function_parameters) [6059 6060]))) nil [6040 6132]) ("p_patron_ini" function (:arguments (("p" variable nil (reparse-symbol function_parameters) [6235 6236]))) nil [6218 6293]) ("p_patron_num" function (:arguments (("p" variable nil (reparse-symbol function_parameters) [6345 6346]))) nil [6328 6409]) ("p_patron_bool" function (:arguments (("p" variable nil (reparse-symbol function_parameters) [6468 6469]))) nil [6450 6558]) ("p_patron_ID" function (:arguments (("p" variable nil (reparse-symbol function_parameters) [6612 6613]))) nil [6596 6670]) ("p_patron_parentesis" function (:arguments (("p" variable nil (reparse-symbol function_parameters) [6734 6735]))) nil [6710 6812]) ("p_patron_list" function (:arguments (("p" variable nil (reparse-symbol function_parameters) [6868 6869]))) nil [6850 6941]) ("p_error" function (:arguments (("p" variable nil (reparse-symbol function_parameters) [6979 6980]))) nil [6967 7008]) ("beginParse" function (:arguments (("program" variable nil (reparse-symbol function_parameters) [7048 7055]))) nil [7033 7780]))
+    :file "yaccmelon.py"
+    :pointmax 7781
+    :unmatched-syntax 'nil
+    )
+   (semanticdb-table "lexmelon.py"
+    :major-mode 'python-mode
+    :tags '(("lex" include nil nil [232 254]) ("lexparam" include nil nil [255 277]) ("startlex" function (:arguments (("input" variable nil (reparse-symbol function_parameters) [322 327]))) nil [309 628]))
+    :file "lexmelon.py"
+    :pointmax 653
+    )
+   )
+  :file "semantic.cache"
+  :semantic-tag-version "2.0pre4"
+  :semanticdb-version "2.0pre4"
+  )
