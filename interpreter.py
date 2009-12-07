@@ -132,6 +132,10 @@ def eval(env,nodo,h=None):
                 return str(eval(env,nodo.hijo1) > eval(env,nodo.hijo2)).lower()
             else:
                 raise TypeError('En la operacion de menor.')
+		elif re.match(nodo.tipo, 'NEGATIVO'):
+			x = eval(env,nodo.hijo1)
+			if isinstance(x,int):
+				return -x
         elif re.match(nodo.tipo, 'MENOROIGUAL'):
             x = eval(env,nodo.hijo1)
             y = eval(env,nodo.hijo2)
