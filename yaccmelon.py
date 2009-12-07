@@ -281,5 +281,8 @@ def beginParse(program):
     except ZeroDivisionError, messag:
         messag = messag.messg
         print 'Error: ' + messag
+	except MatchingError, messag:
+        messag = messag.messg
+        print 'Error de matching: ' + messag
 
 
