@@ -31,8 +31,6 @@ def checkListaVac(nodo):
         return False
 
 def match(n1, n2 = None):
-  #  print 'a ' + str(n1)
-  #  print 'b ' + str(n2)
     if isinstance(n2,int):
         return match(n1,NodoGen("ENTERO",str(n2)))
     elif isinstance(n2,str):
@@ -47,27 +45,11 @@ def match(n1, n2 = None):
         else: 
             return False
     elif re.match(n1.tipo,'LISTA') and re.match(n2.tipo,'LISTA'):
-        print 'hola'
-        if re.match(n1.hijo1.tipo,'PATRON') and re.match(n1.hijo2.tipo,'PATRON'):
-            print 'holaass'
-            return match(n1.hijo1.hijo, n2.hijo1) and match(n1.hijo2.hijo, n2.hijo2)
-        elif match(n1.hijo1,n2.hijo1):
-            print 'hola3'
-            if isinstance(n1.hijo2,NodoBin) and isinstance(n2.hijo2,NodoBin):
-                print 'hola'
-                return match(n1.hijo2,n2.hijo2)
-            elif not isinstance(n1.hijo2,NodoBin) and not isinstance(n2.hijo2,NodoBin):
-                print 'hola2'
-                if match(n1.hijo2,n2.hijo2):
-                    return True
-                else: 
-                    return False
-            else:
-                return False
-        else:
-            return False
-    elif re.match(n1.tipo,'LISTAVACIA') and re.match(n2.tipo,'LISTAVACIA'):
-        return True
+        return match(n1.hijo1,n2.hijo1) and match(n1.hijo2,n2.hijo2)
+	if  re.match(n1.tipo,'PATRON') or re.match(n1.tipo,'LISTAPATRON'):
+        return match(n1.hijo,n2)
+    if  re.match(n2.tipo,'PATRON') or re.match(n2.tipo,'LISTAPATRON'):
+        return match(n1, n2.hijo)
     elif re.match(n1.tipo,'VARIABLE') or re.match(n2.tipo,'VARIABLE'):
         return True
     elif re.match(n1.tipo,'ENTERO'):
