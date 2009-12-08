@@ -133,7 +133,7 @@ def eval(env,nodo,h=None):
             x = eval(env,nodo.hijo2)
             if isinstance(x,int):
                 return -x
-        elif re.match(nodo.tipo, 'NOT'):
+        elif re.match(nodo.tipo, 'NO'):
             x = eval(env,nodo.hijo2)
             if isinstance(x,bool):
                 return (not x)
