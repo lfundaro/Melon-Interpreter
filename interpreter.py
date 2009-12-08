@@ -35,6 +35,8 @@ def match(n1, n2 = None):
         return match(n1,NodoGen("ENTERO",str(n2)))
     elif isinstance(n2,str):
         return match(n1,NodoGen("LISTAVACIA",n2))
+    elif re.match(n1.tipo,'PATRON') and re.match(n2.tipo,'LISTA'):
+        return match(n1.hijo, n2)
     elif re.match(n1.tipo,'BOOLEANO') and re.match(n2.tipo,'BOOLEANO'):
         if re.match(n1.hijo,'TRUE') and re.match(n2.hijo,'TRUE'):
             return True
