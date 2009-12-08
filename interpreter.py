@@ -46,7 +46,7 @@ def match(n1, n2 = None):
             return False
     elif re.match(n1.tipo,'LISTA') and re.match(n2.tipo,'LISTA'):
         return match(n1.hijo1,n2.hijo1) and match(n1.hijo2,n2.hijo2)
-	if  re.match(n1.tipo,'PATRON') or re.match(n1.tipo,'LISTAPATRON'):
+    if  re.match(n1.tipo,'PATRON') or re.match(n1.tipo,'LISTAPATRON'):
         return match(n1.hijo,n2)
     if  re.match(n2.tipo,'PATRON') or re.match(n2.tipo,'LISTAPATRON'):
         return match(n1, n2.hijo)
