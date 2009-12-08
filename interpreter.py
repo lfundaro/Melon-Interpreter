@@ -92,12 +92,12 @@ def is_int(x,y):
     else:
         return False
 			
-# Verificacion de que ambos parametros son string para false y true de MeLon.		
-def is_string(x,y):
-	if isinstance(x,str) and isinstance(y,str):
-		return True
-	else:
-		return False
+# Verificacion de que ambos parametros son booleanos	
+def is_bool(x,y):
+    if isinstance(x,bool) and isinstance(y,bool):
+        return True
+    else:
+        return False
 	
 		
 def eval(env,nodo,h=None):
@@ -111,55 +111,60 @@ def eval(env,nodo,h=None):
         elif re.match(nodo.tipo,'LISTAVACIA'):
             return nodo
         elif re.match(nodo.tipo,'BOOLEANO'):
-            return str(nodo.hijo).lower()
+            if re.match(nodo.hijo, 'TRUE'):
+                return True
+            else:
+                return False
         elif re.match(nodo.tipo, 'MENOR'):
             x = eval(env,nodo.hijo1)
             y = eval(env,nodo.hijo2)
             if is_int(x,y):
-                return str(x < y).lower()
+                return x < y
             else:
                 raise TypeError('En la operacion de mayor.')
         elif re.match(nodo.tipo, 'MAYOR'):
             x = eval(env,nodo.hijo1)
             y = eval(env,nodo.hijo2)
             if is_int(x,y):
-                return str( x > y).lower()
+                return x > y
             else:
                 raise TypeError('En la operacion de menor.')
         elif re.match(nodo.tipo, 'NEGATIVO'):
             x = eval(env,nodo.hijo2)
             if isinstance(x,int):
                 return -x
-		elif re.match(nodo.tipo, 'NOT'):
-			x = eval(env,nodo.hijo2)
-			if isinstace(x,str):
-				return (not x)
+        elif re.match(nodo.tipo, 'NOT'):
+            x = eval(env,nodo.hijo2)
+            if isinstance(x,bool):
+                return (not x)
+            else:
+                raise TypeError('En la negacion')
         elif re.match(nodo.tipo, 'MENOROIGUAL'):
             x = eval(env,nodo.hijo1)
             y = eval(env,nodo.hijo2)
             if is_int(x,y):
-                 return str(x <= y).lower()
+                 return x <= y
             else:
                 raise TypeError('En la operacion de menor o igual.')
         elif re.match(nodo.tipo, 'MAYOROIGUAL'):
             x = eval(env,nodo.hijo1)
             y = eval(env,nodo.hijo2)
             if is_int(x,y):
-                    return str( x >= y).lower()
+                    return  x >= y
             else:
                 raise TypeError('En la operacion de mayor.')
         elif re.match(nodo.tipo, 'DISTINTO'):
             x = eval(env,nodo.hijo1)
             y = eval(env,nodo.hijo2)
-            if (is_int(x,y)) or (is_string(x,y)):
-                return str( x != y ).lower()
+            if (is_int(x,y)) or (is_bool(x,y)):
+                return  x != y 
             else:
                 raise TypeError('En la operacion de diferente.')
         elif re.match(nodo.tipo, 'IGUAL'):
             x = eval(env,nodo.hijo1)
             y = eval(env,nodo.hijo2)
-            if (is_int(x,y)) or (is_string(x,y)):
-                    return str( x == y).lower()
+            if (is_int(x,y)) or (is_bool(x,y)):
+                    return  x == y
             else:
                 raise TypeError('En la operacion de igualdad.')	
         elif re.match(nodo.tipo,'ENTERO'):
@@ -203,15 +208,15 @@ def eval(env,nodo,h=None):
         elif re.match(nodo.tipo,'OR'):
             x = eval(env,nodo.hijo1) 
             y = eval(env,nodo.hijo2) 
-            if not is_int(x,y):
-                return str( x or y).lower()
+            if is_bool(x,y):
+                return x or y
             else:
                 raise TypeError('En or logico')
         elif re.match(nodo.tipo,'AND'):
             x = eval(env,nodo.hijo1) 
             y = eval(env,nodo.hijo2) 
-            if not is_int(x,y) and is_bool(x,y):
-                return str(x and y).lower()
+            if is_bool(x,y):
+                return x and y
             else:
                 raise TypeError('En and logico')
         elif re.match(nodo.tipo,'PATRON'):
