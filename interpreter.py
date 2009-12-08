@@ -46,10 +46,18 @@ def match(n1, n2 = None):
             return False
     elif re.match(n1.tipo,'LISTA') and re.match(n2.tipo,'LISTA'):
         return match(n1.hijo1,n2.hijo1) and match(n1.hijo2,n2.hijo2)
-    if  re.match(n1.tipo,'PATRON') or re.match(n1.tipo,'LISTAPATRON'):
+    if  re.match(n1.tipo,'PATRON'):
         return match(n1.hijo,n2)
-    if  re.match(n2.tipo,'PATRON') or re.match(n2.tipo,'LISTAPATRON'):
+    if re.match(n1.tipo,'LISTAPATRON'):
+        resp = True
+        for i in n1.hijo:
+            resp = resp and match(i.hijo,n2)
+        return resp
+#        return match(n1.hijo,n2)
+    if  re.match(n2.tipo,'PATRON'):
         return match(n1, n2.hijo)
+    if re.match(n2.tipo,'LISTAPATRON'):
+        return match(n1, n2.hijo[0].hijo)
     elif re.match(n1.tipo,'VARIABLE') or re.match(n2.tipo,'VARIABLE'):
         return True
     elif re.match(n1.tipo,'ENTERO'):
@@ -216,7 +224,8 @@ def eval(env,nodo,h=None):
                 clausura = CLS(env,tuplas)
             return clausura
         elif re.match(nodo.tipo,'APLICAR'):
-            return apply(env,eval(env,nodo.hijo1),eval(env,nodo.hijo2))
+            #            return apply(env,eval(env,nodo.hijo1),eval(env,nodo.hijo2))
+            return apply(eval(env,nodo.hijo1),eval(env,nodo.hijo2))
     else:
         return nodo
 
@@ -247,7 +256,11 @@ def hijos_fun(arb_fun):
 def apply(cls,v):
     ltuplas = cls.getLista()
     head = ltuplas[0]
-    if match(v,head[0]):
+    print 'HEAD'
+    print head[0]
+    print v
+    print head[1]
+    if match(head[0],v):
         return eval(extend(cls.env,head[0],v),head[1])
     else:
         ltuplas = ltuplas[1:len(ltuplas)] # Cola de la lista
