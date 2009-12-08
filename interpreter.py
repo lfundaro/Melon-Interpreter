@@ -31,12 +31,14 @@ def checkListaVac(nodo):
         return False
 
 def match(n1, n2 = None):
+  #  print 'a ' + str(n1)
+  #  print 'b ' + str(n2)
     if isinstance(n2,int):
         return match(n1,NodoGen("ENTERO",str(n2)))
     elif isinstance(n2,str):
         return match(n1,NodoGen("LISTAVACIA",n2))
     elif re.match(n1.tipo,'PATRON') and re.match(n2.tipo,'LISTA'):
-        return match(n1.hijo, n2)
+        return match(n1.hijo,n2)      
     elif re.match(n1.tipo,'BOOLEANO') and re.match(n2.tipo,'BOOLEANO'):
         if re.match(n1.hijo,'TRUE') and re.match(n2.hijo,'TRUE'):
             return True
@@ -45,12 +47,17 @@ def match(n1, n2 = None):
         else: 
             return False
     elif re.match(n1.tipo,'LISTA') and re.match(n2.tipo,'LISTA'):
+        print 'hola'
         if re.match(n1.hijo1.tipo,'PATRON') and re.match(n1.hijo2.tipo,'PATRON'):
-            return match(n1.hijo1.hijo, n2.hijo1) and match(n1.hijo2.hijo, n2.hijo2) 
-        if match(n1.hijo1,n2.hijo1):
+            print 'holaass'
+            return match(n1.hijo1.hijo, n2.hijo1) and match(n1.hijo2.hijo, n2.hijo2)
+        elif match(n1.hijo1,n2.hijo1):
+            print 'hola3'
             if isinstance(n1.hijo2,NodoBin) and isinstance(n2.hijo2,NodoBin):
+                print 'hola'
                 return match(n1.hijo2,n2.hijo2)
             elif not isinstance(n1.hijo2,NodoBin) and not isinstance(n2.hijo2,NodoBin):
+                print 'hola2'
                 if match(n1.hijo2,n2.hijo2):
                     return True
                 else: 
@@ -197,21 +204,21 @@ def eval(env,nodo,h=None):
                 else:
                     return x / y
             else:
-                raise TypeError
+                raise TypeError('En la operacion de division.')
         elif re.match(nodo.tipo,'OR'):
             x = eval(env,nodo.hijo1) 
             y = eval(env,nodo.hijo2) 
             if not is_int(x,y):
                 return str(eval(env,nodo.hijo1) or eval(env,nodo.hijo2)).lower()
             else:
-                raise TypeError
+                raise TypeError('En or logico')
         elif re.match(nodo.tipo,'AND'):
             x = eval(env,nodo.hijo1) 
             y = eval(env,nodo.hijo2) 
             if not is_int(x,y) and is_bool(x,y):
                 return str(eval(env,nodo.hijo1) and eval(env,nodo.hijo2)).lower()
             else:
-                raise TypeError
+                raise TypeError('En and logico')
         elif re.match(nodo.tipo,'PATRON'):
             return eval(env,nodo.hijo)
         elif re.match(nodo.tipo,'LET'):
@@ -221,14 +228,10 @@ def eval(env,nodo,h=None):
         elif re.match(nodo.tipo,'FUN'):
             hijos = hijos_fun(nodo)
             tuplas = []
-            ################################
-            # FALTA HACER LA CLAUSURA      #
-            # MULTIPLE FUN X -> FUN Y -> Z #
-            ################################
             for i in hijos: # i : NodoFunH
-                for j in i.hijo1.hijo: # j : patrones en ListaPatron
-                    tuplas.append((j.hijo,i.hijo2)) # tupla (patron,expr)
-            clausura = CLS(env,tuplas)
+                #for j in i.hijo1.hijo: # j : patrones en ListaPatron
+                tuplas.append((i.hijo1,i.hijo2)) # tupla (NodoListaPatron,expr)
+                clausura = CLS(env,tuplas)
             return clausura
         elif re.match(nodo.tipo,'APLICAR'):
             return apply(env,eval(env,nodo.hijo1),eval(env,nodo.hijo2))
@@ -238,19 +241,37 @@ def eval(env,nodo,h=None):
 def hijos_fun(arb_fun):
     return arb_fun.hijo
 
-def apply(env,p1,p2):
-    if isinstance(p1,CLS):
-        ltuplas = p1.getLista()
-        head = ltuplas[0]
-        if match(head[0],p2):
-            return eval(extend(env,head[0].hijo,p2),head[1])
-        else:
-           ltuplas = ltuplas[1:len(ltuplas)] # Cola de la lista
-           p1.remplazar(ltuplas)
-           if len(p1.lista) == 0:
-               raise MatchingError('no hubo match con '+ str(p2) )
-           else:
-               return apply(env,p1,p2)
+# #def apply(env,p1,p2):
+# #    if isinstance(p1,CLS):
+#         ltuplas = p1.getLista()
+#         head = ltuplas[0]
+#         if match(head[0],p2):
+#           #  print 'hola2'
+#            print head[0].hijo
+#            print p2
+#            return eval(extend(env,head[0].hijo,p2),head[1])
+#         else:
+#           #  print 'hola'
+#             ltuplas = ltuplas[1:len(ltuplas)] # Cola de la lista
+#             p1.remplazar(ltuplas)
+#             if len(p1.lista) == 0:
+#                 raise MatchingError('no hubo match con '+ str(p2) )
+#             else:
+#                 #     print 'hola' + p1
+#                 return apply(env,p1,p2)
+#  #   else:
+#   #      apply(env,eval(env,p1),eval(env,p2))
+
+def apply(cls,v):
+    ltuplas = cls.getLista()
+    head = ltuplas[0]
+    if match(v,head[0]):
+        return eval(extend(cls.env,head[0],v),head[1])
     else:
-        apply(env,eval(env,p1),eval(env,p2))
-        
+        ltuplas = ltuplas[1:len(ltuplas)] # Cola de la lista
+        cls.remplazar(ltuplas)
+        if len(cls.lista) == 0:
+            raise MatchingError('no hubo match con '+ str(v) )
+        else:
+            return apply(cls,v)
+       
