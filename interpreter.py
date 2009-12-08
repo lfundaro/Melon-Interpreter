@@ -94,10 +94,11 @@ def is_int(x,y):
 			
 # Verificacion de que ambos parametros son string para false y true de MeLon.		
 def is_string(x,y):
-    if isinstance(x,str) and isinstance(y,str):
-        return True
-    else:
-        return False
+	if isinstance(x,str) and isinstance(y,str):
+		return True
+	else:
+		return False
+	
 		
 def eval(env,nodo,h=None):
     if h == None:
@@ -122,13 +123,17 @@ def eval(env,nodo,h=None):
             x = eval(env,nodo.hijo1)
             y = eval(env,nodo.hijo2)
             if is_int(x,y):
-                return str( x >y).lower()
+                return str( x > y).lower()
             else:
                 raise TypeError('En la operacion de menor.')
         elif re.match(nodo.tipo, 'NEGATIVO'):
             x = eval(env,nodo.hijo2)
             if isinstance(x,int):
                 return -x
+		elif re.match(nodo.tipo, 'NOT'):
+			x = eval(env,nodo.hijo2)
+			if isinstace(x,str):
+				return (not x)
         elif re.match(nodo.tipo, 'MENOROIGUAL'):
             x = eval(env,nodo.hijo1)
             y = eval(env,nodo.hijo2)
