@@ -18,12 +18,6 @@ class CLS:
     def remplazar(self,cola):
         self.lista = cola
 
-# def checkParen(nodo):
-#     if re.match(nodo.tipo,'PAREN'):
-#         return True
-#     else:
-#         return False
-
 def checkListaVac(nodo):
     if re.match(nodo.tipo,'LISTAVACIA'):
         return True
@@ -35,8 +29,10 @@ def match(n1, n2 = None):
         return match(n1,NodoGen("ENTERO",str(n2)))
     elif isinstance(n2,str):
         return match(n1,NodoGen("LISTAVACIA",n2))
-    elif re.match(n1.tipo,'PATRON') and re.match(n2.tipo,'LISTA'):
-        return match(n1.hijo,n2)      
+    elif re.match(n1.tipo,'PATRON'):
+        return match(n1.hijo,n2)
+    elif re.match(n2.tipo,'PATRON'):
+        return match(n1,n2.hijo)
     elif re.match(n1.tipo,'BOOLEANO') and re.match(n2.tipo,'BOOLEANO'):
         if re.match(n1.hijo,'TRUE') and re.match(n2.hijo,'TRUE'):
             return True
@@ -44,32 +40,26 @@ def match(n1, n2 = None):
             return True
         else: 
             return False
-    elif re.match(n1.tipo,'LISTA') and re.match(n2.tipo,'LISTA'):
-        return match(n1.hijo1,n2.hijo1) and match(n1.hijo2,n2.hijo2)
-    if  re.match(n1.tipo,'PATRON'):
-        return match(n1.hijo,n2)
-    if re.match(n1.tipo,'LISTAPATRON'):
-        resp = True
-        for i in n1.hijo:
-            resp = resp and match(i.hijo,n2)
-        return resp
-#        return match(n1.hijo,n2)
-    if  re.match(n2.tipo,'PATRON'):
-        return match(n1, n2.hijo)
-    if re.match(n2.tipo,'LISTAPATRON'):
-        return match(n1, n2.hijo[0].hijo)
+    elif re.match(n1.tipo,'LISTAVACIA') and re.match(n2.tipo,'LISTAVACIA'):
+        return True
     elif re.match(n1.tipo,'VARIABLE') or re.match(n2.tipo,'VARIABLE'):
         return True
-    elif re.match(n1.tipo,'ENTERO'):
-        return True
+    elif re.match(n1.tipo,'LISTA') and re.match(n2.tipo,'LISTA'):
+        return match(n1.hijo1,n2.hijo1) and match(n1.hijo2,n2.hijo2)
     elif re.match(n1.tipo,'ENTERO') and re.match(n2.tipo,'ENTERO'):
         if re.match(n1.hijo,n2.hijo):
             return True
         else:
             return False
+#     elif re.match(n1.tipo,'PATRON') and re.match(n2.tipo,'LISTA'):
+#         return match(n1.hijo,n2)      
+#     if re.match(n2.tipo,'LISTAPATRON'):
+#         return match(n1, n2.hijo[0].hijo)
+    
+    # elif re.match(n1.tipo,'ENTERO'):
+    #     return True
     else:
         return False
-
 
 def replace(env,x,y):
     env[x] = y
@@ -219,54 +209,57 @@ def eval(env,nodo,h=None):
             hijos = hijos_fun(nodo)
             tuplas = []
             for i in hijos: # i : NodoFunH
-                #for j in i.hijo1.hijo: # j : patrones en ListaPatron
-                tuplas.append((i.hijo1,i.hijo2)) # tupla (NodoListaPatron,expr)
-                clausura = CLS(env,tuplas)
-            return clausura
+                if len(i.hijo1.hijo) > 0:
+                    return True
+                else:
+                    tuplas.append(i.hijo1.hijo[0],i.hijo2) # Se toma el unico hijo de NLP
+                    clausura = CLS(env,tuplas)
+                    return clausura
         elif re.match(nodo.tipo,'APLICAR'):
-            #            return apply(env,eval(env,nodo.hijo1),eval(env,nodo.hijo2))
             return apply(eval(env,nodo.hijo1),eval(env,nodo.hijo2))
-    else:
-        return nodo
+        else:
+            return nodo
 
 def hijos_fun(arb_fun):
     return arb_fun.hijo
+
+def apply(cls,v):
+    if isinstance(cls,CLS):
+        ltuplas = cls.getLista()
+        head = ltuplas[0]
+        print 'HEAD'
+        print head[0]
+        print 'V'
+        print v 
+        if match(head[0],v):
+            return eval(extend(cls.env,head[0],v),head[1])
+        else:
+            ltuplas = ltuplas[1:len(ltuplas)] # Cola de la lista
+            cls.remplazar(ltuplas)
+            if len(cls.lista) == 0:
+                raise MatchingError('no hubo match con '+ str(v) )
+            else:
+                return apply(cls,v)
+    else:
+        raise MatchingError('no hubo match con '+ str(v))
+                            
+            
+
+
 
 # #def apply(env,p1,p2):
 # #    if isinstance(p1,CLS):
 #         ltuplas = p1.getLista()
 #         head = ltuplas[0]
 #         if match(head[0],p2):
-#           #  print 'hola2'
-#            print head[0].hijo
-#            print p2
 #            return eval(extend(env,head[0].hijo,p2),head[1])
 #         else:
-#           #  print 'hola'
 #             ltuplas = ltuplas[1:len(ltuplas)] # Cola de la lista
 #             p1.remplazar(ltuplas)
 #             if len(p1.lista) == 0:
 #                 raise MatchingError('no hubo match con '+ str(p2) )
 #             else:
-#                 #     print 'hola' + p1
 #                 return apply(env,p1,p2)
 #  #   else:
 #   #      apply(env,eval(env,p1),eval(env,p2))
-
-def apply(cls,v):
-    ltuplas = cls.getLista()
-    head = ltuplas[0]
-    print 'HEAD'
-    print head[0]
-    print v
-    print head[1]
-    if match(head[0],v):
-        return eval(extend(cls.env,head[0],v),head[1])
-    else:
-        ltuplas = ltuplas[1:len(ltuplas)] # Cola de la lista
-        cls.remplazar(ltuplas)
-        if len(cls.lista) == 0:
-            raise MatchingError('no hubo match con '+ str(v) )
-        else:
-            return apply(cls,v)
        
