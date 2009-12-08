@@ -221,6 +221,11 @@ def eval(env,nodo,h=None):
                 raise TypeError('En and logico')
         elif re.match(nodo.tipo,'PATRON'):
             return eval(env,nodo.hijo)
+        elif re.match(nodo.tipo, 'IF'):
+            if eval(env,nodo.hijo1):
+                return eval(env, nodo.hijo2)
+            else:
+                return eval(env,nodo.hijo3)
         elif re.match(nodo.tipo,'LET'):
             env1 = extend(env,nodo.hijo1.hijo.hijo,'fake')
             v1 = eval(env1,nodo.hijo2)
