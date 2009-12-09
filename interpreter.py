@@ -78,13 +78,21 @@ def is_int(x,y):
     else:
         return False
 			
+# Verificacion de que ambos parametros no son booleanos 
+def no_bool(x,y):
+    if not isinstance(x,bool) and not isinstance(y,bool):
+        return True
+    else:
+        return False
+
 # Verificacion de que ambos parametros son booleanos	
 def is_bool(x,y):
-    if isinstance(x,bool) and isinstance(y,bool):
+    if  isinstance(x,bool) and isinstance(y,bool):
         return True
     else:
         return False
 	
+			
 		
 def eval(env,nodo,h=None):
     if h == None:
@@ -106,20 +114,20 @@ def eval(env,nodo,h=None):
         elif nodo.tipo == 'MENOR':
             x = eval(env,nodo.hijo1)
             y = eval(env,nodo.hijo2)
-            if is_int(x,y):
+            if is_int(x,y) and no_bool(x,y):
                 return x < y
             else:
                 raise TypeError('En la operacion de mayor.')
         elif nodo.tipo == 'MAYOR':
             x = eval(env,nodo.hijo1)
             y = eval(env,nodo.hijo2)
-            if is_int(x,y):
+            if is_int(x,y) and no_bool(x,y):
                 return x > y
             else:
                 raise TypeError('En la operacion de menor.')
         elif nodo.tipo == 'NEGATIVO':
             x = eval(env,nodo.hijo2)
-            if isinstance(x,int):
+            if isinstance(x,int) and no_bool(x,y):
                 return -x
         elif nodo.tipo == 'NO':
             x = eval(env,nodo.hijo2)
@@ -130,28 +138,28 @@ def eval(env,nodo,h=None):
         elif nodo.tipo == 'MENOROIGUAL':
             x = eval(env,nodo.hijo1)
             y = eval(env,nodo.hijo2)
-            if is_int(x,y):
+            if is_int(x,y) and no_bool(x,y):
                  return x <= y
             else:
                 raise TypeError('En la operacion de menor o igual.')
         elif nodo.tipo == 'MAYOROIGUAL':
             x = eval(env,nodo.hijo1)
             y = eval(env,nodo.hijo2)
-            if is_int(x,y):
+            if is_int(x,y) and no_bool(x,y):
                     return  x >= y
             else:
                 raise TypeError('En la operacion de mayor.')
         elif nodo.tipo == 'DISTINTO':
             x = eval(env,nodo.hijo1)
             y = eval(env,nodo.hijo2)
-            if (is_int(x,y)) or (is_bool(x,y)):
+            if (is_int(x,y) and no_bool(x,y)) or (is_bool(x,y) and not isinstance(x,int) and not isinstance(y,int)):
                 return  x != y 
             else:
                 raise TypeError('En la operacion de diferente.')
         elif nodo.tipo == 'IGUAL':
             x = eval(env,nodo.hijo1)
             y = eval(env,nodo.hijo2)
-            if (is_int(x,y)) or (is_bool(x,y)):
+            if (is_int(x,y) and no_bool(x,y)) or (is_bool(x,y) and not isinstance(x,int) and not isinstance(y,int)):
                     return  x == y
             else:
                 raise TypeError('En la operacion de igualdad.')	
@@ -165,28 +173,28 @@ def eval(env,nodo,h=None):
         elif nodo.tipo == 'MAS':
             x = eval(env,nodo.hijo1)
             y = eval(env,nodo.hijo2)
-            if is_int(x,y):
+            if is_int(x,y) and no_bool(x,y):
                 return x + y
             else:
                 raise TypeError('En la operacion de suma.')
         elif nodo.tipo == 'MENOS':
             x = eval(env,nodo.hijo1)
             y = eval(env,nodo.hijo2)
-            if is_int(x,y):
+            if is_int(x,y) and no_bool(x,y):
                 return x - y 
             else:
                 raise TypeError('En la operacion de resta.')
         elif nodo.tipo == 'PRODUCTO':
             x = eval(env,nodo.hijo1)
             y = eval(env,nodo.hijo2)
-           # if is_int(x,y):
-            return x*y
-           # else:
-            #    raise TypeError('En la operacion de producto.')
+            if is_int(x,y) and no_bool(x,y):
+                return x*y
+            else:
+                raise TypeError('En la operacion de producto.')
         elif nodo.tipo == 'COCIENTE':
             x = eval(env,nodo.hijo1) 
             y = eval(env,nodo.hijo2) 
-            if is_int(x,y):
+            if is_int(x,y) and no_bool(x,y):
                 if y == 0:
                     raise ZeroDivisionError('Division entre Cero.')
                 else:
