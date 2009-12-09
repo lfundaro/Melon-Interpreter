@@ -1,6 +1,7 @@
 import re
 from syntree import *
 from Exceptions import *
+import copy
 
 #Definicion de estructura CLS
 
@@ -18,15 +19,11 @@ class CLS:
     def remplazar(self,cola):
         self.lista = cola
 
-# def checkListaVac(nodo):
-#     if re.match(nodo.tipo,'LISTAVACIA'):
-#         return True
-#     else:
-#         return False
-
 def match(n1, n2 = None):
     if isinstance(n2,int):
         return match(n1,NodoGen("ENTERO",str(n2)))
+    elif isinstance(n1,int):
+        return match(n1,NodoGen("ENTERO",str(n1)))
     elif isinstance(n2,str):
         return match(n1,NodoGen("LISTAVACIA",n2))
     elif n1.tipo == 'LISTAPATRON':
@@ -68,6 +65,8 @@ def extend(env,x,y):
 
 def lookup(env,x):
     if env.has_key(x):
+        print 'KEY'
+        print env[x].lista[0][0].hijo
         return env[x]
     else:
         return False
@@ -159,13 +158,10 @@ def eval(env,nodo,h=None):
         elif nodo.tipo == 'ENTERO':
             return int(nodo.hijo)
         elif nodo.tipo == 'VARIABLE':
-            if lookup(env,nodo.hijo): 
-                return lookup(env,nodo.hijo)
-            else:
-                print 'ESTADO ENV'
-                print env['sum'].lista
-                print env['sum'].env
-                raise LookUpError('Variable "' +str(nodo.hijo) + '" no declarada.')
+           # if lookup(env,nodo.hijo): 
+            return lookup(env,nodo.hijo)
+            # else:
+            #    raise LookUpError('Variable "' +str(nodo.hijo) + '" no declarada.')
         elif nodo.tipo == 'MAS':
             x = eval(env,nodo.hijo1)
             y = eval(env,nodo.hijo2)
@@ -183,10 +179,10 @@ def eval(env,nodo,h=None):
         elif nodo.tipo == 'PRODUCTO':
             x = eval(env,nodo.hijo1)
             y = eval(env,nodo.hijo2)
-            if is_int(x,y):
-                return x*y
-            else:
-                raise TypeError('En la operacion de producto.')
+           # if is_int(x,y):
+            return x*y
+           # else:
+            #    raise TypeError('En la operacion de producto.')
         elif nodo.tipo == 'COCIENTE':
             x = eval(env,nodo.hijo1) 
             y = eval(env,nodo.hijo2) 
@@ -219,17 +215,18 @@ def eval(env,nodo,h=None):
             else:
                 return eval(env,nodo.hijo3)
         elif re.match(nodo.tipo,'LET'):
-            env1 = extend(env,nodo.hijo1.hijo.hijo,'fake')
+            env1 = extend(copy.deepcopy(env),nodo.hijo1.hijo.hijo,'fake')
             v1 = eval(env1,nodo.hijo2)
-            print replace(env1,nodo.hijo1.hijo.hijo,v1)
-            print env
             return eval(replace(env1,nodo.hijo1.hijo.hijo,v1),nodo.hijo3)
         elif re.match(nodo.tipo,'FUN'):
             hijos = hijos_fun(nodo)
             tuplas = []
+            # if len(hijos[0].hijo1.hijo) > 1: # chequeo multiples valores
+            #     funcion_mod = transformar()
             for i in hijos: # i : NodoFunH
-                if len(i.hijo1.hijo) > 1:
+                if len(i.hijo1.hijo) > 1: # chequeo multiples valores
                     return True
+#                    conjunto = transformar(i.hijo1.hijo,i.hijo2)  # a partir del segundo hijo
                 else:
                     tuplas.append((i.hijo1.hijo[0],i.hijo2)) # Se toma el unico hijo de NLP
             clausura = CLS(env,tuplas)
@@ -239,6 +236,8 @@ def eval(env,nodo,h=None):
     else:
         return nodo
 
+#def transformar(lista,expr):
+    
 def hijos_fun(arb_fun):
     return arb_fun.hijo
 
@@ -257,18 +256,15 @@ def apply(cls,v):
         ltuplas = cls.getLista()
         head = ltuplas[0]
         if match(head[0],v):
-            print 'HEAD 1'
-            print head[1]
-            print 'extend'
-            print extend(cls.env,bajar(head[0]),v)
-            return eval(extend(cls.env,bajar(head[0]),v),head[1])
+            return eval(extend(copy.deepcopy(cls.env),bajar(head[0]),v),head[1])
         else:
             ltuplas = ltuplas[1:len(ltuplas)] # Cola de la lista
-            cls.remplazar(ltuplas)
-            if len(cls.lista) == 0:
-                raise MatchingError('no hubo match con '+ str(v) )
+            cls_cola = CLS(cls.env,ltuplas)
+            if len(cls_cola.lista) == 0:
+                print 'AQUI'
+                raise MatchingError('no hubo match con '+ str(v) + str(head[0]))
             else:
-                return apply(cls,v)
+                return apply(cls_cola,v)
     else:
         raise MatchingError('no hubo match con '+ str(v))
                             
