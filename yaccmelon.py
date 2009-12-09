@@ -252,15 +252,29 @@ def p_patron_listavac(p):
 def p_error(p):
     raise SyntaxError(p)
 
+def recorrer_list(nodo):
+    if isinstance(nodo,NodoBin):
+		return str(recorrer_list(nodo.hijo1)) + '::' + str(recorrer_list(nodo.hijo2))
+    else:
+        return str(nodo)
+		
 # Se comienza el parseo
 def beginParse(program):
     yacc = lexyacc.yacc()
     try:
         result = yacc.parse(program.read(),lexer = lexmelon.lex())
         aux = eval({},result)
-        if isinstance(aux,bool):
+		if isinstance(aux,bool):
             aux = str(aux).lower()
-        print aux
+        if isinstance(aux,NodoBin):
+            if aux.tipo == 'LISTA':
+               print  recorrer_list(aux)
+		else:
+			print aux
+
+ #i	f isinstance(aux,bool):
+  #          aux = str(aux).lower()
+    #    print aux
     except SyntaxError, e:
         token = e.token
         if token:
