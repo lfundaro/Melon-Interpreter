@@ -108,8 +108,8 @@ def eval(env,nodo,h=None):
             else:
                 return False
         elif nodo.tipo == 'LISTA':
-#            return NodoBin('LISTA',eval(env,nodo.hijo1),eval(env,nodo.hijo2))
-            return NodoBin('LISTA',nodo.hijo1,nodo.hijo2)
+            return NodoBin('LISTA',eval(env,nodo.hijo1),eval(env,nodo.hijo2))
+#            return NodoBin('LISTA',nodo.hijo1,nodo.hijo2)
         elif nodo.tipo == 'MENOR':
             x = eval(env,nodo.hijo1)
             y = eval(env,nodo.hijo2)
@@ -151,15 +151,19 @@ def eval(env,nodo,h=None):
         elif nodo.tipo == 'DISTINTO':
             x = eval(env,nodo.hijo1)
             y = eval(env,nodo.hijo2)
-            if (is_int(x,y) and no_bool(x,y)) or (is_bool(x,y) and not isinstance(x,int) and not isinstance(y,int)):
-                return  x != y 
+             if (is_int(x,y) and no_bool(x,y)):
+                return  x != y
+            elif is_bool(x,y):
+                return x != y
             else:
-                raise TypeError('En la operacion de diferente.')
+                raise TypeError('En la operacion de diferencia.')	
         elif nodo.tipo == 'IGUAL':
             x = eval(env,nodo.hijo1)
             y = eval(env,nodo.hijo2)
-            if (is_int(x,y) and no_bool(x,y)) or (is_bool(x,y) and not isinstance(x,int) and not isinstance(y,int)):
-                    return  x == y
+            if (is_int(x,y) and no_bool(x,y)):
+                return  x == y
+            elif is_bool(x,y):
+                return x == y
             else:
                 raise TypeError('En la operacion de igualdad.')	
         elif nodo.tipo == 'ENTERO':
@@ -240,15 +244,6 @@ def eval(env,nodo,h=None):
             return apply(eval(env,nodo.hijo1),eval(env,nodo.hijo2))
     else:
         return nodo
-
-def getPatrones(nodofun):
-    hijos = nodofun.hijo
-    ref = []
-    for i in hijos:
-        for j in i.hijo
-        
-    
-    
 
 def transformar(hijos):
     # Se hacen los matches entre los patrones
