@@ -252,6 +252,12 @@ def p_patron_listavac(p):
 def p_error(p):
     raise SyntaxError(p)
 
+def print_list(nodo):
+    if isinstance(nodo,NodoBin):
+        return str(print_list(nodo.hijo1)) + '::' + str(print_list(nodo.hijo2))
+    else:
+        return str(nodo)
+
 # Se comienza el parseo
 def beginParse(program):
     yacc = lexyacc.yacc()
@@ -260,7 +266,9 @@ def beginParse(program):
         aux = eval({},result)
         if isinstance(aux,bool):
             aux = str(aux).lower()
-        print aux
+        if isinstance(aux,NodoBin):
+            if aux.tipo == 'LISTA':
+               print  print_list(aux)
     except SyntaxError, e:
         token = e.token
         if token:
