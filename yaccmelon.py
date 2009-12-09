@@ -252,9 +252,9 @@ def p_patron_listavac(p):
 def p_error(p):
     raise SyntaxError(p)
 
-def print_list(nodo):
+def recorrer_list(nodo):
     if isinstance(nodo,NodoBin):
-        return str(print_list(nodo.hijo1)) + '::' + str(print_list(nodo.hijo2))
+        return str(recorrer_list(nodo.hijo1)) + '::' + str(recorrer_list(nodo.hijo2))
     else:
         return str(nodo)
 
@@ -268,7 +268,9 @@ def beginParse(program):
             aux = str(aux).lower()
         if isinstance(aux,NodoBin):
             if aux.tipo == 'LISTA':
-               print  print_list(aux)
+               print  recorrer_list(aux)
+        else:
+            print aux
     except SyntaxError, e:
         token = e.token
         if token:
