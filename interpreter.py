@@ -108,8 +108,8 @@ def eval(env,nodo,h=None):
             else:
                 return False
         elif nodo.tipo == 'LISTA':
-#            return NodoBin('LISTA',eval(env,nodo.hijo1),eval(env,nodo.hijo2))
-            return NodoBin('LISTA',nodo.hijo1,nodo.hijo2)
+            return NodoBin('LISTA',eval(env,nodo.hijo1),eval(env,nodo.hijo2))
+#            return NodoBin('LISTA',nodo.hijo1,nodo.hijo2)
         elif nodo.tipo == 'MENOR':
             x = eval(env,nodo.hijo1)
             y = eval(env,nodo.hijo2)
@@ -158,9 +158,11 @@ def eval(env,nodo,h=None):
         elif nodo.tipo == 'IGUAL':
             x = eval(env,nodo.hijo1)
             y = eval(env,nodo.hijo2)
-            if (is_int(x,y) and no_bool(x,y)) or (is_bool(x,y) and not isinstance(x,int) and not isinstance(y,int)):
-                    return  x == y
-            else:
+            if (is_int(x,y) and no_bool(x,y)):
+                return  x == y
+            elif is_bool(x,y) and not isinstance(x,int) and not isinstance(y,int):
+				return x == y
+			else:
                 raise TypeError('En la operacion de igualdad.')	
         elif nodo.tipo == 'ENTERO':
             return int(nodo.hijo)
