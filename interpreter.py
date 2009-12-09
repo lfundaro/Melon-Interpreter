@@ -65,8 +65,6 @@ def extend(env,x,y):
 
 def lookup(env,x):
     if env.has_key(x):
-        print 'KEY'
-        print env[x].lista[0][0].hijo
         return env[x]
     else:
         return False
@@ -102,7 +100,8 @@ def eval(env,nodo,h=None):
             else:
                 return False
         elif nodo.tipo == 'LISTA':
-            return NodoBin('LISTA',eval(env,nodo.hijo1),eval(env,nodo.hijo2))
+#            return NodoBin('LISTA',eval(env,nodo.hijo1),eval(env,nodo.hijo2))
+            return NodoBin('LISTA',nodo.hijo1,nodo.hijo2)
         elif nodo.tipo == 'MENOR':
             x = eval(env,nodo.hijo1)
             y = eval(env,nodo.hijo2)
@@ -221,12 +220,10 @@ def eval(env,nodo,h=None):
         elif re.match(nodo.tipo,'FUN'):
             hijos = hijos_fun(nodo)
             tuplas = []
-            # if len(hijos[0].hijo1.hijo) > 1: # chequeo multiples valores
-            #     funcion_mod = transformar()
             for i in hijos: # i : NodoFunH
                 if len(i.hijo1.hijo) > 1: # chequeo multiples valores
-                    return True
-#                    conjunto = transformar(i.hijo1.hijo,i.hijo2)  # a partir del segundo hijo
+                    nuevo_FUN = transformar(hijos)
+                    return eval(env,nuevo_FUN)
                 else:
                     tuplas.append((i.hijo1.hijo[0],i.hijo2)) # Se toma el unico hijo de NLP
             clausura = CLS(env,tuplas)
@@ -236,8 +233,11 @@ def eval(env,nodo,h=None):
     else:
         return nodo
 
-#def transformar(lista,expr):
-    
+def transformar(hijos):
+    # Se hacen los matches entre los patrones
+    for i in hijos:
+        return True
+
 def hijos_fun(arb_fun):
     return arb_fun.hijo
 
