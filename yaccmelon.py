@@ -261,6 +261,7 @@ def beginParse(program):
         if isinstance(aux,bool):
             aux = str(aux).lower()
         print aux
+        print 'HOLA'
     except SyntaxError, e:
         token = e.token
         if token:
