@@ -241,6 +241,15 @@ def eval(env,nodo,h=None):
     else:
         return nodo
 
+def getPatrones(nodofun):
+    hijos = nodofun.hijo
+    ref = []
+    for i in hijos:
+        for j in i.hijo
+        
+    
+    
+
 def transformar(hijos):
     # Se hacen los matches entre los patrones
     for i in hijos:

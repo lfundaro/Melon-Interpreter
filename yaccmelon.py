@@ -275,6 +275,7 @@ def beginParse(program):
  #i	f isinstance(aux,bool):
   #          aux = str(aux).lower()
     #    print aux
+
     except SyntaxError, e:
         token = e.token
         if token:
