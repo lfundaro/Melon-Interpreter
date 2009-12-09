@@ -264,14 +264,14 @@ def beginParse(program):
     try:
         result = yacc.parse(program.read(),lexer = lexmelon.lex())
         aux = eval({},result)
-		if isinstance(aux,bool):
+        if isinstance(aux,bool):
             aux = str(aux).lower()
         if isinstance(aux,NodoBin):
             if aux.tipo == 'LISTA':
-               print  recorrer_list(aux)
-		else:
-			print aux
-
+                print  recorrer_list(aux)
+        else:
+            print aux
+                    
  #i	f isinstance(aux,bool):
   #          aux = str(aux).lower()
     #    print aux

@@ -108,8 +108,8 @@ def eval(env,nodo,h=None):
             else:
                 return False
         elif nodo.tipo == 'LISTA':
-#            return NodoBin('LISTA',eval(env,nodo.hijo1),eval(env,nodo.hijo2))
-            return NodoBin('LISTA',nodo.hijo1,nodo.hijo2)
+            return NodoBin('LISTA',eval(env,nodo.hijo1),eval(env,nodo.hijo2))
+#            return NodoBin('LISTA',nodo.hijo1,nodo.hijo2)
         elif nodo.tipo == 'MENOR':
             x = eval(env,nodo.hijo1)
             y = eval(env,nodo.hijo2)
@@ -241,12 +241,22 @@ def eval(env,nodo,h=None):
     else:
         return nodo
 
+class PatExp:
+    def __init__(self,lista,exp):
+        self.lista = lista
+        self.exp = exp
+
+
 def getPatrones(nodofun):
     hijos = nodofun.hijo
-    ref = []
+    patexp = PatExp([],None)
     for i in hijos:
-        for j in i.hijo
-        
+        for j in i.hijo1.hijo:
+            patexp.lista.append(j)
+            
+            
+            
+            
     
     
 
