@@ -18,46 +18,43 @@ class CLS:
     def remplazar(self,cola):
         self.lista = cola
 
-def checkListaVac(nodo):
-    if re.match(nodo.tipo,'LISTAVACIA'):
-        return True
-    else:
-        return False
+# def checkListaVac(nodo):
+#     if re.match(nodo.tipo,'LISTAVACIA'):
+#         return True
+#     else:
+#         return False
 
 def match(n1, n2 = None):
     if isinstance(n2,int):
         return match(n1,NodoGen("ENTERO",str(n2)))
     elif isinstance(n2,str):
         return match(n1,NodoGen("LISTAVACIA",n2))
-    elif re.match(n1.tipo,'PATRON'):
+    elif n1.tipo == 'LISTAPATRON':
+        return match(n1.hijo[0],n2)
+    elif n2.tipo == 'LISTAPATRON':
+        return match(n1,n2.hijo[0])
+    elif n1.tipo == 'PATRON':
         return match(n1.hijo,n2)
-    elif re.match(n2.tipo,'PATRON'):
+    elif n2.tipo == 'PATRON':
         return match(n1,n2.hijo)
-    elif re.match(n1.tipo,'BOOLEANO') and re.match(n2.tipo,'BOOLEANO'):
-        if re.match(n1.hijo,'TRUE') and re.match(n2.hijo,'TRUE'):
+    elif n1.tipo == 'BOOLEANO' and n2.tipo == 'BOOLEANO':
+        if n1.hijo == 'TRUE' and n2.hijo == 'TRUE':
             return True
-        elif re.match(n1.hijo, 'FALSE') and re.match(n2.hijo,'FALSE'):
+        elif n1.hijo == 'FALSE' and n2.hijo == 'FALSE':
             return True
         else: 
             return False
-    elif re.match(n1.tipo,'LISTAVACIA') and re.match(n2.tipo,'LISTAVACIA'):
+    elif n1.tipo == 'LISTAVACIA' and n2.tipo == 'LISTAVACIA':
         return True
-    elif re.match(n1.tipo,'VARIABLE') or re.match(n2.tipo,'VARIABLE'):
+    elif n1.tipo == 'VARIABLE' or n2.tipo == 'VARIABLE':
         return True
-    elif re.match(n1.tipo,'LISTA') and re.match(n2.tipo,'LISTA'):
+    elif n1.tipo == 'LISTA' and n2.tipo == 'LISTA':
         return match(n1.hijo1,n2.hijo1) and match(n1.hijo2,n2.hijo2)
-    elif re.match(n1.tipo,'ENTERO') and re.match(n2.tipo,'ENTERO'):
-        if re.match(n1.hijo,n2.hijo):
+    elif n1.tipo == 'ENTERO' and n2.tipo == 'ENTERO':
+        if n1.hijo == n2.hijo:
             return True
         else:
             return False
-#     elif re.match(n1.tipo,'PATRON') and re.match(n2.tipo,'LISTA'):
-#         return match(n1.hijo,n2)      
-#     if re.match(n2.tipo,'LISTAPATRON'):
-#         return match(n1, n2.hijo[0].hijo)
-    
-    # elif re.match(n1.tipo,'ENTERO'):
-    #     return True
     else:
         return False
 
@@ -92,100 +89,105 @@ def is_bool(x,y):
 		
 def eval(env,nodo,h=None):
     if h == None:
-        if re.match(nodo.tipo,''):
+        if nodo.tipo == '':
             nodo = nodo.hijo
             return eval(env,nodo)
-        elif re.match(nodo.tipo, 'PAREN'):
+        elif nodo.tipo == 'PAREN':
             nodo = nodo.hijo
             return eval(env,nodo)
-        elif re.match(nodo.tipo,'LISTAVACIA'):
+        elif nodo.tipo == 'LISTAVACIA':
             return nodo
-        elif re.match(nodo.tipo,'BOOLEANO'):
-            if re.match(nodo.hijo, 'TRUE'):
+        elif nodo.tipo == 'BOOLEANO':
+            if nodo.hijo == 'TRUE':
                 return True
             else:
                 return False
-        elif re.match(nodo.tipo, 'MENOR'):
+        elif nodo.tipo == 'LISTA':
+            return NodoBin('LISTA',eval(env,nodo.hijo1),eval(env,nodo.hijo2))
+        elif nodo.tipo == 'MENOR':
             x = eval(env,nodo.hijo1)
             y = eval(env,nodo.hijo2)
             if is_int(x,y):
                 return x < y
             else:
                 raise TypeError('En la operacion de mayor.')
-        elif re.match(nodo.tipo, 'MAYOR'):
+        elif nodo.tipo == 'MAYOR':
             x = eval(env,nodo.hijo1)
             y = eval(env,nodo.hijo2)
             if is_int(x,y):
                 return x > y
             else:
                 raise TypeError('En la operacion de menor.')
-        elif re.match(nodo.tipo, 'NEGATIVO'):
+        elif nodo.tipo == 'NEGATIVO':
             x = eval(env,nodo.hijo2)
             if isinstance(x,int):
                 return -x
-        elif re.match(nodo.tipo, 'NO'):
+        elif nodo.tipo == 'NO':
             x = eval(env,nodo.hijo2)
             if isinstance(x,bool):
                 return (not x)
             else:
                 raise TypeError('En la negacion')
-        elif re.match(nodo.tipo, 'MENOROIGUAL'):
+        elif nodo.tipo == 'MENOROIGUAL':
             x = eval(env,nodo.hijo1)
             y = eval(env,nodo.hijo2)
             if is_int(x,y):
                  return x <= y
             else:
                 raise TypeError('En la operacion de menor o igual.')
-        elif re.match(nodo.tipo, 'MAYOROIGUAL'):
+        elif nodo.tipo == 'MAYOROIGUAL':
             x = eval(env,nodo.hijo1)
             y = eval(env,nodo.hijo2)
             if is_int(x,y):
                     return  x >= y
             else:
                 raise TypeError('En la operacion de mayor.')
-        elif re.match(nodo.tipo, 'DISTINTO'):
+        elif nodo.tipo == 'DISTINTO':
             x = eval(env,nodo.hijo1)
             y = eval(env,nodo.hijo2)
             if (is_int(x,y)) or (is_bool(x,y)):
                 return  x != y 
             else:
                 raise TypeError('En la operacion de diferente.')
-        elif re.match(nodo.tipo, 'IGUAL'):
+        elif nodo.tipo == 'IGUAL':
             x = eval(env,nodo.hijo1)
             y = eval(env,nodo.hijo2)
             if (is_int(x,y)) or (is_bool(x,y)):
                     return  x == y
             else:
                 raise TypeError('En la operacion de igualdad.')	
-        elif re.match(nodo.tipo,'ENTERO'):
+        elif nodo.tipo == 'ENTERO':
             return int(nodo.hijo)
-        elif re.match(nodo.tipo,'VARIABLE'):
-            if lookup(env,nodo.hijo):
+        elif nodo.tipo == 'VARIABLE':
+            if lookup(env,nodo.hijo): 
                 return lookup(env,nodo.hijo)
             else:
+                print 'ESTADO ENV'
+                print env['sum'].lista
+                print env['sum'].env
                 raise LookUpError('Variable "' +str(nodo.hijo) + '" no declarada.')
-        elif re.match(nodo.tipo,'MAS'):
+        elif nodo.tipo == 'MAS':
             x = eval(env,nodo.hijo1)
             y = eval(env,nodo.hijo2)
             if is_int(x,y):
-                return x + y 
+                return x + y
             else:
                 raise TypeError('En la operacion de suma.')
-        elif re.match(nodo.tipo,'MENOS'):
+        elif nodo.tipo == 'MENOS':
             x = eval(env,nodo.hijo1)
             y = eval(env,nodo.hijo2)
             if is_int(x,y):
                 return x - y 
             else:
                 raise TypeError('En la operacion de resta.')
-        elif re.match(nodo.tipo,'PRODUCTO'):
+        elif nodo.tipo == 'PRODUCTO':
             x = eval(env,nodo.hijo1)
             y = eval(env,nodo.hijo2)
             if is_int(x,y):
                 return x*y
             else:
                 raise TypeError('En la operacion de producto.')
-        elif re.match(nodo.tipo,'COCIENTE'):
+        elif nodo.tipo == 'COCIENTE':
             x = eval(env,nodo.hijo1) 
             y = eval(env,nodo.hijo2) 
             if is_int(x,y):
@@ -195,7 +197,7 @@ def eval(env,nodo,h=None):
                     return x / y
             else:
                 raise TypeError('En la operacion de division.')
-        elif re.match(nodo.tipo,'OR'):
+        elif nodo.tipo == 'OR':
             x = eval(env,nodo.hijo1) 
             y = eval(env,nodo.hijo2) 
             if is_bool(x,y):
@@ -219,35 +221,47 @@ def eval(env,nodo,h=None):
         elif re.match(nodo.tipo,'LET'):
             env1 = extend(env,nodo.hijo1.hijo.hijo,'fake')
             v1 = eval(env1,nodo.hijo2)
+            print replace(env1,nodo.hijo1.hijo.hijo,v1)
+            print env
             return eval(replace(env1,nodo.hijo1.hijo.hijo,v1),nodo.hijo3)
         elif re.match(nodo.tipo,'FUN'):
             hijos = hijos_fun(nodo)
             tuplas = []
             for i in hijos: # i : NodoFunH
-                if len(i.hijo1.hijo) > 0:
+                if len(i.hijo1.hijo) > 1:
                     return True
                 else:
-                    tuplas.append(i.hijo1.hijo[0],i.hijo2) # Se toma el unico hijo de NLP
-                    clausura = CLS(env,tuplas)
-                    return clausura
+                    tuplas.append((i.hijo1.hijo[0],i.hijo2)) # Se toma el unico hijo de NLP
+            clausura = CLS(env,tuplas)
+            return clausura
         elif re.match(nodo.tipo,'APLICAR'):
             return apply(eval(env,nodo.hijo1),eval(env,nodo.hijo2))
-        else:
-            return nodo
+    else:
+        return nodo
 
 def hijos_fun(arb_fun):
     return arb_fun.hijo
+
+def bajar(nodo):
+    if isinstance(nodo,int):
+        return nodo
+    elif isinstance(nodo,str):
+        return nodo
+    elif re.match(nodo.tipo,'PATRON'):
+        return bajar(nodo.hijo)
+    elif re.match(nodo.tipo,'VARIABLE'):
+        return bajar(nodo.hijo)
 
 def apply(cls,v):
     if isinstance(cls,CLS):
         ltuplas = cls.getLista()
         head = ltuplas[0]
-        print 'HEAD'
-        print head[0]
-        print 'V'
-        print v 
         if match(head[0],v):
-            return eval(extend(cls.env,head[0],v),head[1])
+            print 'HEAD 1'
+            print head[1]
+            print 'extend'
+            print extend(cls.env,bajar(head[0]),v)
+            return eval(extend(cls.env,bajar(head[0]),v),head[1])
         else:
             ltuplas = ltuplas[1:len(ltuplas)] # Cola de la lista
             cls.remplazar(ltuplas)
@@ -258,9 +272,6 @@ def apply(cls,v):
     else:
         raise MatchingError('no hubo match con '+ str(v))
                             
-            
-
-
 
 # #def apply(env,p1,p2):
 # #    if isinstance(p1,CLS):
