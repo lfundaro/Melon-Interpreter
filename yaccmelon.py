@@ -269,7 +269,9 @@ def beginParse(program):
             aux = str(aux).lower()
         if isinstance(aux,NodoBin):
             if aux.tipo == 'LISTA':
-               print  recorrer_list(aux)
+                print  recorrer_list(aux)
+        else:
+            print aux
     except SyntaxError, e:
         token = e.token
         if token:

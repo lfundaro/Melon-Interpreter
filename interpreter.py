@@ -20,10 +20,18 @@ class CLS:
         self.lista = cola
 
 def match(n1, n2 = None):
-    if isinstance(n2,int):
+    if n1 == True:
+        return match(n2,NodoGen("BOOLEANO",n1))
+    if n2 == True:
+        return match(n1,NodoGen("BOOLEANDO",n2))
+    if isinstance(n2,int) and not isinstance(n2,bool):
         return match(n1,NodoGen("ENTERO",str(n2)))
-    elif isinstance(n1,int):
-        return match(n1,NodoGen("ENTERO",str(n1)))
+    elif isinstance(n1,int) and not isinstance(n1,bool):
+        return match(n2,NodoGen("ENTERO",str(n1)))
+    elif isinstance(n1,str):
+        return match(n1,NodoGen("BOOLEANO",n1))
+    elif isinstance(n2,str):
+        return match(n2,NodoGen("BOOLEANO",n2))
     elif isinstance(n2,str):
         return match(n1,NodoGen("LISTAVACIA",n2))
     elif n1.tipo == 'LISTAPATRON':
@@ -46,7 +54,7 @@ def match(n1, n2 = None):
     elif n1.tipo == 'VARIABLE' or n2.tipo == 'VARIABLE':
         return True
     elif n1.tipo == 'LISTA' and n2.tipo == 'LISTA':
-        return match(n1.hijo1,n2.hijo1) and match(n1.hijo2,n2.hijo2)
+        return igualdad_listas([],n1,n2)
     elif n1.tipo == 'ENTERO' and n2.tipo == 'ENTERO':
         if n1.hijo == n2.hijo:
             return True
@@ -60,7 +68,10 @@ def replace(env,x,y):
     return env
 
 def extend(env,x,y):
-    env[x] = y
+    if isinstance(y,bool):
+        env[x] = str(y)
+    else:
+        env[x] = y
     return env
 
 def lookup(env,x):
@@ -89,8 +100,6 @@ def is_bool(x,y):
         return True
     else:
         return False
-	
-			
 		
 def eval(env,nodo,h=None):
     if h == None:
@@ -109,7 +118,6 @@ def eval(env,nodo,h=None):
                 return False
         elif nodo.tipo == 'LISTA':
             return NodoBin('LISTA',eval(env,nodo.hijo1),eval(env,nodo.hijo2))
-#            return NodoBin('LISTA',nodo.hijo1,nodo.hijo2)
         elif nodo.tipo == 'MENOR':
             x = eval(env,nodo.hijo1)
             y = eval(env,nodo.hijo2)
@@ -151,8 +159,10 @@ def eval(env,nodo,h=None):
         elif nodo.tipo == 'DISTINTO':
             x = eval(env,nodo.hijo1)
             y = eval(env,nodo.hijo2)
-            if (is_int(x,y) and no_bool(x,y)) or (is_bool(x,y) and not isinstance(x,int) and not isinstance(y,int)):
+            if (is_int(x,y) and no_bool(x,y)):
                 return  x != y 
+            elif is_bool(x,y):
+                return x != y
             else:
                 raise TypeError('En la operacion de diferente.')
         elif nodo.tipo == 'IGUAL':
@@ -160,9 +170,9 @@ def eval(env,nodo,h=None):
             y = eval(env,nodo.hijo2)
             if (is_int(x,y) and no_bool(x,y)):
                 return  x == y
-            elif is_bool(x,y) and not isinstance(x,int) and not isinstance(y,int):
-				return x == y
-			else:
+            elif is_bool(x,y):
+                return x == y
+            else:
                 raise TypeError('En la operacion de igualdad.')	
         elif nodo.tipo == 'ENTERO':
             return int(nodo.hijo)
@@ -261,11 +271,34 @@ def bajar(nodo):
     elif re.match(nodo.tipo,'VARIABLE'):
         return bajar(nodo.hijo)
 
+def igualdad_listas(lista,a,b):
+    if match(a.hijo1,b.hijo1):
+        lista.append((bajar(a.hijo1),b.hijo1))
+        if a.hijo2.tipo == 'LISTA' and b.hijo2.tipo == 'LISTA':
+            igualdad_listas(lista,a.hijo2,b.hijo2)
+        elif a.hijo2.tipo != 'LISTA' and b.hijo2.tipo == 'LISTA':
+            if match(a.hijo2,b.hijo2):
+                lista.append((bajar(a.hijo2),b.hijo2))
+        else:
+            if match(a.hijo2,b.hijo2):
+                lista.append((bajar(a.hijo2),b.hijo2))
+        return lista
+    else:
+        return False
+            
+        
+
+
 def apply(cls,v):
     if isinstance(cls,CLS):
         ltuplas = cls.getLista()
         head = ltuplas[0]
-        if match(head[0],v):
+        if isinstance(match(head[0],v),list):
+            b = match(head[0],v)
+            for i in range(len(b)):
+                cls.env[b[i][0]] = b[i][1]
+            return eval(extend(copy.deepcopy(cls.env),bajar(head[0]),v),head[1])
+        elif match(head[0],v):    
             return eval(extend(copy.deepcopy(cls.env),bajar(head[0]),v),head[1])
         else:
             ltuplas = ltuplas[1:len(ltuplas)] # Cola de la lista
