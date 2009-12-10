@@ -22,11 +22,14 @@ class CLS:
     def remplazar(self,cola):
         self.lista = cola
 
+###################################################################################
+# Funcion match: Verificacion de que dos nodos hacen match segun su valor y tipo. #
+# Entrada: - n1 Nodo 1                                                            #
+#          - n2 Nodo 2 (Opcional)                                                 #
+# Salida:  - True hizo match                                                      #
+#          - False caso contrario.                                                #
+###################################################################################
 def match(n1, n2 = None): 
-    print 'N1'
-    print n1
-    print 'N2'
-    print n2
     if isinstance(n1,bool):
         return match(n2,NodoGen("BOOLEANO",str(n1)))
     elif isinstance(n2,bool):
@@ -35,10 +38,6 @@ def match(n1, n2 = None):
         return match(n1,NodoGen("ENTERO",str(n2)))
     elif isinstance(n1,int) and not isinstance(n1,bool):
         return match(n2,NodoGen("ENTERO",str(n1)))
-   # elif isinstance(n1,str):
-   #     return match(n1,NodoGen("BOOLEANO",n1))
-   # elif isinstance(n2,str):
-   #     return match(n2,NodoGen("BOOLEANO",n2))
     elif isinstance(n2,str):
         return match(n1,NodoGen("LISTAVACIA",n2))
     elif n1.tipo == 'LISTAPATRON':
@@ -71,10 +70,25 @@ def match(n1, n2 = None):
     else:
         return False
 
+
+###################################################################################
+# Funcion replace: Reemplaza el varlo asociado a una variable.                    #
+# Entrada: - env Diccionario donde se almacenan los valores de las varibales      #
+#          - x Variable                                                           #
+#          - y Valor asociado                                                     #
+# Salida:  - Diccionario con el valor reemplazado                                 #
+###################################################################################
 def replace(env,x,y):
     env[x] = y
     return env
 
+###################################################################################
+# Funcion extend: Agrega una nueva entrada al diccionario                         #
+# Entrada: - env Diccionario donde se almacenan los valores de las variables      #
+#          - x Variable                                                           #
+#          - y Valor asociado                                                     #
+# Salida:  - Diccionario un nuevo valor                                           #
+###################################################################################
 def extend(env,x,y):
     if isinstance(y,bool):
         env[x] = str(y)
@@ -82,34 +96,66 @@ def extend(env,x,y):
         env[x] = y
     return env
 
+###################################################################################
+# Funcion lookup: Busca el valor asociado a una variable                          #
+# Entrada: - env Diccionario donde se almacenan los valores de las variables      #
+#          - x Variable a buscar.                                                 #
+# Salida:  - Valor asociado si la variable esta en el diccionario                 #
+#          - False en caso contrario.                                             #
+###################################################################################
 def lookup(env,x):
     if env.has_key(x):
         return env[x]
     else:
         return False
 
-# Verificacion de que ambos parametros son numeros enteros.		
+###################################################################################
+# Funcion is_int: Verifica que dos parametros son enteros                         #
+# Entrada: - x Valor 1                                                            #
+#          - y Valor 2.                                                           #
+# Salida:  - True si ambos valores son enteros                                    #
+#          - False en caso contrario.                                             #
+###################################################################################
 def is_int(x,y):
     if isinstance(x, int) and isinstance(y,int):
         return True
     else:
         return False
 			
-# Verificacion de que ambos parametros no son booleanos 
+###################################################################################
+# Funcion no_bool: Verifica que dos parametros no son  booleanos                  #
+# Entrada: - x Valor 1                                                            #
+#          - y Valor 2.                                                           #
+# Salida:  - True si ambos valores no son bool.                                   #
+#          - False en caso contrario.                                             #
+###################################################################################
+
 def no_bool(x,y):
     if not isinstance(x,bool) and not isinstance(y,bool):
         return True
     else:
         return False
 
-# Verificacion de que ambos parametros son booleanos	
+
+###################################################################################
+# Funcion is_bool: Verifica que dos parametros son  booleanos                     #
+# Entrada: - x Valor 1                                                            #
+#          - y Valor 2.                                                           #
+# Salida:  - True si ambos valores  son bool.                                     #
+#          - False en caso contrario.                                             #
+###################################################################################
 def is_bool(x,y):
     if  isinstance(x,bool) and isinstance(y,bool):
         return True
     else:
         return False
 
-		
+###################################################################################
+# Funcion eval: Calcular el valor asociado a un nodo.                             #
+# Entrada: - env Diccionario con los valores asociados a una variable             #
+#          - nodo: Nodo al cual se le quiere obtener el valor.                    #
+# Salida:  - Valor asociado a un nodo.                                            #
+###################################################################################
 def eval(env,nodo,h=None):
     if h == None:
         if nodo.tipo == '':
@@ -200,29 +246,29 @@ def eval(env,nodo,h=None):
                 return  x == y
             elif is_bool(x,y):
                 return x == y
-            #else:
-            #    raise TypeError('En la operacion de igualdad.')	
+            else:
+                raise TypeError('En la operacion de igualdad.')	
         elif nodo.tipo == 'ENTERO':
             return int(nodo.hijo)
         elif nodo.tipo == 'VARIABLE':
-           # if lookup(env,nodo.hijo): 
-            return lookup(env,nodo.hijo)
-            # else:
-            #    raise LookUpError('Variable "' +str(nodo.hijo) + '" no declarada.')
+            if lookup(env,nodo.hijo): 
+                return lookup(env,nodo.hijo)
+            else:
+                raise LookUpError('Variable "' +str(nodo.hijo) + '" no declarada.')
         elif nodo.tipo == 'MAS':
             x = eval(env,nodo.hijo1)
             y = eval(env,nodo.hijo2)
-            #if is_int(x,y) and no_bool(x,y):
-            return int(bajar(x)) + y
-            #else:
-               # raise TypeError('En la operacion de suma.')
+            if is_int(x,y) and no_bool(x,y):
+                return int(bajar(x)) + y
+            else:
+                raise TypeError('En la operacion de suma.')
         elif nodo.tipo == 'MENOS':
             x = eval(env,nodo.hijo1)
             y = eval(env,nodo.hijo2)
-            #if is_int(x,y) and no_bool(x,y):
-            return int(bajar(x)) - y 
-            #else:
-             #   raise TypeError('En la operacion de resta.')
+            if is_int(x,y) and no_bool(x,y):
+                return int(bajar(x)) - y 
+            else:
+                raise TypeError('En la operacion de resta.')
         elif nodo.tipo == 'PRODUCTO':
             x = eval(env,nodo.hijo1)
             y = eval(env,nodo.hijo2)
@@ -262,12 +308,10 @@ def eval(env,nodo,h=None):
             else:
                 return eval(env,nodo.hijo3)
         elif re.match(nodo.tipo,'LET'):
-#            env1 = extend(copy.deepcopy(env),nodo.hijo1.hijo.hijo,'fake')
             env1 = extend(copy.deepcopy(env),nodo.hijo1.hijo.hijo,'fake')
             v1 = eval(env1,nodo.hijo2)
             return eval(replace(env1,nodo.hijo1.hijo.hijo,v1),nodo.hijo3)
         elif re.match(nodo.tipo,'FUN'):
- #           print 'SERA'
             hijos = hijos_fun(nodo)
             tuplas = []
             for i in hijos: # i : NodoFunH
@@ -299,6 +343,13 @@ def getPatrones(hijos):
         ref.append(patexp)
     return ref
     
+
+###################################################################################
+# Funcion transformar: Convierte una funcion con varios patrones en una que un    #
+#            solo patron que va a los demas patrones.                             #
+# Entrada: - nodofun Nodo tipo NodoFun que contiene todos los patrones de la FUN. #
+# Salida:  - Funcion aplanada con un solo argumento.                              #
+###################################################################################
 def transformar(nodofun):
     # Se obtienen los patrones
     patrones = getPatrones(nodofun.hijo)
@@ -321,6 +372,13 @@ def transformar(nodofun):
 def hijos_fun(arb_fun):
     return arb_fun.hijo
 
+###################################################################################
+# Funcion no_bool: Verifica que dos parametros no son  booleanos                  #
+# Entrada: - x Valor 1                                                            #
+#          - y Valor 2.                                                           #
+# Salida:  - True si ambos valores no son bool.                                   #
+#          - False en caso contrario.                                             #
+###################################################################################
 def bajar(nodo):
     if isinstance(nodo,int):
         return int(nodo)
@@ -333,6 +391,13 @@ def bajar(nodo):
     elif nodo.tipo == 'VARIABLE':
         return bajar(nodo.hijo)
 
+###################################################################################
+# Funcion no_bool: Verifica que dos parametros no son  booleanos                  #
+# Entrada: - x Valor 1                                                            #
+#          - y Valor 2.                                                           #
+# Salida:  - True si ambos valores no son bool.                                   #
+#          - False en caso contrario.                                             #
+###################################################################################
 def igualdad_listas(lista,a,b):
     if match(a.hijo1,b.hijo1):
         lista.append((bajar(a.hijo1),b.hijo1))
@@ -358,7 +423,6 @@ def apply(cls,v):
     if isinstance(cls,CLS):
         ltuplas = cls.getLista()
         head = ltuplas[0]
-        print 'CLS'
         if isinstance(match(head[0],v),list):
             b = match(head[0],v)
             for i in range(len(b)):
@@ -377,19 +441,3 @@ def apply(cls,v):
         raise MatchingError('no hubo match con '+ str(v))
                             
 
-# #def apply(env,p1,p2):
-# #    if isinstance(p1,CLS):
-#         ltuplas = p1.getLista()
-#         head = ltuplas[0]
-#         if match(head[0],p2):
-#            return eval(extend(env,head[0].hijo,p2),head[1])
-#         else:
-#             ltuplas = ltuplas[1:len(ltuplas)] # Cola de la lista
-#             p1.remplazar(ltuplas)
-#             if len(p1.lista) == 0:
-#                 raise MatchingError('no hubo match con '+ str(p2) )
-#             else:
-#                 return apply(env,p1,p2)
-#  #   else:
-#   #      apply(env,eval(env,p1),eval(env,p2))
-       
