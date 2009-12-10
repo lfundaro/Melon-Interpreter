@@ -259,10 +259,11 @@ def p_error(p):
 
 def recorrer_list(nodo):
     if isinstance(nodo,NodoBin):
-	
         return str(recorrer_list(nodo.hijo1)) + '::' + str(recorrer_list(nodo.hijo2))
+    elif nodo.tipo == 'ENTERO' or nodo.tipo == 'BOOLEANO' or nodo.tipo == 'VARIABLE' or nodo.tipo == 'LISTAVACIA':
+        return str(nodo.hijo).lower()
     else:
-        return str(nodo)
+        return str(nodo).lower()
 
 # Se comienza el parseo
 def beginParse(program):

@@ -3,6 +3,8 @@ import re
 from syntree import *
 from Exceptions import *
 import copy
+import sys
+sys.setrecursionlimit(3000)
 
 #Definicion de estructura CLS
 
@@ -62,7 +64,7 @@ def match(n1, n2 = None):
     elif n1.tipo == 'LISTA' and n2.tipo == 'LISTA':
         return igualdad_listas([],n1,n2)
     elif n1.tipo == 'ENTERO' and n2.tipo == 'ENTERO':
-        if n1.hijo == n2.hijo:
+        if int(n1.hijo) == int(n2.hijo):
             return True
         else:
             return False
@@ -211,14 +213,14 @@ def eval(env,nodo,h=None):
             x = eval(env,nodo.hijo1)
             y = eval(env,nodo.hijo2)
             #if is_int(x,y) and no_bool(x,y):
-            return x + y
+            return int(bajar(x)) + y
             #else:
                # raise TypeError('En la operacion de suma.')
         elif nodo.tipo == 'MENOS':
             x = eval(env,nodo.hijo1)
             y = eval(env,nodo.hijo2)
             #if is_int(x,y) and no_bool(x,y):
-            return x - y 
+            return int(bajar(x)) - y 
             #else:
              #   raise TypeError('En la operacion de resta.')
         elif nodo.tipo == 'PRODUCTO':
@@ -261,7 +263,7 @@ def eval(env,nodo,h=None):
                 return eval(env,nodo.hijo3)
         elif re.match(nodo.tipo,'LET'):
 #            env1 = extend(copy.deepcopy(env),nodo.hijo1.hijo.hijo,'fake')
-            env1 = extend(env,nodo.hijo1.hijo.hijo,'fake')
+            env1 = extend(copy.deepcopy(env),nodo.hijo1.hijo.hijo,'fake')
             v1 = eval(env1,nodo.hijo2)
             return eval(replace(env1,nodo.hijo1.hijo.hijo,v1),nodo.hijo3)
         elif re.match(nodo.tipo,'FUN'):
@@ -321,12 +323,14 @@ def hijos_fun(arb_fun):
 
 def bajar(nodo):
     if isinstance(nodo,int):
-        return nodo
+        return int(nodo)
     elif isinstance(nodo,str):
         return nodo
-    elif re.match(nodo.tipo,'PATRON'):
+    elif nodo.tipo == 'ENTERO':
         return bajar(nodo.hijo)
-    elif re.match(nodo.tipo,'VARIABLE'):
+    elif nodo.tipo == 'PATRON':
+        return bajar(nodo.hijo)
+    elif nodo.tipo == 'VARIABLE':
         return bajar(nodo.hijo)
 
 def igualdad_listas(lista,a,b):
