@@ -31,7 +31,6 @@ precedence = (
     ('right', 'DCOLON'),
     ('right', 'UMINUS'), 
     ('left' , 'APLICA'),
-    ('nonassoc', 'TRUE', 'FALSE'), 
     )
 
 ## -- Definicion de las gramaticas para expresiones -- # 
@@ -198,7 +197,10 @@ def p_e_listavac(p):
 def p_e_bool(p):
     '''e : TRUE
 	 | FALSE'''
-    p[0] = NodoGen('BOOLEANO',p[1].upper()) 
+    if p[1] == 'true':
+        p[0] = NodoGen('BOOLEANO','True')
+    else:
+        p[0] = NodoGen('BOOLEANO', 'False')
 
 
 
@@ -223,7 +225,10 @@ def p_patron_num(p):
 def p_patron_bool(p):
     ''' patron : TRUE
 	       | FALSE '''
-    p[0] = NodoGen('BOOLEANO',p[1].upper())
+    if p[1] == 'true':
+        p[0] = NodoGen('BOOLEANO','True')
+    else:
+        p[0] = NodoGen('BOOLEANO','False')
 
 
 # Definicion de patron (variable). 
@@ -254,7 +259,8 @@ def p_error(p):
 
 def recorrer_list(nodo):
     if isinstance(nodo,NodoBin):
-		return str(recorrer_list(nodo.hijo1)) + '::' + str(recorrer_list(nodo.hijo2))
+	
+        return str(recorrer_list(nodo.hijo1)) + '::' + str(recorrer_list(nodo.hijo2))
     else:
         return str(nodo)
 

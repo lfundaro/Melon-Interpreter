@@ -1,3 +1,4 @@
+
 import re
 from syntree import *
 from Exceptions import *
@@ -22,16 +23,16 @@ class CLS:
 def match(n1, n2 = None): 
     if isinstance(n1,bool):
         return match(n2,NodoGen("BOOLEANO",str(n1)))
-    elif isinstance(n1,bool):
+    elif isinstance(n2,bool):
         return match(n1,NodoGen("BOOLEANO",str(n2)))
-    elif isinstance(n2,int):# and not isinstance(n2,bool):
+    if isinstance(n2,int)  and not isinstance(n2,bool):
         return match(n1,NodoGen("ENTERO",str(n2)))
-    elif isinstance(n1,int):# and not isinstance(n1,bool):
+    elif isinstance(n1,int) and not isinstance(n1,bool):
         return match(n2,NodoGen("ENTERO",str(n1)))
-    elif isinstance(n1,str):
-        return match(n1,NodoGen("BOOLEANO",n1))
-    elif isinstance(n2,str):
-        return match(n2,NodoGen("BOOLEANO",n2))
+   # elif isinstance(n1,str):
+   #     return match(n1,NodoGen("BOOLEANO",n1))
+   # elif isinstance(n2,str):
+   #     return match(n2,NodoGen("BOOLEANO",n2))
     elif isinstance(n2,str):
         return match(n1,NodoGen("LISTAVACIA",n2))
     elif n1.tipo == 'LISTAPATRON':
@@ -43,9 +44,10 @@ def match(n1, n2 = None):
     elif n2.tipo == 'PATRON':
         return match(n1,n2.hijo)
     elif n1.tipo == 'BOOLEANO' and n2.tipo == 'BOOLEANO':
-        if n1.hijo == 'TRUE' and n2.hijo == 'TRUE':
+        print 'ENTRE'
+        if n1.hijo == 'True' and n2.hijo == 'True':
             return True
-        elif n1.hijo == 'FALSE' and n2.hijo == 'FALSE':
+        elif n1.hijo == 'False' and n2.hijo == 'False':
             return True
         else: 
             return False
@@ -113,7 +115,7 @@ def eval(env,nodo,h=None):
         elif nodo.tipo == 'LISTAVACIA':
             return nodo
         elif nodo.tipo == 'BOOLEANO':
-            if nodo.hijo == 'TRUE':
+            if nodo.hijo == 'True':
                 return True
             else:
                 return False
@@ -128,7 +130,6 @@ def eval(env,nodo,h=None):
                 nod1 = NodoGen('LISTAVACIA',k1)
             else:
                 nod1 = k1
-
             if isinstance(k2,int) and not isinstance(k2,bool):
                 nod2 = NodoGen('ENTERO',str(k2))
             elif isinstance(k2,bool):
@@ -137,7 +138,6 @@ def eval(env,nodo,h=None):
                 nod2 = NodoGen('LISTAVACIA',k2)
             else:
                 nod2 = k2
-
             return NodoBin('LISTA',nod1,nod2)
 
         elif nodo.tipo == 'MENOR':
@@ -194,8 +194,8 @@ def eval(env,nodo,h=None):
                 return  x == y
             elif is_bool(x,y):
                 return x == y
-            else:
-                raise TypeError('En la operacion de igualdad.')	
+            #else:
+            #    raise TypeError('En la operacion de igualdad.')	
         elif nodo.tipo == 'ENTERO':
             return int(nodo.hijo)
         elif nodo.tipo == 'VARIABLE':
@@ -206,17 +206,17 @@ def eval(env,nodo,h=None):
         elif nodo.tipo == 'MAS':
             x = eval(env,nodo.hijo1)
             y = eval(env,nodo.hijo2)
-            if is_int(x,y) and no_bool(x,y):
-                return x + y
-            else:
-                raise TypeError('En la operacion de suma.')
+            #if is_int(x,y) and no_bool(x,y):
+            return x + y
+            #else:
+               # raise TypeError('En la operacion de suma.')
         elif nodo.tipo == 'MENOS':
             x = eval(env,nodo.hijo1)
             y = eval(env,nodo.hijo2)
-            if is_int(x,y) and no_bool(x,y):
-                return x - y 
-            else:
-                raise TypeError('En la operacion de resta.')
+            #if is_int(x,y) and no_bool(x,y):
+            return x - y 
+            #else:
+             #   raise TypeError('En la operacion de resta.')
         elif nodo.tipo == 'PRODUCTO':
             x = eval(env,nodo.hijo1)
             y = eval(env,nodo.hijo2)
@@ -260,6 +260,7 @@ def eval(env,nodo,h=None):
             v1 = eval(env1,nodo.hijo2)
             return eval(replace(env1,nodo.hijo1.hijo.hijo,v1),nodo.hijo3)
         elif re.match(nodo.tipo,'FUN'):
+ #           print 'SERA'
             hijos = hijos_fun(nodo)
             tuplas = []
             for i in hijos: # i : NodoFunH
@@ -268,7 +269,7 @@ def eval(env,nodo,h=None):
                     return eval(env,nueva_fun)
                 else:
                     tuplas.append((i.hijo1.hijo[0],i.hijo2)) # Se toma el unico hijo de NLP
-            clausura = CLS(env,tuplas)
+                    clausura = CLS(env,tuplas)
             return clausura
         elif re.match(nodo.tipo,'APLICAR'):
             return apply(eval(env,nodo.hijo1),eval(env,nodo.hijo2))
@@ -331,11 +332,17 @@ def igualdad_listas(lista,a,b):
         elif a.hijo2.tipo != 'LISTA' and b.hijo2.tipo == 'LISTA':
             if match(a.hijo2,b.hijo2):
                 lista.append((bajar(a.hijo2),b.hijo2))
+            else:
+                lista = []
         else:
             if match(a.hijo2,b.hijo2):
                 lista.append((bajar(a.hijo2),b.hijo2))
+            else:
+                lista = []
+        if lista == []: return False
         return lista
     else:
+        lista = []
         return False
             
 def apply(cls,v):
@@ -347,7 +354,7 @@ def apply(cls,v):
             for i in range(len(b)):
                 cls.env[b[i][0]] = b[i][1]
             return eval(extend(copy.deepcopy(cls.env),bajar(head[0]),v),head[1])
-        if match(head[0],v):    
+        if match(head[0],v):   
             return eval(extend(copy.deepcopy(cls.env),bajar(head[0]),v),head[1])
         else:
             ltuplas = ltuplas[1:len(ltuplas)] # Cola de la lista
