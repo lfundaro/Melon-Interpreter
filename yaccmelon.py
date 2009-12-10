@@ -254,8 +254,7 @@ def p_error(p):
 
 def recorrer_list(nodo):
     if isinstance(nodo,NodoBin):
-	
-        return str(recorrer_list(nodo.hijo1)) + '::' + str(recorrer_list(nodo.hijo2))
+		return str(recorrer_list(nodo.hijo1)) + '::' + str(recorrer_list(nodo.hijo2))
     else:
         return str(nodo)
 
