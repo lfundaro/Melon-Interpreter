@@ -20,6 +20,10 @@ class CLS:
         self.lista = cola
 
 def match(n1, n2 = None): 
+    print 'N1'
+    print n1
+    print 'N2'
+    print n2
     if isinstance(n1,bool):
         return match(n2,NodoGen("BOOLEANO",str(n1)))
     elif isinstance(n1,bool):
@@ -256,7 +260,8 @@ def eval(env,nodo,h=None):
             else:
                 return eval(env,nodo.hijo3)
         elif re.match(nodo.tipo,'LET'):
-            env1 = extend(copy.deepcopy(env),nodo.hijo1.hijo.hijo,'fake')
+#            env1 = extend(copy.deepcopy(env),nodo.hijo1.hijo.hijo,'fake')
+            env1 = extend(env,nodo.hijo1.hijo.hijo,'fake')
             v1 = eval(env1,nodo.hijo2)
             return eval(replace(env1,nodo.hijo1.hijo.hijo,v1),nodo.hijo3)
         elif re.match(nodo.tipo,'FUN'):
@@ -342,6 +347,7 @@ def apply(cls,v):
     if isinstance(cls,CLS):
         ltuplas = cls.getLista()
         head = ltuplas[0]
+        print 'CLS'
         if isinstance(match(head[0],v),list):
             b = match(head[0],v)
             for i in range(len(b)):
