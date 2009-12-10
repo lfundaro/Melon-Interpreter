@@ -90,7 +90,6 @@ def is_bool(x,y):
     else:
         return False
 	
-			
 		
 def eval(env,nodo,h=None):
     if h == None:
@@ -234,8 +233,8 @@ def eval(env,nodo,h=None):
             tuplas = []
             for i in hijos: # i : NodoFunH
                 if len(i.hijo1.hijo) > 1: # chequeo multiples valores
-                    nuevo_FUN = transformar(hijos)
-                    return eval(env,nuevo_FUN)
+                    nueva_fun = transformar(nodo)
+                    return eval(env,nueva_fun)
                 else:
                     tuplas.append((i.hijo1.hijo[0],i.hijo2)) # Se toma el unico hijo de NLP
             clausura = CLS(env,tuplas)
@@ -251,17 +250,34 @@ class PatExp:
         self.exp = exp
 
 
-def getPatrones(nodofun):
-    hijos = nodofun.hijo
-    patexp = PatExp([],None)
+def getPatrones(hijos):
+    ref = []
     for i in hijos:
+        patexp = PatExp([],None)        
         for j in i.hijo1.hijo:
             patexp.lista.append(j)
+        patexp.exp = i.hijo2
+        ref.append(patexp)
+    return ref
+    
+def transformar(nodofun):
+    # Se obtienen los patrones
+    patrones = getPatrones(nodofun.hijo)
+    # Se agrega el primer elemento de patron
+    length = len(patrones[0].lista)
+    nuevoarb = NodoFunP('FUN',[NodoFunH(NodoListaPatron('LISTAPATRON',[patrones[0].lista[0]]),NodoFunP('FUN',[NodoFunH(NodoListaPatron('LISTAPATRON',patrones[0].lista[1:length]),patrones[0].exp)]))]) #p
+    for i in range(len(patrones)):
+        if i == len(patrones)-1:
+            break
+        else:
+            if match(patrones[0].lista[0],patrones[i+1].lista[0]):
+                # Se lo agrego al hijo del primer hijo de p 
+                nuevoarb.hijo[0].hijo2.hijo.append(NodoFunH(NodoListaPatron('LISTAPATRON',patrones[i+1].lista[1:length]),patrones[i+1].exp))
+            else:
+                nuevoarb.hijo.append(NodoFunH(NodoListaPatron('LISTAPATRON',[patrones[i+1].lista[0]]),NodoFunP('FUN',[NodoFunH(NodoListaPatron('LISTAPATRON',patrones[i+1].lista[1:length]),patrones[i+1].exp)])))
+                
+    return nuevoarb
 
-def transformar(hijos):
-    # Se hacen los matches entre los patrones
-    for i in hijos:
-        return True
 
 def hijos_fun(arb_fun):
     return arb_fun.hijo
@@ -286,7 +302,6 @@ def apply(cls,v):
             ltuplas = ltuplas[1:len(ltuplas)] # Cola de la lista
             cls_cola = CLS(cls.env,ltuplas)
             if len(cls_cola.lista) == 0:
-                print 'AQUI'
                 raise MatchingError('no hubo match con '+ str(v) + str(head[0]))
             else:
                 return apply(cls_cola,v)
