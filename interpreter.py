@@ -19,14 +19,14 @@ class CLS:
     def remplazar(self,cola):
         self.lista = cola
 
-def match(n1, n2 = None):
-    if n1 == True:
-        return match(n2,NodoGen("BOOLEANO",n1))
-    if n2 == True:
-        return match(n1,NodoGen("BOOLEANDO",n2))
-    if isinstance(n2,int) and not isinstance(n2,bool):
+def match(n1, n2 = None): 
+    if isinstance(n1,bool):
+        return match(n2,NodoGen("BOOLEANO",str(n1)))
+    elif isinstance(n1,bool):
+        return match(n1,NodoGen("BOOLEANO",str(n2)))
+    elif isinstance(n2,int):# and not isinstance(n2,bool):
         return match(n1,NodoGen("ENTERO",str(n2)))
-    elif isinstance(n1,int) and not isinstance(n1,bool):
+    elif isinstance(n1,int):# and not isinstance(n1,bool):
         return match(n2,NodoGen("ENTERO",str(n1)))
     elif isinstance(n1,str):
         return match(n1,NodoGen("BOOLEANO",n1))
@@ -118,7 +118,28 @@ def eval(env,nodo,h=None):
             else:
                 return False
         elif nodo.tipo == 'LISTA':
-            return NodoBin('LISTA',eval(env,nodo.hijo1),eval(env,nodo.hijo2))
+            k1 = eval(env,nodo.hijo1)
+            k2 = eval(env,nodo.hijo2)
+            if isinstance(k1,int) and not isinstance(k1,bool):
+                nod1 = NodoGen('ENTERO',str(k1))
+            elif isinstance(k1,bool):
+                nod1 = NodoGen('BOOLEANO',str(k1))
+            elif isinstance(k1,str):
+                nod1 = NodoGen('LISTAVACIA',k1)
+            else:
+                nod1 = k1
+
+            if isinstance(k2,int) and not isinstance(k2,bool):
+                nod2 = NodoGen('ENTERO',str(k2))
+            elif isinstance(k2,bool):
+                nod2 = NodoGen('BOOLEANO',str(k2))
+            elif isinstance(k2,str):
+                nod2 = NodoGen('LISTAVACIA',k2)
+            else:
+                nod2 = k2
+
+            return NodoBin('LISTA',nod1,nod2)
+
         elif nodo.tipo == 'MENOR':
             x = eval(env,nodo.hijo1)
             y = eval(env,nodo.hijo2)
@@ -317,9 +338,6 @@ def igualdad_listas(lista,a,b):
     else:
         return False
             
-        
-
-
 def apply(cls,v):
     if isinstance(cls,CLS):
         ltuplas = cls.getLista()
@@ -329,7 +347,7 @@ def apply(cls,v):
             for i in range(len(b)):
                 cls.env[b[i][0]] = b[i][1]
             return eval(extend(copy.deepcopy(cls.env),bajar(head[0]),v),head[1])
-        elif match(head[0],v):    
+        if match(head[0],v):    
             return eval(extend(copy.deepcopy(cls.env),bajar(head[0]),v),head[1])
         else:
             ltuplas = ltuplas[1:len(ltuplas)] # Cola de la lista
