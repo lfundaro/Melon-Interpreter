@@ -24,8 +24,13 @@ from Exceptions import FunctionError
 ###################################################################
 class NodoGen:
         def __init__(self,tipo,hijo=None):
-                self.tipo = tipo
-                self.hijo = hijo
+                if hijo == '0':
+                        print 'aki'
+                        self.tipo = tipo
+                        self.hijo = int(hijo)
+                else:
+                        self.tipo = tipo
+                        self.hijo = hijo
 
         def __str__(self):
                 if self.hijo:

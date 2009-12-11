@@ -29,4 +29,12 @@ class MatchingError(Exception):
     def __init__(self,messg):
         self.messg = messg		
 
+class ApplyError(Exception):
+    def __init__(self,messg):
+        self.messg = messg		
+
+class RecursionError(Exception):
+    def __init__(self,messg):
+        self.messg = messg		
+
 

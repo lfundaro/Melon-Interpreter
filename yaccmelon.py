@@ -178,7 +178,7 @@ def p_e_aplica(p):
 # Definicion para las numeros
 def p_e_num(p):
     'e : NUMBER'
-    p[0] = NodoGen("ENTERO",p[1])
+    p[0] = NodoGen("ENTERO",int(p[1]))
 
 
 # Definicion para las variables
@@ -219,12 +219,17 @@ def p_patron_ini(p):
 # Definicion de patron (numero). 
 def p_patron_num(p):
     '''patron : NUMBER'''
-    p[0] = NodoGen('ENTERO',p[1])
+    #print p[1].__class__
+    #print 'hola', int(p[1])
+    if p[1] == '0':
+        p[0] = NodoGen('ENTERO','0')
+    else:
+        p[0] = NodoGen('ENTERO',int(p[1]))
     
 # Definicion de patron (booleano). 
 def p_patron_bool(p):
     ''' patron : TRUE
-	       | FALSE '''
+	       | FALSE '''   
     if p[1] == 'true':
         p[0] = NodoGen('BOOLEANO','True')
     else:
@@ -270,6 +275,7 @@ def beginParse(program):
     yacc = lexyacc.yacc()
     try:
         result = yacc.parse(program.read(),lexer = lexmelon.lex())
+        print result
         aux = eval({},result)
         if isinstance(aux,bool):
             aux = str(aux).lower()
@@ -304,5 +310,14 @@ def beginParse(program):
     except MatchingError, messag:
         messag = messag.messg
         print 'Error de matching: ' + messag
+    except ValueError:
+        print 'Error de tipos'
+    except ApplyError, messag:
+        messag = messag.messg
+        print 'Error de aplicacion:' + messag
+    except RecursionError, messag:
+        print messag.messg
+
+
 
 

@@ -12,7 +12,8 @@ class CLS:
     def __init__(self,env,lista):
         self.env = env
         self.lista = lista
-        
+        self.tipo = 'CLS'
+
     def getLista(self):
         return self.lista
 
@@ -29,7 +30,9 @@ class CLS:
 # Salida:  - True hizo match                                                      #
 #          - False caso contrario.                                                #
 ###################################################################################
-def match(n1, n2 = None): 
+def match(n1, n2=None): 
+    print 'N1',n1
+    print 'N2',n2
     if isinstance(n1,bool):
         return match(n2,NodoGen("BOOLEANO",str(n1)))
     elif isinstance(n2,bool):
@@ -49,7 +52,6 @@ def match(n1, n2 = None):
     elif n2.tipo == 'PATRON':
         return match(n1,n2.hijo)
     elif n1.tipo == 'BOOLEANO' and n2.tipo == 'BOOLEANO':
-        print 'ENTRE'
         if n1.hijo == 'True' and n2.hijo == 'True':
             return True
         elif n1.hijo == 'False' and n2.hijo == 'False':
@@ -72,7 +74,7 @@ def match(n1, n2 = None):
 
 
 ###################################################################################
-# Funcion replace: Reemplaza el varlo asociado a una variable.                    #
+# Funcion replace: Reemplaza el valor asociado a una variable.                    #
 # Entrada: - env Diccionario donde se almacenan los valores de las varibales      #
 #          - x Variable                                                           #
 #          - y Valor asociado                                                     #
@@ -105,7 +107,10 @@ def extend(env,x,y):
 ###################################################################################
 def lookup(env,x):
     if env.has_key(x):
-        return env[x]
+        if env[x] != 'fake':
+            return env[x]
+        else:
+            raise RecursionError('Error de recursion')
     else:
         return False
 
@@ -156,7 +161,7 @@ def is_bool(x,y):
 #          - nodo: Nodo al cual se le quiere obtener el valor.                    #
 # Salida:  - Valor asociado a un nodo.                                            #
 ###################################################################################
-def eval(env,nodo,h=None):
+def eval(env,nodo):
     if h == None:
         if nodo.tipo == '':
             nodo = nodo.hijo
@@ -175,7 +180,7 @@ def eval(env,nodo,h=None):
             k1 = eval(env,nodo.hijo1)
             k2 = eval(env,nodo.hijo2)
             if isinstance(k1,int) and not isinstance(k1,bool):
-                nod1 = NodoGen('ENTERO',str(k1))
+                nod1 = NodoGen('ENTERO',k1)
             elif isinstance(k1,bool):
                 nod1 = NodoGen('BOOLEANO',str(k1))
             elif isinstance(k1,str):
@@ -183,7 +188,7 @@ def eval(env,nodo,h=None):
             else:
                 nod1 = k1
             if isinstance(k2,int) and not isinstance(k2,bool):
-                nod2 = NodoGen('ENTERO',str(k2))
+                nod2 = NodoGen('ENTERO',k2)
             elif isinstance(k2,bool):
                 nod2 = NodoGen('BOOLEANO',str(k2))
             elif isinstance(k2,str):
@@ -258,32 +263,32 @@ def eval(env,nodo,h=None):
         elif nodo.tipo == 'MAS':
             x = eval(env,nodo.hijo1)
             y = eval(env,nodo.hijo2)
-            if is_int(x,y) and no_bool(x,y):
-                return int(bajar(x)) + y
+            if is_int(bajar(x),y) and no_bool(x,y):
+                return bajar(x) + y
             else:
                 raise TypeError('En la operacion de suma.')
         elif nodo.tipo == 'MENOS':
             x = eval(env,nodo.hijo1)
             y = eval(env,nodo.hijo2)
-            if is_int(x,y) and no_bool(x,y):
-                return int(bajar(x)) - y 
+            if is_int(bajar(x),y) and no_bool(x,y):
+                return bajar(x) - y 
             else:
                 raise TypeError('En la operacion de resta.')
         elif nodo.tipo == 'PRODUCTO':
             x = eval(env,nodo.hijo1)
             y = eval(env,nodo.hijo2)
-            if is_int(x,y) and no_bool(x,y):
-                return x*y
+            if is_int(bajar(x),y) and no_bool(x,y):
+                return bajar(x)*y
             else:
                 raise TypeError('En la operacion de producto.')
         elif nodo.tipo == 'COCIENTE':
             x = eval(env,nodo.hijo1) 
             y = eval(env,nodo.hijo2) 
-            if is_int(x,y) and no_bool(x,y):
+            if is_int(bajar(x),y) and no_bool(x,y):
                 if y == 0:
                     raise ZeroDivisionError('Division entre Cero.')
                 else:
-                    return x / y
+                    return bajar(x) / y
             else:
                 raise TypeError('En la operacion de division.')
         elif nodo.tipo == 'OR':
@@ -308,15 +313,50 @@ def eval(env,nodo,h=None):
             else:
                 return eval(env,nodo.hijo3)
         elif re.match(nodo.tipo,'LET'):
-            env1 = extend(copy.deepcopy(env),nodo.hijo1.hijo.hijo,'fake')
-            v1 = eval(env1,nodo.hijo2)
-            return eval(replace(env1,nodo.hijo1.hijo.hijo,v1),nodo.hijo3)
+            if nodo.hijo1.hijo.tipo == 'LISTA':
+                if nodo.hijo2.tipo == 'LISTA':
+                    members = []
+                    members.append(nodo.hijo1.hijo.hijo1.hijo.hijo) #(LISTA (PATRON (VARIABLE a)
+                    members = members + getMembers([],nodo.hijo1.hijo.hijo2)
+                    for i in members:
+                        extend(env,i,'fake')
+                        env1 = env
+                        memV1 = binCLS([],nodo.hijo2)
+#(let suc::quad = fun x -> x + 1 nuf::fun 2 -> true nuf in quad quad 2 tel)
+                        if len(members) == len(memV1):
+                            for k in range(len(members)):
+                                replace(env1,members[k],memV1[k])
+                            # return eval(replace(env1,nodo.hijo1.hijo.hijo,v1),nodo.hijo3)
+                            return apply(eval(env1,eval(env1,nodo.hijo3.hijo.hijo1.hijo1)),nodo.hijo3.hijo.hijo2)
+                        elif len(members) < len(memV1):
+                            resto = []
+                            i = 0
+                            for k in range(len(members)-1):
+                                i = k
+                                replace(env1,members[k],memV1[k])
+                            for k in range(len(memV1) - i):
+                                if i+1 == len(memV1):
+                                    break
+                                else:
+                                    resto.append(memV1[i+1])
+                                    i += 1
+                            replace(env1,members[len(members)-1],resto)
+                            return eval(env1,nodo.hijo3)
+                        else:
+                            raise MatchingError('WasaWasa')
+                else:
+                    raise MatchingError('WasaWasa')
+            else:
+                env1 = extend(copy.deepcopy(env),nodo.hijo1.hijo.hijo,'fake')
+                v1 = eval(env1,nodo.hijo2)
+                return eval(replace(env1,nodo.hijo1.hijo.hijo,v1),nodo.hijo3)
         elif re.match(nodo.tipo,'FUN'):
             hijos = hijos_fun(nodo)
             tuplas = []
             for i in hijos: # i : NodoFunH
                 if len(i.hijo1.hijo) > 1: # chequeo multiples valores
                     nueva_fun = transformar(nodo)
+                    print nueva_fun
                     return eval(env,nueva_fun)
                 else:
                     tuplas.append((i.hijo1.hijo[0],i.hijo2)) # Se toma el unico hijo de NLP
@@ -326,6 +366,7 @@ def eval(env,nodo,h=None):
             return apply(eval(env,nodo.hijo1),eval(env,nodo.hijo2))
     else:
         return nodo
+
 
 class PatExp:
     def __init__(self,lista,exp):
@@ -391,6 +432,7 @@ def bajar(nodo):
     elif nodo.tipo == 'VARIABLE':
         return bajar(nodo.hijo)
 
+
 ###################################################################################
 # Funcion no_bool: Verifica que dos parametros no son  booleanos                  #
 # Entrada: - x Valor 1                                                            #
@@ -434,10 +476,29 @@ def apply(cls,v):
             ltuplas = ltuplas[1:len(ltuplas)] # Cola de la lista
             cls_cola = CLS(cls.env,ltuplas)
             if len(cls_cola.lista) == 0:
-                raise MatchingError('no hubo match con '+ str(v) + str(head[0]))
+                raise MatchingError('no hubo match con '+ str(v) + ' ' + str(head[0]))
             else:
                 return apply(cls_cola,v)
     else:
-        raise MatchingError('no hubo match con '+ str(v))
+        raise ApplyError(' ocurrio un error de aplicacion con '+ str(v) + ' y '+ str(cls))
                             
+
+
+def binCLS(lista,nodolista):
+    if nodolista.hijo2.tipo == 'LISTA':
+        lista.append(nodolista.hijo1)
+        return binCLS(lista,nodolista.hijo2)
+    else:
+        lista.append(nodolista.hijo1)
+        lista.append(nodolista.hijo2)
+        return lista
+    
+
+def getMembers(lista,nodo):
+    if nodo.hijo.tipo != 'LISTA':
+        lista.append(nodo.hijo.hijo) # (PATRON (ENTERO 3))
+        return lista
+    else:
+        lista.append(nodo.hijo.hijo1.hijo.hijo) # (LISTA (PATRON (ENTERO 2))
+        return getMembers(lista,nodo.hijo.hijo2)
 
