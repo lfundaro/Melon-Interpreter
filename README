@@ -1,94 +1,74 @@
 ####################################
-# Proyecto 2 Árbol Sintáctico      #
+# Proyecto 3                       #
 # Integrantes:                     #
 #     - Lorenzo Fundaro   06-39559 #
 #     - Marion  Carambula 06-39312 #
 ####################################
 
 ########################################
-#   ¿Para qué sirve cada archivo?      #
+#   �Para qu� sirve cada archivo?      #
 ########################################
 
-Exceptions.py: contiene las excepciones que manejan 
-errores de sintaxis, lexicográficos o de funciones 
-desbalanceadas.
+Exceptions.py: contiene las excepciones que 
+manejan errores de sintaxis, lexicogr�ficos 
+o de funciones  desbalanceadas.
 
 lex.py: lexer de PLY
 
-lexmelon.py: donde se construye el analizador lexicográfico.
+lexmelon.py: donde se construye el analizador
+lexicogr�fico.
 
-lexparam.py: donde se indican los parámetros del lexer, por ejemplo,
-tokens y expresiones regulares para cada uno de ellos.
+lexparam.py: donde se indican los par�metros
+del lexer, por ejemplo, tokens y expresiones
+regulares para cada uno de ellos.
 
 parse_melon: programa cliente.
 
-syntree.py: implementación del árbol sintáctico. Aquí se encuentran todas 
-las estructuras que se usan para construir el árbol sintáctico.
+syntree.py: implementaci�n del �rbol sint�ctico. 
+Aqu� se encuentran todas las estructuras que se
+ usan para construir el �rbol sint�ctico.
 
 yacc.py: parser de PLY.
 
-yaccmelon.py: donde se especifican todas las gramáticas que el parser debe usar.
+yaccmelon.py: donde se especifican todas las 
+gram�ticas que el parser debe usar.
 
-########################################
-# Implementacion del  Árbol Sintáctico #
-########################################
+interpreter.py: interpretador sintactico para el 
+lenguaje MeLon.
 
-Se decidió especializar las estructuras de nodos según el tipo 
-de producción. Por ejemplo, para expresiones binarias como E + E,
-E * E, etc, se optó por un árbol binario, cuyo padre indica SUMA/
-MULTIPLICACION y sus hijos son los sumandos/factores. Siguiendo 
-esta idea para otras producciones estrategicas como Función, 
-Patron, entre otras, se contruye un árbol compuesto de nodos 
-con distintos tipos. Entre las ventajas que esto ofrece esta que 
-cada al imprimir la raiz del arbol usando la función str() se im-
-primen recursivamente todos sus hijos usando la función str() que
-se implemente para cada tipo de hijo según sea su estructura. Por 
-otro lado, hay nodos cuyos hijos pueden ser muchos o simplemente uno,
-entonces al especializar las estructuras se logra atribuir la canti-
-dad exacta de hijos que un nodo necesita según sea su estructura.
+#############################################
+# Implementacion del  Analizador Sintactico #
+#############################################
 
-########################################
-# Implementacion de la  clase Liston   #
-########################################
+-- Match de Listas --
 
-Esta clase es útil para recolectar los objetos que 
-generan las producciones del tipo:
-lista -> lista p , las cuales son obviamente recursivas y pueden 
-ser problemáticas si los objetos que producen se guardan en una 
-lista. Por ejemplo, dos recursiones de esta producción generarían 
-una lista asi: [[[p,p],p],p], cuya estructura no es conveniente 
-si se quiere hacer alguna operación con sus objetos. La clase Liston
-provee un método que con la ayuda de la función 'devolver' se lo-
-gra aplanar dicha lista. Tener una lista aplanada es útil cuando se 
-quiere contar para el caso de las funciones la cantidad de patrones.
-
-############################################
-# Implementacion de la función 'devolver'  #
-############################################
-
-Función que recibe un objeto Liston y una lista vacia y  devuelve 
-una lista aplanada. Esta función recursiva va reduciendo la listas 
-del tipo: [[[p,p],p],p] y va colocando todos los p's en la lista 
-vacía que se paso en el nivel más alto de recursion.
-
-###############################################
-# Resolución de la ambigüedad de la gramática #
-###############################################
-
-La gramática que acepta el lenguaje generado por Melon, en principio,
-presentaba una ambigüedad con la regla Aplicar y el menos unario, fue 
-por ello que se optó por forzar la producción E E a hacerse de primero
-y para lograr esto se hicieron "dos" niveles de gramáticas, en la primera
-se tienen los NO-TERMINALES de menor precendencia, por ejemplo, - E y en 
-el siguiente nivel se colocaron aquellos de mayor precedencia, por ejemplo, 
-T T junto con los TERMINALES. 
-Con esto se logró desambigüar la gramática pero como consecuencia de ello
-el lenguaje se vió un poco modificado, es decir, habrá que necesariamente
-parentizar algunas instrucciones para que la gramatica pueda generar dicho
-instrucción.
+Para la verificacion del match entre dos listas se hizo
+uso de una funcion que permite recorrer la lista y ver
+si las cabezas hacen match y sus colas tambien.
+Primero se verifica que sus cabezas hagan match, si esta
+condicion no se cumple se retorna false de una vez. En
+caso de que si hagan match, procedemos a evualar los elementos
+que posee su cola. Para ello evaluamos que ambas colas sean una
+lista, de ser asi entonces llamamos recursivamente a la funcion,
+si no procedemos a ver las distintas combinaciones que se pueden 
+presentar y desde ahi llamamos a la funcion match para verificar
+el matcheo entre los otros tipos de elementos que puede poseer
+la lista..
+Si al final, todos los elementos de cada una de las listas hicieron
+match entonces retornamos una lista de tuplas de la forma (p1,p2)
+donde p1 es el elemento de la lista 1 que hizo match con el elemento
+p2 de la lista 2.
 
 
+-- Eval ---
 
-
-
-
+Para la evaluacion de los programas se creo una funcion que recibe el 
+arbol sintactico del programa y un diccionario el cual hara el papel de 
+tabla de simbolos donde se guardara las variables utilizadas junto con 
+su valor asociado.
+Para lograr la evaluacion se hicieron casos segun el tipo que posee el nodo,
+para cada uno de ellos hay una forma de evaluacion diferente, los casos bases
+para esta funcion son los nodos enteros, las variables y las constantes.
+Basicamente lo que hace es ir recorriendo el arbol sintactico hasta llegar
+a los casos bases y operarlos segun el caso en el que nos encontremos.
+ 

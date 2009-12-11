@@ -8,6 +8,12 @@ sys.setrecursionlimit(3000)
 
 #Definicion de estructura CLS
 
+###################################################################################
+# Clase CLS: Clase que funciona para evaluar funciones parcialmente.              #
+# Connstructod: - env: ambiente                                                   #
+#               - lista: de tuplas de la funcion con expresion                    #
+# Salida:  - Un objeto CLS                                                        #
+###################################################################################
 class CLS:
     def __init__(self,env,lista):
         self.env = env
@@ -31,8 +37,6 @@ class CLS:
 #          - False caso contrario.                                                #
 ###################################################################################
 def match(n1, n2=None): 
-    print 'N1',n1
-    print 'N2',n2
     if isinstance(n1,bool):
         return match(n2,NodoGen("BOOLEANO",str(n1)))
     elif isinstance(n2,bool):
@@ -134,7 +138,6 @@ def is_int(x,y):
 # Salida:  - True si ambos valores no son bool.                                   #
 #          - False en caso contrario.                                             #
 ###################################################################################
-
 def no_bool(x,y):
     if not isinstance(x,bool) and not isinstance(y,bool):
         return True
@@ -161,7 +164,7 @@ def is_bool(x,y):
 #          - nodo: Nodo al cual se le quiere obtener el valor.                    #
 # Salida:  - Valor asociado a un nodo.                                            #
 ###################################################################################
-def eval(env,nodo):
+def eval(env,nodo, h=None):
     if h == None:
         if nodo.tipo == '':
             nodo = nodo.hijo
@@ -298,21 +301,21 @@ def eval(env,nodo):
                 return x or y
             else:
                 raise TypeError('En or logico')
-        elif re.match(nodo.tipo,'AND'):
+        elif nodo.tipo =='AND':
             x = eval(env,nodo.hijo1) 
             y = eval(env,nodo.hijo2) 
             if is_bool(x,y):
                 return x and y
             else:
                 raise TypeError('En and logico')
-        elif re.match(nodo.tipo,'PATRON'):
+        elif nodo.tipo == 'PATRON':
             return eval(env,nodo.hijo)
-        elif re.match(nodo.tipo, 'IF'):
+        elif nodo.tipo == 'IF':
             if eval(env,nodo.hijo1):
                 return eval(env, nodo.hijo2)
             else:
                 return eval(env,nodo.hijo3)
-        elif re.match(nodo.tipo,'LET'):
+        elif nodo.tipo == 'LET':
             if nodo.hijo1.hijo.tipo == 'LISTA':
                 if nodo.hijo2.tipo == 'LISTA':
                     members = []
@@ -322,11 +325,9 @@ def eval(env,nodo):
                         extend(env,i,'fake')
                         env1 = env
                         memV1 = binCLS([],nodo.hijo2)
-#(let suc::quad = fun x -> x + 1 nuf::fun 2 -> true nuf in quad quad 2 tel)
                         if len(members) == len(memV1):
                             for k in range(len(members)):
                                 replace(env1,members[k],memV1[k])
-                            # return eval(replace(env1,nodo.hijo1.hijo.hijo,v1),nodo.hijo3)
                             return apply(eval(env1,eval(env1,nodo.hijo3.hijo.hijo1.hijo1)),nodo.hijo3.hijo.hijo2)
                         elif len(members) < len(memV1):
                             resto = []
@@ -343,9 +344,9 @@ def eval(env,nodo):
                             replace(env1,members[len(members)-1],resto)
                             return eval(env1,nodo.hijo3)
                         else:
-                            raise MatchingError('WasaWasa')
+                            raise MatchingError('.')
                 else:
-                    raise MatchingError('WasaWasa')
+                    raise MatchingError('.')
             else:
                 env1 = extend(copy.deepcopy(env),nodo.hijo1.hijo.hijo,'fake')
                 v1 = eval(env1,nodo.hijo2)
@@ -356,7 +357,6 @@ def eval(env,nodo):
             for i in hijos: # i : NodoFunH
                 if len(i.hijo1.hijo) > 1: # chequeo multiples valores
                     nueva_fun = transformar(nodo)
-                    print nueva_fun
                     return eval(env,nueva_fun)
                 else:
                     tuplas.append((i.hijo1.hijo[0],i.hijo2)) # Se toma el unico hijo de NLP
@@ -368,12 +368,26 @@ def eval(env,nodo):
         return nodo
 
 
+
+###################################################################################
+# Clase PatExp:   Objeto que consta de dos elementos, una lista con los patrones  #
+#                  de una funciona y su correspondiente expresion                 #
+#                      con objetos PatExp                                         #
+# Constructor: - Lista de patrones y Expresion                                    #
+# Salida:      - Objeto del tipo PatExp                                           #
+###################################################################################
 class PatExp:
     def __init__(self,lista,exp):
         self.lista = lista
         self.exp = exp
 
 
+###################################################################################
+# Funcion getPatrones: procesa una lista de funciones hijos y devuelve otra lista #
+#                      con objetos PatExp                                         #
+# Entrada: - Lista de funciones hijos                                             #
+# Salida:  - Retorna una lista con objetos PatExp                                 #
+###################################################################################
 def getPatrones(hijos):
     ref = []
     for i in hijos:
@@ -461,6 +475,13 @@ def igualdad_listas(lista,a,b):
         lista = []
         return False
             
+
+###################################################################################
+# Funcion apply: esta funcion recibe un CLS y una expresion                       #
+# Entrada: - cls Clausura                                                         #
+#          - v Expresion                                                          #
+# Salida:  - Devuelve el eval de una expresion con el ambiente modificado.        #
+###################################################################################
 def apply(cls,v):
     if isinstance(cls,CLS):
         ltuplas = cls.getLista()
@@ -483,7 +504,12 @@ def apply(cls,v):
         raise ApplyError(' ocurrio un error de aplicacion con '+ str(v) + ' y '+ str(cls))
                             
 
-
+###################################################################################
+# Funcion binCLS: recibe una lista vacia y un arbol lista                         #
+# Entrada: - lista vacia                                                          #
+#          - arbol lista                                                          #
+# Salida:  - Devuelve una lista con todos los elementos de un arbol lista         #
+###################################################################################
 def binCLS(lista,nodolista):
     if nodolista.hijo2.tipo == 'LISTA':
         lista.append(nodolista.hijo1)
@@ -494,11 +520,17 @@ def binCLS(lista,nodolista):
         return lista
     
 
+###################################################################################
+# Funcion getMembers: recibe una lista vacia y un nodo                            #
+# Entrada: - lista vacia                                                          #
+#          - arbol lista                                                          #
+# Salida:  - Devuelve una lista con todos los elementos de un arbol lista         #
+###################################################################################
 def getMembers(lista,nodo):
     if nodo.hijo.tipo != 'LISTA':
-        lista.append(nodo.hijo.hijo) # (PATRON (ENTERO 3))
+        lista.append(nodo.hijo.hijo)
         return lista
     else:
-        lista.append(nodo.hijo.hijo1.hijo.hijo) # (LISTA (PATRON (ENTERO 2))
+        lista.append(nodo.hijo.hijo1.hijo.hijo) 
         return getMembers(lista,nodo.hijo.hijo2)
 
